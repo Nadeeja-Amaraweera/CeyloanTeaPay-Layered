@@ -1,0 +1,126 @@
+package lk.ijse.ceylonteapay.model;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import lk.ijse.ceylonteapay.db.DBConnection;
+import lk.ijse.ceylonteapay.dto.PaymentDTO;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
+
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.HashMap;
+import java.util.Map;
+
+public class PaymentModel {
+
+    public boolean savePayment(PaymentDTO paymentDTO)throws Exception{
+        DBConnection dbc = DBConnection.getInstance();
+        Connection conn = dbc.getConnection();
+
+        String sql = "INSERT INTO Payment (rateId, empId, empName, teaSalary, expenseSalary, finalSalary, SalaryMonth, Payment_Date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement pstm = conn.prepareStatement(sql);
+
+//        int rateId, int employeeId, String employeeName, double teaSalary, double expenseSalary, double finalSalary, Month month, LocalDate date
+        pstm.setInt(1,paymentDTO.getRateId());
+        pstm.setInt(2,paymentDTO.getEmployeeId());
+        pstm.setString(3,paymentDTO.getEmployeeName());
+        pstm.setDouble(4,paymentDTO.getTeaSalary());
+        pstm.setDouble(5,paymentDTO.getExpenseSalary());
+        pstm.setDouble(6,paymentDTO.getFinalSalary());
+        pstm.setString(7, String.valueOf(paymentDTO.getMonth()));
+        pstm.setDate(8, Date.valueOf(paymentDTO.getDate()));
+
+        int result = pstm.executeUpdate();
+
+        return result>0;
+    }
+
+    public ObservableList<PaymentDTO> loadPaymentTable()throws Exception{
+        DBConnection dbc = DBConnection.getInstance();
+        Connection conn = dbc.getConnection();
+
+        String sql = "SELECT * FROM Payment ORDER BY paymentId DESC";
+
+        PreparedStatement pstm = conn.prepareStatement(sql);
+
+        ResultSet rs  = pstm.executeQuery();
+
+        ObservableList<PaymentDTO> list = FXCollections.observableArrayList();
+
+        while (rs.next()){
+            int payid = rs.getInt("paymentId");
+            int rateid = rs.getInt("rateId");
+            int empid = rs.getInt("empId");
+            String empName = rs.getString("empName");
+            double teaSalary = rs.getDouble("teaSalary");
+            double otherSalary = rs.getDouble("expenseSalary");
+            double finalSalary = rs.getDouble("finalSalary");
+            String month = rs.getString("SalaryMonth");
+            LocalDate payementDate = rs.getDate("Payment_Date").toLocalDate();
+
+            PaymentDTO paymentDTO = new PaymentDTO(payid,rateid,empid,empName,teaSalary,otherSalary,finalSalary, Month.valueOf(month),payementDate);
+            list.add(paymentDTO);
+        }
+        return list;
+    }
+
+
+    public boolean updatePayment(PaymentDTO paymentDTO) throws Exception {
+        DBConnection dbc = DBConnection.getInstance();
+        Connection conn = dbc.getConnection();
+
+        String sql = "UPDATE Payment SET rateId = ?, empId = ?, empName = ?, teaSalary = ?, expenseSalary = ?, finalSalary = ?, SalaryMonth = ?, Payment_Date = ? WHERE paymentId = ?";
+
+        PreparedStatement pstm = conn.prepareStatement(sql);
+
+//        int rateId, int employeeId, String employeeName, double teaSalary, double expenseSalary, double finalSalary, LocalDate date
+        pstm.setInt(1,paymentDTO.getRateId());
+        pstm.setInt(2,paymentDTO.getEmployeeId());
+        pstm.setString(3,paymentDTO.getEmployeeName());
+        pstm.setDouble(4,paymentDTO.getTeaSalary());
+        pstm.setDouble(5,paymentDTO.getExpenseSalary());
+        pstm.setDouble(6,paymentDTO.getFinalSalary());
+        pstm.setString(7, String.valueOf(paymentDTO.getMonth()));
+        pstm.setDate(8, Date.valueOf(paymentDTO.getDate()));
+        pstm.setInt(9,paymentDTO.getPaymentId());
+
+        int result = pstm.executeUpdate();
+
+        return result>0;
+    }
+
+    public void printPaymentReport(int selectedMonthNo, int selectedYear){
+        try {
+            Connection conn = DBConnection.getInstance().getConnection();
+
+            InputStream reportObject = getClass().getResourceAsStream("/lk/ijse/ceylonteapay/reports/payment.jrxml");
+
+            if (reportObject == null) {
+                throw new RuntimeException("❌ customer.jrxml NOT FOUND");
+            }
+
+            JasperReport jr  = JasperCompileManager.compileReport(reportObject); // this is method throws JRException
+
+            Map<String,Object> params = new HashMap<>();
+            params.put("PAYMENT_MONTH",selectedMonthNo);
+            params.put("PAYMENT_YEAR",selectedYear);
+
+            JasperPrint jp = JasperFillManager.fillReport(jr , params , conn); // fill report (jasperreport, params ,connection)
+
+            JasperViewer.viewReport(jp,false);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+}

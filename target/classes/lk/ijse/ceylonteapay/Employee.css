@@ -1,0 +1,87 @@
+.textField-pane{
+    -fx-background-color:  #C9E2AB;
+    -fx-background-radius: 25;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6,0.3, 4, 4);
+}
+.action-button {
+    -fx-text-fill: #5c4a02;
+    -fx-background-color: #fff0a6;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 10, 0.3, 0, 4);
+}
+
+/* Hover */
+.action-button:hover {
+    -fx-text-fill: #5c4a02;
+    -fx-background-color: #fff0a6;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 15, 0.4, 0, 6);
+}
+
+/* Pressed */
+.action-button:pressed {
+    -fx-text-fill: #473a01;
+    -fx-background-color: #c1b47f;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.2, 0, 2);
+}
+/* =================================================
+   HEADER BORDERS (ALL HEADERS)
+   ================================================= */
+
+/* Header background */
+.app-table .column-header-background {
+    -fx-background-color: #AEB79C;
+}
+
+/* Individual header cells */
+.app-table .column-header {
+    -fx-size: 42px;
+    -fx-background-color: transparent;
+
+    /* Header borders */
+    -fx-border-color: #8F9B78;
+    -fx-border-width: 1 1 1 1;
+}
+
+/* Header text */
+.app-table .column-header .label {
+    -fx-text-fill: #2E3B2F;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+}
+
+/* =================================================
+   CELL BORDERS (ALL ROWS & COLUMNS)
+   ================================================= */
+
+.app-table .table-cell {
+    -fx-padding: 0 10 0 10;
+    -fx-font-size: 12px;
+    -fx-text-fill: #2E3B2F;
+    -fx-alignment: CENTER_LEFT;
+
+    /* Cell borders */
+    -fx-border-color: #D0D6C0;
+    -fx-border-width: 1;
+}
+
+/* =================================================
+   ROW BACKGROUND (KEEP CLEAN GRID)
+   ================================================= */
+
+.app-table .table-row-cell {
+    -fx-background-color: #EFEBD8;
+    -fx-cell-size: 38px;
+}
+
+.app-table .table-row-cell:odd {
+    -fx-background-color: #EFEBD8;
+}
+
+.app-table .table-row-cell:selected {
+    -fx-background-color: #faf6ee;
+}

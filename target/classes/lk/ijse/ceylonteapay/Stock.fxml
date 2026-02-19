@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.ceylonteapay.controller.StockController">
+   <stylesheets>
+      <URL value="@Stock.css" />
+   </stylesheets>
+   <children>
+      <ImageView fitHeight="158.0" fitWidth="1250.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/tea-plantation-in-the-highlands-of-sri-lanka-free-photo-crop.jpeg" />
+         </image>
+      </ImageView>
+      <VBox alignment="TOP_CENTER" layoutY="255.0" prefHeight="545.0" prefWidth="1250.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="122.0" prefWidth="1250.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#save" prefHeight="34.0" prefWidth="80.0" styleClass="action-button" text="Add" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#update" prefHeight="34.0" prefWidth="80.0" styleClass="action-button" text="Update" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#deleteRecord" prefHeight="34.0" prefWidth="80.0" styleClass="action-button" text="Delete" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#reset" prefHeight="34.0" prefWidth="80.0" styleClass="action-button" text="Reset" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <TableView fx:id="tableView" prefHeight="453.0" prefWidth="1250.0" styleClass="app-table">
+              <columns>
+                <TableColumn fx:id="col_id" prefWidth="133.0" text="Stock ID" />
+                <TableColumn fx:id="col_date" prefWidth="236.0" text="Date" />
+                  <TableColumn fx:id="col_quality" prefWidth="481.0" text="Tea Quality" />
+                  <TableColumn fx:id="col_qty" prefWidth="191.0" text="Qty" />
+                  <TableColumn fx:id="col_ava_qty" prefWidth="208.0" text="Available Qty" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <Pane layoutY="106.0" prefHeight="148.0" prefWidth="1250.0">
+         <children>
+            <HBox alignment="TOP_CENTER" layoutX="229.0" prefHeight="148.0" prefWidth="804.0" style="-fx-background-color: #C9E2AB; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-width: 2px; -fx-border-color: #048700;" styleClass="textField-pane">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label text="StockID  :">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label text="Date  :">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label text="Quality  :">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="txtStockId" editable="false" promptText="Can't type here" style="-fx-background-color: #E4F0DA; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #869F75;">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <DatePicker fx:id="txtDate" promptText="Select Date" style="-fx-background-color: #E4F0DA; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #869F75;">
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" top="2.0" />
+                           </padding>
+                        </DatePicker>
+                        <TextField fx:id="txtQuality" promptText="Tea Quality" style="-fx-background-color: #E4F0DA; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #869F75;">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Quantity  :">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label text="Available Quantity  :">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="148.0" prefWidth="208.0">
+                     <children>
+                        <TextField fx:id="txtQuantity" promptText="Enter QTY" style="-fx-background-color: #E4F0DA; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #869F75;">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtAvailableQuantity" promptText="Can't edit " style="-fx-background-color: #E4F0DA; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #869F75;">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <Label layoutX="520.0" layoutY="33.0" text="Stock Manage" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

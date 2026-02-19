@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.ceylonteapay.controller.DeliveryTeaController">
+   <stylesheets>
+      <URL value="@DeliveryTea.css" />
+   </stylesheets>
+   <children>
+      <ImageView fitHeight="158.0" fitWidth="1250.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/tea-plantation-in-the-highlands-of-sri-lanka-free-photo-crop.jpeg" />
+         </image></ImageView>
+      <Label layoutX="533.0" layoutY="26.0" text="Delivery Tea" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <VBox alignment="CENTER" layoutY="99.0" prefHeight="701.0" prefWidth="1250.0">
+         <children>
+            <HBox alignment="TOP_CENTER" prefHeight="127.0" prefWidth="1250.0">
+               <children>
+                  <Pane prefHeight="111.0" prefWidth="726.0" style="-fx-background-color: #C9E2AB; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-width: 2px; -fx-border-color: #048700;" styleClass="textField-pane">
+                     <children>
+                        <VBox layoutX="189.0" layoutY="8.0" prefHeight="97.0" prefWidth="200.0">
+                           <children>
+                              <ComboBox fx:id="cmdFactoryName" prefWidth="180.0" promptText="Select Factory" style="-fx-background-color: #E4F0DA; -fx-border-color: #869F75; -fx-border-radius: 10; -fx-background-radius: 10;">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="3.0" top="3.0" />
+                                 </padding>
+                              </ComboBox>
+                              <ComboBox fx:id="cmdStockNo" prefHeight="26.0" prefWidth="180.0" promptText="Select Quality" style="-fx-background-color: #E4F0DA; -fx-border-color: #869F75; -fx-border-radius: 10; -fx-background-radius: 10;">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="3.0" top="3.0" />
+                                 </padding>
+                              </ComboBox>
+                           </children>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                        </VBox>
+                        <VBox layoutX="377.0" layoutY="8.0" prefHeight="97.0" prefWidth="150.0">
+                           <children>
+                              <Label text="Delivery Date">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="20.0" top="8.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Quantity">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="20.0" top="10.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox layoutX="527.0" layoutY="11.0" prefHeight="97.0" prefWidth="200.0">
+                           <children>
+                              <DatePicker fx:id="txtDate" promptText="Select Date" style="-fx-background-color: #E4F0DA; -fx-border-color: #869F75; -fx-border-radius: 10; -fx-background-radius: 10;">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </DatePicker>
+                              <TextField fx:id="txtQuantity" promptText="Enter Order QTY" style="-fx-background-color: #E4F0DA; -fx-border-color: #869F75; -fx-border-radius: 10; -fx-background-radius: 10;">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                        </VBox>
+                        <VBox layoutY="6.0" prefHeight="97.0" prefWidth="170.0">
+                           <children>
+                              <Label text="Delivery Factory Name">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="20.0" top="5.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Stock No">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="20.0" top="5.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="94.0" prefWidth="1250.0">
+               <children>
+                  <Pane prefHeight="58.0" prefWidth="424.0">
+                     <children>
+                        <Label layoutX="45.0" layoutY="20.0" text="Available Stock Table  &gt;">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Button mnemonicParsing="false" onAction="#addToCart" prefHeight="34.0" prefWidth="78.0" styleClass="action-button" text="Add" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#deleteCart" prefHeight="34.0" prefWidth="78.0" styleClass="action-button" text="Delete" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#resetAll" prefHeight="34.0" prefWidth="78.0" styleClass="action-button" text="Reset" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Pane prefHeight="58.0" prefWidth="414.0">
+                     <children>
+                        <Label layoutX="172.0" layoutY="18.0" text="&lt; Factory Delivery Table">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <HBox prefHeight="444.0" prefWidth="1250.0">
+               <children>
+                  <TableView fx:id="tblStock" prefHeight="564.0" prefWidth="457.0" styleClass="app-table">
+                    <columns>
+                      <TableColumn fx:id="col_stockTableId" prefWidth="62.0" text="Stock id" />
+                      <TableColumn fx:id="col_stockTableStock" prefWidth="183.6666717529297" text="Available Stock" />
+                        <TableColumn fx:id="col_stockTableQuality" prefWidth="182.3333282470703" text="Quality" />
+                    </columns>
+                  </TableView>
+                  <TableView fx:id="tblDelivery" prefHeight="403.0" prefWidth="829.0" styleClass="app-table">
+                    <columns>
+                      <TableColumn fx:id="colFactoryId" prefWidth="82.0" text="Factory Id" />
+                        <TableColumn fx:id="colFactoryName" prefWidth="217.0" text="Factory Name" />
+                        <TableColumn fx:id="colStockId" prefWidth="150.6666259765625" text="Stock ID" />
+                        <TableColumn fx:id="colQty" prefWidth="148.0" text="Delivery Qty" />
+                        <TableColumn fx:id="colDate" prefWidth="230.0" text="Delivery Date" />
+                    </columns>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </TableView>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Pane prefHeight="84.0" prefWidth="600.0">
+                     <children>
+                        <Button layoutX="439.0" layoutY="23.0" mnemonicParsing="false" onAction="#handlePrint" prefHeight="38.0" prefWidth="78.0" styleClass="action-button" text="Print" textFill="WHITE" />
+                        <ComboBox fx:id="cmdYear" layoutX="252.0" layoutY="24.0" prefHeight="38.0" prefWidth="157.0" promptText="Select Year" />
+                        <ComboBox fx:id="cmbMonth" layoutX="75.0" layoutY="24.0" prefHeight="38.0" prefWidth="157.0" promptText="Select Month" />
+                     </children>
+                  </Pane>
+                  <Button onAction="#placeOrder" prefHeight="47.0" prefWidth="201.0" styleClass="app-btn-primary" text="Place Order">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
