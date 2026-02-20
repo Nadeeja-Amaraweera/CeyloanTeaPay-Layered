@@ -12,8 +12,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.ceylonteapay.dao.EmployeeDAO;
+import lk.ijse.ceylonteapay.dao.EmployeeDAOImpl;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
-import lk.ijse.ceylonteapay.model.EmployeeModel;
+//import lk.ijse.ceylonteapay.model.EmployeeModel;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -61,7 +63,9 @@ public class EmployeeController implements Initializable {
     @FXML
     private RadioButton radioButtonFemale;
 
-    private final EmployeeModel employeeModel = new EmployeeModel();
+//    private final EmployeeModel employeeModel = new EmployeeModel();
+
+    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     ObservableList<EmployeeDTO> employeeDTOList = FXCollections.observableArrayList();
 
@@ -154,7 +158,7 @@ public class EmployeeController implements Initializable {
                 System.out.println("Name: " + name + " Address: " + address + " NIC: " + nic + " Gender: " + gender + " Tel: " + telNo);
 
                 EmployeeDTO employeeDTO = new EmployeeDTO(name, date, nic, address, gender, telNo);
-                boolean result = employeeModel.saveEmployee(employeeDTO);
+                boolean result = employeeDAO.saveEmployee(employeeDTO);
 
                 System.out.println("Add ok");
 
@@ -203,7 +207,7 @@ public class EmployeeController implements Initializable {
                 if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                     int id = selected.getId();
 
-                    boolean result = employeeModel.deleteEmployee(id);
+                    boolean result = employeeDAO.deleteEmployee(id);
 
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -271,7 +275,7 @@ public class EmployeeController implements Initializable {
                     int id = selected.getId();
 
                     EmployeeDTO employeeDTO = new EmployeeDTO(id, name, date, nic, address, gender, telNo);
-                    boolean result = employeeModel.updateEmployee(employeeDTO);
+                    boolean result = employeeDAO.updateEmployee(employeeDTO);
 
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -340,7 +344,7 @@ public class EmployeeController implements Initializable {
     public ObservableList<EmployeeDTO> loadEmployees() {
 
         try {
-            ObservableList<EmployeeDTO> employeeDTOList = employeeModel.getAllEmployees();
+            ObservableList<EmployeeDTO> employeeDTOList = employeeDAO.getAllEmployees();
             // No need to copy into another list, can return directly
             return employeeDTOList;
         } catch (Exception e) {

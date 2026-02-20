@@ -10,8 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.ceylonteapay.dao.LandDAO;
+import lk.ijse.ceylonteapay.dao.LandDAOImpl;
 import lk.ijse.ceylonteapay.dto.LandDTO;
-import lk.ijse.ceylonteapay.model.LandModel;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class LandController implements Initializable {
     @FXML
     private TableView<LandDTO> tableView;
 
-    private final LandModel landModel = new LandModel();
+    LandDAO landDAO = new LandDAOImpl();
 
     ObservableList<LandDTO> landDTOObservableList = FXCollections.observableArrayList();
 
@@ -82,7 +83,7 @@ public class LandController implements Initializable {
         } else {
             try {
                 LandDTO landDTO = new LandDTO(landName, landNo);
-                boolean result = landModel.saveLand(landDTO);
+                boolean result = landDAO.saveLand(landDTO);
 
                 if (result) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -128,7 +129,7 @@ public class LandController implements Initializable {
                     System.out.println(id);
 
                     LandDTO landDTO = new LandDTO(id, landName, landNo);
-                    boolean result = landModel.updateLand(landDTO);
+                    boolean result = landDAO.updateLand(landDTO);
 
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -174,7 +175,7 @@ public class LandController implements Initializable {
             if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                 try {
                     int id = selected.getLndID();
-                    boolean result = landModel.deleteLand(id);
+                    boolean result = landDAO.deleteLand(id);
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Success !");
@@ -228,7 +229,7 @@ public class LandController implements Initializable {
 
     public ObservableList<LandDTO> loadLands() {
         try {
-            ObservableList<LandDTO> landDTOObservableList = landModel.getAllLands();
+            ObservableList<LandDTO> landDTOObservableList = landDAO.getAllLands();
             // No need to copy into another list, can return directly
             return landDTOObservableList;
         } catch (Exception e) {

@@ -11,11 +11,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import lk.ijse.ceylonteapay.dao.EmployeeDAO;
+import lk.ijse.ceylonteapay.dao.EmployeeDAOImpl;
 import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 import lk.ijse.ceylonteapay.dto.PaymentDTO;
 import lk.ijse.ceylonteapay.dto.TeaRateDTO;
-import lk.ijse.ceylonteapay.model.EmployeeModel;
 import lk.ijse.ceylonteapay.model.PaymentModel;
 import lk.ijse.ceylonteapay.model.TeaRateModel;
 
@@ -78,7 +79,8 @@ public class PaymentController implements Initializable {
     @FXML
     private Label lblTeaRate;
 
-    private static EmployeeModel employeeModel = new EmployeeModel();
+    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+
     private static PaymentModel paymentModel = new PaymentModel();
     private static TeaRateModel teaRateModel = new TeaRateModel();
 
@@ -570,7 +572,7 @@ public class PaymentController implements Initializable {
 
     private void loadEmployees() {
         try {
-            ObservableList<EmployeeDTO> list = employeeModel.getAllEmployees();
+            ObservableList<EmployeeDTO> list = employeeDAO.getAllEmployees();
             cmbEmployee.setItems(list);
 
             cmbEmployee.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {

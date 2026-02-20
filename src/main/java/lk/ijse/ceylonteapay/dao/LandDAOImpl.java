@@ -1,20 +1,18 @@
-package lk.ijse.ceylonteapay.model;
+package lk.ijse.ceylonteapay.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lk.ijse.ceylonteapay.db.DBConnection;
-import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 import lk.ijse.ceylonteapay.dto.LandDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 
-public class LandModel {
-    public boolean saveLand(LandDTO landDTO)throws Exception{
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
+public class LandDAOImpl implements LandDAO{
+    @Override
+    public boolean saveLand(LandDTO landDTO) throws Exception {
+        Connection conn = DBConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO Land (LandName,LandNo) VALUES (?,?)";
         PreparedStatement pstm = conn.prepareStatement(sql);
@@ -26,10 +24,9 @@ public class LandModel {
         return result>0;
     }
 
-    public ObservableList<LandDTO> getAllLands()throws Exception{
-
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
+    @Override
+    public ObservableList<LandDTO> getAllLands() throws Exception {
+        Connection conn = DBConnection.getInstance().getConnection();
 
         PreparedStatement ps = conn.prepareStatement("SELECT * FROM Land ORDER BY LndID DESC");
         ResultSet rs = ps.executeQuery();
@@ -48,10 +45,9 @@ public class LandModel {
         return  list;
     }
 
-    public boolean updateLand(LandDTO landDTO)throws Exception{
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
-
+    @Override
+    public boolean updateLand(LandDTO landDTO) throws Exception {
+        Connection conn = DBConnection.getInstance().getConnection();
         String sql = "UPDATE Land SET LandName = ?, LandNo = ? WHERE LndID = ?";
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1,landDTO.getLndName());
@@ -62,9 +58,10 @@ public class LandModel {
         return result>0;
     }
 
-    public boolean deleteLand(int id)throws Exception{
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
+    @Override
+    public boolean deleteLand(int id) throws Exception {
+        Connection conn = DBConnection.getInstance().getConnection();
+
 
         String sql = "DELETE FROM Land WHERE LndID = ?";
         PreparedStatement pstm = conn.prepareStatement(sql);

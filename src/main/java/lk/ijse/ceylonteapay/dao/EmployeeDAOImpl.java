@@ -1,4 +1,4 @@
-package lk.ijse.ceylonteapay.model;
+package lk.ijse.ceylonteapay.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,14 +11,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 
-public class EmployeeModel {
+public class EmployeeDAOImpl implements EmployeeDAO{
 
-    public boolean saveEmployee(EmployeeDTO employeeDTO)throws Exception{
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
+    @Override
+    public boolean saveEmployee(EmployeeDTO employeeDTO) throws Exception {
+        Connection connection = DBConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO Employee (Name,NIC,Dob,Address,Gender,TelNo) VALUES (?,?,?,?,?,?)";
-        PreparedStatement pstm = conn.prepareStatement(sql);
+        PreparedStatement pstm = connection.prepareStatement(sql);
         pstm.setString(1,employeeDTO.getName());
         pstm.setString(2,employeeDTO.getNic());
         pstm.setDate(3, Date.valueOf(employeeDTO.getDob()));
@@ -31,12 +31,12 @@ public class EmployeeModel {
         return result>0;
     }
 
-    public boolean deleteEmployee(int id)throws Exception{
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
+    @Override
+    public boolean deleteEmployee(int id) throws Exception {
+        Connection connection = DBConnection.getInstance().getConnection();
 
         String sql = "DELETE FROM Employee WHERE EmpID = ?";
-        PreparedStatement pstm = conn.prepareStatement(sql);
+        PreparedStatement pstm = connection.prepareStatement(sql);
 
         pstm.setInt(1,id);
 
@@ -45,13 +45,13 @@ public class EmployeeModel {
         return result>0;
     }
 
-    public boolean updateEmployee(EmployeeDTO employeeDTO)throws Exception{
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
+    @Override
+    public boolean updateEmployee(EmployeeDTO employeeDTO) throws Exception {
+        Connection connection = DBConnection.getInstance().getConnection();
 
         String sql = "UPDATE Employee SET Name = ?, NIC = ?, Dob = ?, Address = ?, Gender = ?, TelNo = ? WHERE EmpID = ?";
 
-        PreparedStatement pstm = conn.prepareStatement(sql);
+        PreparedStatement pstm = connection.prepareStatement(sql);
 
         pstm.setString(1,employeeDTO.getName());
         pstm.setString(2,employeeDTO.getNic());
@@ -66,26 +66,27 @@ public class EmployeeModel {
         return result>0;
     }
 
-    public ObservableList<EmployeeDTO> getAllEmployees()throws Exception{
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
+    @Override
+    public ObservableList<EmployeeDTO> getAllEmployees() throws Exception {
 
-        PreparedStatement ps = conn.prepareStatement("SELECT * FROM Employee ORDER BY EmpID DESC");
+        Connection connection = DBConnection.getInstance().getConnection();
+
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM Employee ORDER BY EmpID DESC");
         ResultSet rs = ps.executeQuery();
 
         ObservableList<EmployeeDTO> list = FXCollections.observableArrayList();
 
         while (rs.next()){
-                    int empId = rs.getInt("EmpID");
-                    String empName = rs.getString("Name");
-                    LocalDate empdob = rs.getDate("Dob").toLocalDate();
-                    String empNic = rs.getString("NIC");
-                    String empAddress = rs.getString("Address");
-                    String empGender = rs.getString("Gender");
-                    String empTelno = rs.getString("TelNo");
+            int empId = rs.getInt("EmpID");
+            String empName = rs.getString("Name");
+            LocalDate empdob = rs.getDate("Dob").toLocalDate();
+            String empNic = rs.getString("NIC");
+            String empAddress = rs.getString("Address");
+            String empGender = rs.getString("Gender");
+            String empTelno = rs.getString("TelNo");
 
-                    EmployeeDTO employeeDTO = new EmployeeDTO(empId,empName,empdob,empNic,empAddress,empGender,empTelno);
-                    list.add(employeeDTO);
+            EmployeeDTO employeeDTO = new EmployeeDTO(empId,empName,empdob,empNic,empAddress,empGender,empTelno);
+            list.add(employeeDTO);
         }
         return list;
     }
