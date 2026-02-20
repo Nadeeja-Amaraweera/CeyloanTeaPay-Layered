@@ -1,4 +1,4 @@
-package lk.ijse.ceylonteapay.model;
+package lk.ijse.ceylonteapay.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,7 +10,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StockModel {
+public class StockDAOImpl implements StockDAO{
+    @Override
     public boolean saveStock(StockDTO stockDTO) throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
@@ -25,9 +26,9 @@ public class StockModel {
         int result = pstm.executeUpdate();
 
         return result > 0;
-
     }
 
+    @Override
     public ObservableList<StockDTO> getStock() throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
@@ -52,6 +53,7 @@ public class StockModel {
         return list;
     }
 
+    @Override
     public boolean updateStock(StockDTO stockDTO) throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
@@ -69,6 +71,7 @@ public class StockModel {
         return result > 0;
     }
 
+    @Override
     public boolean deleteStock(int id) throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
@@ -82,8 +85,8 @@ public class StockModel {
         return result > 0;
     }
 
+    @Override
     public List<StockDTO> getStockSummary() throws SQLException {
-
         List<StockDTO> list = new ArrayList<>();
 
         String sql = """

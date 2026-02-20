@@ -6,11 +6,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.ceylonteapay.dao.StockDAO;
+import lk.ijse.ceylonteapay.dao.StockDAOImpl;
 import lk.ijse.ceylonteapay.dto.DeliveryCartTM;
 import lk.ijse.ceylonteapay.dto.FactoryDTO;
 import lk.ijse.ceylonteapay.dto.StockDTO;
 import lk.ijse.ceylonteapay.model.DeliveryTeaModel;
-import lk.ijse.ceylonteapay.model.StockModel;
 
 import javax.swing.*;
 import java.net.URL;
@@ -68,7 +69,7 @@ public class DeliveryTeaController implements Initializable {
     ObservableList<StockDTO> stockDTOObservableList = FXCollections.observableArrayList();
 
 
-    private static StockModel stockModel = new StockModel();
+    StockDAO stockDAO = new StockDAOImpl();
 
 
     private int selectedFactoryId = -1;
@@ -284,7 +285,7 @@ public class DeliveryTeaController implements Initializable {
 
     private ObservableList<StockDTO> loadStockTable() {
         try {
-            ObservableList<StockDTO> list = stockModel.getStock();
+            ObservableList<StockDTO> list = stockDAO.getStock();
             return list;
         } catch (Exception e) {
             e.printStackTrace();

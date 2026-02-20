@@ -18,9 +18,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.ceylonteapay.dao.FactoryDAO;
+import lk.ijse.ceylonteapay.dao.FactoryDAOImpl;
 import lk.ijse.ceylonteapay.dto.FactoryDTO;
-import lk.ijse.ceylonteapay.dto.LandDTO;
-import lk.ijse.ceylonteapay.model.FactoryModel;
 
 import javax.swing.*;
 
@@ -41,7 +41,7 @@ public class FactoryController implements Initializable {
     @FXML
     private TableColumn<FactoryDTO, String> col_Address;
 
-    private static FactoryModel factoryModel = new FactoryModel();
+    FactoryDAO factoryDAO = new FactoryDAOImpl();
 
     ObservableList<FactoryDTO> factoryDTOObservableList = FXCollections.observableArrayList();
 
@@ -88,7 +88,7 @@ public class FactoryController implements Initializable {
         }else {
             try {
                 FactoryDTO factoryDTO = new FactoryDTO(name, address);
-                boolean result = factoryModel.addFactory(factoryDTO);
+                boolean result = factoryDAO.addFactory(factoryDTO);
 
                 if (result){
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -141,7 +141,7 @@ public class FactoryController implements Initializable {
                     System.out.println(id);
 
                     FactoryDTO factoryDTO = new FactoryDTO(id,factoryNameText,factoryAddressText);
-                    boolean result = factoryModel.update(factoryDTO);
+                    boolean result = factoryDAO.update(factoryDTO);
 
                     if (result){
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -187,7 +187,7 @@ public class FactoryController implements Initializable {
             if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                 try {
                     int id = selected.getFactoryId();
-                    boolean result = factoryModel.deleteFactory(id);
+                    boolean result = factoryDAO.deleteFactory(id);
                     if (result){
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Success !");
@@ -230,7 +230,7 @@ public class FactoryController implements Initializable {
 
     public ObservableList<FactoryDTO> loadFactories(){
         try {
-            ObservableList<FactoryDTO> landDTOObservableList = factoryModel.getAllFactories();
+            ObservableList<FactoryDTO> landDTOObservableList = factoryDAO.getAllFactories();
             // No need to copy into another list, can return directly
             return landDTOObservableList;
         } catch (Exception e) {

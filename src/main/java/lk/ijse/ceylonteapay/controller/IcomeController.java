@@ -10,11 +10,13 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.ceylonteapay.dao.StockDAO;
+import lk.ijse.ceylonteapay.dao.StockDAOImpl;
 import lk.ijse.ceylonteapay.dto.DailyTeaDTO;
 import lk.ijse.ceylonteapay.dto.IncomeDTO;
 import lk.ijse.ceylonteapay.dto.StockDTO;
 import lk.ijse.ceylonteapay.model.IncomeModel;
-import lk.ijse.ceylonteapay.model.StockModel;
+
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -26,7 +28,7 @@ import java.util.ResourceBundle;
 
 public class IcomeController implements Initializable {
 
-    private static StockModel stockModel = new StockModel();
+    StockDAO stockDAO = new StockDAOImpl();
     private static IncomeModel incomeModel = new IncomeModel();
 
     ObservableList<IncomeDTO> incomeDTOObservableList = FXCollections.observableArrayList();
@@ -299,7 +301,7 @@ public class IcomeController implements Initializable {
         series.setName("Stock");
 
         try {
-            for (StockDTO stock : stockModel.getStockSummary()) {
+            for (StockDTO stock : stockDAO.getStockSummary()) {
                 series.getData().add(
                         new XYChart.Data<>(
                                 stock.getQuality(),

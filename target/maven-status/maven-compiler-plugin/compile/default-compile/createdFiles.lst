@@ -19,7 +19,6 @@ lk/ijse/ceylonteapay/model/IncomeModel.class
 lk/ijse/ceylonteapay/dao/EmployeeDAO.class
 lk/ijse/ceylonteapay/dto/TeaRateDTO.class
 lk/ijse/ceylonteapay/controller/OtherWorkController$1.class
-lk/ijse/ceylonteapay/model/StockModel.class
 lk/ijse/ceylonteapay/controller/MainLoginController$2.class
 lk/ijse/ceylonteapay/controller/DeliveryTeaController.class
 lk/ijse/ceylonteapay/controller/DeliveryTeaController$3.class
@@ -37,6 +36,7 @@ lk/ijse/ceylonteapay/model/DeliveryTeaModel.class
 lk/ijse/ceylonteapay/dto/IncomeDTO.class
 lk/ijse/ceylonteapay/controller/MainLoginController.class
 lk/ijse/ceylonteapay/dto/EmployeeDTO.class
+lk/ijse/ceylonteapay/dao/FactoryDAO.class
 lk/ijse/ceylonteapay/controller/MainLoginController$1.class
 lk/ijse/ceylonteapay/controller/PaymentController$2.class
 lk/ijse/ceylonteapay/controller/LandController.class
@@ -45,14 +45,16 @@ lk/ijse/ceylonteapay/controller/DailyTeaController.class
 lk/ijse/ceylonteapay/App.class
 lk/ijse/ceylonteapay/dto/OtherWorkDTO.class
 lk/ijse/ceylonteapay/controller/OtherWorkController$3.class
-lk/ijse/ceylonteapay/model/FactoryModel.class
 lk/ijse/ceylonteapay/controller/EmployeeController.class
 lk/ijse/ceylonteapay/model/PaymentModel.class
 lk/ijse/ceylonteapay/dao/LandDAO.class
 lk/ijse/ceylonteapay/controller/DeliveryTeaController$1.class
 lk/ijse/ceylonteapay/controller/DailyTeaController$2.class
 lk/ijse/ceylonteapay/controller/OtherWorkController.class
+lk/ijse/ceylonteapay/dao/StockDAO.class
 lk/ijse/ceylonteapay/dao/EmployeeDAOImpl.class
+lk/ijse/ceylonteapay/dao/FactoryDAOImpl.class
 lk/ijse/ceylonteapay/controller/TeaRateController.class
 lk/ijse/ceylonteapay/dto/StockDTO.class
+lk/ijse/ceylonteapay/dao/StockDAOImpl.class
 lk/ijse/ceylonteapay/dto/DailyTeaDTO.class
