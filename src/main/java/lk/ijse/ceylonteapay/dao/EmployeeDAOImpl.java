@@ -2,12 +2,9 @@ package lk.ijse.ceylonteapay.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 
@@ -15,64 +12,25 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public boolean saveEmployee(EmployeeDTO employeeDTO) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
 
-        String sql = "INSERT INTO Employee (Name,NIC,Dob,Address,Gender,TelNo) VALUES (?,?,?,?,?,?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,employeeDTO.getName());
-        pstm.setString(2,employeeDTO.getNic());
-        pstm.setDate(3, Date.valueOf(employeeDTO.getDob()));
-        pstm.setString(4,employeeDTO.getAddress());
-        pstm.setString(5,employeeDTO.getGender());
-        pstm.setString(6,employeeDTO.getTelNo());
-
-        int result = pstm.executeUpdate();
-
-        return result>0;
+        return CRUDUtil.execute("INSERT INTO Employee (Name,NIC,Dob,Address,Gender,TelNo) VALUES (?,?,?,?,?,?)",employeeDTO.getName(),employeeDTO.getNic(),Date.valueOf(employeeDTO.getDob()),employeeDTO.getAddress(),employeeDTO.getGender(),employeeDTO.getTelNo());
     }
 
     @Override
     public boolean deleteEmployee(int id) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-
-        String sql = "DELETE FROM Employee WHERE EmpID = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setInt(1,id);
-
-        int result = pstm.executeUpdate();
-
-        return result>0;
+       return CRUDUtil.execute("DELETE FROM Employee WHERE EmpID = ?",id);
     }
 
     @Override
     public boolean updateEmployee(EmployeeDTO employeeDTO) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
 
-        String sql = "UPDATE Employee SET Name = ?, NIC = ?, Dob = ?, Address = ?, Gender = ?, TelNo = ? WHERE EmpID = ?";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1,employeeDTO.getName());
-        pstm.setString(2,employeeDTO.getNic());
-        pstm.setDate(3, Date.valueOf(employeeDTO.getDob()));
-        pstm.setString(4,employeeDTO.getAddress());
-        pstm.setString(5,employeeDTO.getGender());
-        pstm.setString(6,employeeDTO.getTelNo());
-        pstm.setInt(7,employeeDTO.getId());
-
-        int result = pstm.executeUpdate();
-
-        return result>0;
+        return CRUDUtil.execute("UPDATE Employee SET Name = ?, NIC = ?, Dob = ?, Address = ?, Gender = ?, TelNo = ? WHERE EmpID = ?",employeeDTO.getName(),employeeDTO.getNic(),Date.valueOf(employeeDTO.getDob()),employeeDTO.getAddress(),employeeDTO.getGender(),employeeDTO.getTelNo(),employeeDTO.getId());
     }
 
     @Override
     public ObservableList<EmployeeDTO> getAllEmployees() throws Exception {
 
-        Connection connection = DBConnection.getInstance().getConnection();
-
-        PreparedStatement ps = connection.prepareStatement("SELECT * FROM Employee ORDER BY EmpID DESC");
-        ResultSet rs = ps.executeQuery();
+        ResultSet rs = CRUDUtil.execute("SELECT * FROM Employee ORDER BY EmpID DESC");
 
         ObservableList<EmployeeDTO> list = FXCollections.observableArrayList();
 

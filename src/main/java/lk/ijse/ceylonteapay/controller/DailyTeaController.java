@@ -11,11 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.ceylonteapay.dao.DailyTeaDAO;
+import lk.ijse.ceylonteapay.dao.DailyTeaDAOImpl;
 import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.DailyTeaDTO;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 import lk.ijse.ceylonteapay.dto.LandDTO;
-import lk.ijse.ceylonteapay.model.DailyTeaModel;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -77,7 +78,7 @@ public class DailyTeaController implements Initializable {
     private TableColumn<DailyTeaDTO, String> col_Quality;
 
 //   Using Abstraction
-    private final DailyTeaModel dailyTeaModel = new DailyTeaModel();
+    DailyTeaDAO dailyTeaDAO = new DailyTeaDAOImpl();
 
     ObservableList<DailyTeaDTO> teaDTOObservableList = FXCollections.observableArrayList();
 
@@ -186,7 +187,7 @@ public class DailyTeaController implements Initializable {
 
                 DailyTeaDTO teaDTO = new DailyTeaDTO(selectedEmpId, selectedLandId, selectedEmpName, selectedAreaName, date, fullWeight, bagWeight, waterWeight, totalWeight, quality);
 //                Using Abstraction
-                boolean result = dailyTeaModel.addTeaField(teaDTO);
+                boolean result = dailyTeaDAO.addTeaField(teaDTO);
 
                 if (result) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -280,7 +281,7 @@ public class DailyTeaController implements Initializable {
                     if (checkTeaID(teaId).next()) {
 
                         DailyTeaDTO teaDTO = new DailyTeaDTO(teaId, selectedEmpId, selectedLandId, date, fullWeight, bagWeight, waterWeight, totalWeight, quality);
-                        boolean result = dailyTeaModel.updateTeaField(teaDTO);
+                        boolean result = dailyTeaDAO.updateTeaField(teaDTO);
 
                         if (result) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -330,7 +331,7 @@ public class DailyTeaController implements Initializable {
                 if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                     int teaID = selectedItem.getTeaID();
                     if (checkTeaID(teaID).next()) {
-                        boolean result = dailyTeaModel.deleteTeaField(teaID);
+                        boolean result = dailyTeaDAO.deleteTeaField(teaID);
 
                         if (result) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -364,7 +365,7 @@ public class DailyTeaController implements Initializable {
 
     private ResultSet checkTeaID(int teaId) throws Exception {
 
-        ResultSet result = dailyTeaModel.checkTeaId(teaId);
+        ResultSet result = dailyTeaDAO.checkTeaId(teaId);
 
         return result;
     }
@@ -471,7 +472,7 @@ public class DailyTeaController implements Initializable {
 
     private ObservableList<DailyTeaDTO> loadTeaFields() {
         try {
-            ObservableList<DailyTeaDTO> teaDTOS = dailyTeaModel.getAllTeaFields();
+            ObservableList<DailyTeaDTO> teaDTOS = dailyTeaDAO.getAllTeaFields();
             return teaDTOS;
         } catch (Exception e) {
             e.printStackTrace();
@@ -487,7 +488,7 @@ public class DailyTeaController implements Initializable {
                     System.out.println("Selected Name: " + newVal.getName());
 
                     try {
-                        ResultSet result = dailyTeaModel.getEmployeeNameCombo(id);
+                        ResultSet result = dailyTeaDAO.getEmployeeNameCombo(id);
 
                         if (result.next()) {
                             System.out.println("Selection Successfully" + id);
@@ -511,7 +512,7 @@ public class DailyTeaController implements Initializable {
                     System.out.println("Selected Name: " + newVal.getLndName());
 
                     try {
-                        ResultSet result = dailyTeaModel.getLandNameCombo(id);
+                        ResultSet result = dailyTeaDAO.getLandNameCombo(id);
 
                         if (result.next()) {
                             System.out.println("Selection Successfully" + id);
@@ -528,7 +529,7 @@ public class DailyTeaController implements Initializable {
 
     private void loadEmployeeIds() {
         try {
-            ObservableList<EmployeeDTO> idList = dailyTeaModel.getEmployeeId();
+            ObservableList<EmployeeDTO> idList = dailyTeaDAO.getEmployeeId();
             cmbEmployeeIds.setItems(idList);
 
             // Show only ID + Name in ComboBox
@@ -564,7 +565,7 @@ public class DailyTeaController implements Initializable {
 
     private void loadLands() {
         try {
-            ObservableList<LandDTO> landDTOObservableList = dailyTeaModel.getLandId();
+            ObservableList<LandDTO> landDTOObservableList = dailyTeaDAO.getLandId();
             cmbLandIds.setItems(landDTOObservableList);
 
             // Show only land Name + No in ComboBox

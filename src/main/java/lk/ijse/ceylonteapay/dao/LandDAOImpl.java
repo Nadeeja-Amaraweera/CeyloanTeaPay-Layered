@@ -12,24 +12,14 @@ import java.sql.ResultSet;
 public class LandDAOImpl implements LandDAO{
     @Override
     public boolean saveLand(LandDTO landDTO) throws Exception {
-        Connection conn = DBConnection.getInstance().getConnection();
 
-        String sql = "INSERT INTO Land (LandName,LandNo) VALUES (?,?)";
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setString(1,landDTO.getLndName());
-        pstm.setString(2,landDTO.getLndNo());
-
-        int result = pstm.executeUpdate();
-
-        return result>0;
+        return CRUDUtil.execute("INSERT INTO Land (LandName,LandNo) VALUES (?,?)",landDTO.getLndName(),landDTO.getLndNo());
     }
 
     @Override
     public ObservableList<LandDTO> getAllLands() throws Exception {
-        Connection conn = DBConnection.getInstance().getConnection();
 
-        PreparedStatement ps = conn.prepareStatement("SELECT * FROM Land ORDER BY LndID DESC");
-        ResultSet rs = ps.executeQuery();
+        ResultSet rs = CRUDUtil.execute("SELECT * FROM Land ORDER BY LndID DESC");
 
         ObservableList<LandDTO> list = FXCollections.observableArrayList();
 
@@ -42,33 +32,20 @@ public class LandDAOImpl implements LandDAO{
             LandDTO landDTO = new LandDTO(lndID,landName,landNo);
             list.add(landDTO);
         }
-        return  list;
+        return list;
     }
 
     @Override
     public boolean updateLand(LandDTO landDTO) throws Exception {
-        Connection conn = DBConnection.getInstance().getConnection();
-        String sql = "UPDATE Land SET LandName = ?, LandNo = ? WHERE LndID = ?";
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setString(1,landDTO.getLndName());
-        pstm.setString(2,landDTO.getLndNo());
-        pstm.setInt(3,landDTO.getLndID());
-        int result = pstm.executeUpdate();
 
-        return result>0;
+
+        return CRUDUtil.execute("UPDATE Land SET LandName = ?, LandNo = ? WHERE LndID = ?",landDTO.getLndName(),landDTO.getLndNo(),landDTO.getLndID());
     }
 
     @Override
     public boolean deleteLand(int id) throws Exception {
-        Connection conn = DBConnection.getInstance().getConnection();
 
 
-        String sql = "DELETE FROM Land WHERE LndID = ?";
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setInt(1,id);
-
-        int result = pstm.executeUpdate();
-
-        return result>0;
+        return CRUDUtil.execute("DELETE FROM Land WHERE LndID = ?",id);
     }
 }

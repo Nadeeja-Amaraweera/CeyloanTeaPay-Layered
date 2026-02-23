@@ -2,37 +2,22 @@ package lk.ijse.ceylonteapay.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.FactoryDTO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 
 public class FactoryDAOImpl implements FactoryDAO{
     @Override
     public boolean addFactory(FactoryDTO factoryDTO) throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
 
-        String sql = "INSERT INTO Factory (FactoryName , FactoryAddress) VALUES (?, ?)";
-        PreparedStatement pstm = conn.prepareStatement(sql);
-
-        pstm.setString(1,factoryDTO.getFactoryName());
-        pstm.setString(2,factoryDTO.getFactoryAddress());
-
-        int result = pstm.executeUpdate();
-
-        return result>0;
+        return CRUDUtil.execute("INSERT INTO Factory (FactoryName , FactoryAddress) VALUES (?, ?)",factoryDTO.getFactoryName(),factoryDTO.getFactoryAddress());
     }
 
     @Override
     public ObservableList<FactoryDTO> getAllFactories() throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
 
-        PreparedStatement ps = conn.prepareStatement("SELECT * FROM Factory ORDER BY FactoryId DESC");
-        ResultSet rs = ps.executeQuery();
+        ResultSet rs = CRUDUtil.execute("SELECT * FROM Factory ORDER BY FactoryId DESC");
 
         ObservableList<FactoryDTO> list = FXCollections.observableArrayList();
 
@@ -45,35 +30,18 @@ public class FactoryDAOImpl implements FactoryDAO{
             FactoryDTO factoryDTO = new FactoryDTO(factoryId,factoryName,factoryAddress);
             list.add(factoryDTO);
         }
-        return  list;
+        return list;
     }
 
     @Override
     public boolean update(FactoryDTO factoryDTO) throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
 
-        String sql = "UPDATE Factory SET FactoryName = ?, FactoryAddress = ? WHERE FactoryId = ?";
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setString(1,factoryDTO.getFactoryName());
-        pstm.setString(2,factoryDTO.getFactoryAddress());
-        pstm.setInt(3,factoryDTO.getFactoryId());
-        int result = pstm.executeUpdate();
-
-        return result>0;
+        return CRUDUtil.execute("UPDATE Factory SET FactoryName = ?, FactoryAddress = ? WHERE FactoryId = ?",factoryDTO.getFactoryName(),factoryDTO.getFactoryAddress(),factoryDTO.getFactoryId());
     }
 
     @Override
     public boolean deleteFactory(int id) throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
 
-        String sql = "DELETE FROM Factory WHERE FactoryId = ?";
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setInt(1,id);
-
-        int result = pstm.executeUpdate();
-
-        return result>0;
+        return CRUDUtil.execute("DELETE FROM Factory WHERE FactoryId = ?",id);
     }
 }
