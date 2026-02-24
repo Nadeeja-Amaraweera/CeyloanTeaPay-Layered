@@ -196,7 +196,7 @@ public class IcomeController implements Initializable {
                 double finalIncome = Double.parseDouble(txtFinalIncome.getText());
 
                 IncomeDTO incomeDTO = new IncomeDTO(month, year, teaSalary, otherWorkSalary, monthlyIncome, finalIncome);
-                boolean result = incomeDAO.savePayment(incomeDTO);
+                boolean result = incomeDAO.save(incomeDTO);
 
                 if (result){
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -244,7 +244,7 @@ public class IcomeController implements Initializable {
                                 "Please select an income record first!").show();
                     } else {
                         int id = selectedIncome.getIncomeId();
-                        boolean result = incomeDAO.deleteIncome(id);
+                        boolean result = incomeDAO.delete(String.valueOf(id));
 
                         if (result){
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -328,7 +328,7 @@ public class IcomeController implements Initializable {
 
         try {
             ObservableList<IncomeDTO> incomeList =
-                    incomeDAO.getAllIncomeFields(); // ✅ YOUR METHOD
+                    incomeDAO.getAll(); // ✅ YOUR METHOD
 
             for (IncomeDTO income : incomeList) {
                 series.getData().add(
@@ -349,7 +349,7 @@ public class IcomeController implements Initializable {
 
     private ObservableList<IncomeDTO> loadIncomeTable(){
         try {
-            ObservableList<IncomeDTO> incomeDTOS = incomeDAO.getAllIncomeFields();
+            ObservableList<IncomeDTO> incomeDTOS = incomeDAO.getAll();
             return incomeDTOS;
         } catch (Exception e) {
             e.printStackTrace();

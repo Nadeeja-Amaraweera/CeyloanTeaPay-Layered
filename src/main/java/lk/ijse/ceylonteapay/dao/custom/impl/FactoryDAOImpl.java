@@ -8,17 +8,12 @@ import lk.ijse.ceylonteapay.dto.FactoryDTO;
 
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class FactoryDAOImpl implements FactoryDAO {
-    @Override
-    public boolean addFactory(FactoryDTO factoryDTO) throws Exception {
-
-        return CRUDUtil.execute("INSERT INTO Factory (FactoryName , FactoryAddress) VALUES (?, ?)",factoryDTO.getFactoryName(),factoryDTO.getFactoryAddress());
-    }
 
     @Override
-    public ObservableList<FactoryDTO> getAllFactories() throws Exception {
-
+    public ObservableList<FactoryDTO> getAll() throws SQLException, ClassNotFoundException {
         ResultSet rs = CRUDUtil.execute("SELECT * FROM Factory ORDER BY FactoryId DESC");
 
         ObservableList<FactoryDTO> list = FXCollections.observableArrayList();
@@ -36,14 +31,20 @@ public class FactoryDAOImpl implements FactoryDAO {
     }
 
     @Override
+    public boolean save(FactoryDTO dto) throws SQLException, ClassNotFoundException {
+        return CRUDUtil.execute("INSERT INTO Factory (FactoryName , FactoryAddress) VALUES (?, ?)",dto.getFactoryName(),dto.getFactoryAddress());
+
+    }
+
+    @Override
     public boolean update(FactoryDTO factoryDTO) throws Exception {
 
         return CRUDUtil.execute("UPDATE Factory SET FactoryName = ?, FactoryAddress = ? WHERE FactoryId = ?",factoryDTO.getFactoryName(),factoryDTO.getFactoryAddress(),factoryDTO.getFactoryId());
     }
 
     @Override
-    public boolean deleteFactory(int id) throws Exception {
-
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
         return CRUDUtil.execute("DELETE FROM Factory WHERE FactoryId = ?",id);
     }
+
 }

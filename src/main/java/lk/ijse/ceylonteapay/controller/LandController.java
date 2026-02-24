@@ -83,7 +83,7 @@ public class LandController implements Initializable {
         } else {
             try {
                 LandDTO landDTO = new LandDTO(landName, landNo);
-                boolean result = landDAO.saveLand(landDTO);
+                boolean result = landDAO.save(landDTO);
 
                 if (result) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -129,7 +129,7 @@ public class LandController implements Initializable {
                     System.out.println(id);
 
                     LandDTO landDTO = new LandDTO(id, landName, landNo);
-                    boolean result = landDAO.updateLand(landDTO);
+                    boolean result = landDAO.update(landDTO);
 
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -175,7 +175,7 @@ public class LandController implements Initializable {
             if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                 try {
                     int id = selected.getLndID();
-                    boolean result = landDAO.deleteLand(id);
+                    boolean result = landDAO.delete(String.valueOf(id));
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Success !");
@@ -229,7 +229,7 @@ public class LandController implements Initializable {
 
     public ObservableList<LandDTO> loadLands() {
         try {
-            ObservableList<LandDTO> landDTOObservableList = landDAO.getAllLands();
+            ObservableList<LandDTO> landDTOObservableList = landDAO.getAll();
             // No need to copy into another list, can return directly
             return landDTOObservableList;
         } catch (Exception e) {

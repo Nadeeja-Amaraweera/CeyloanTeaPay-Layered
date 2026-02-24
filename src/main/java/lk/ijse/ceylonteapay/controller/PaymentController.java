@@ -514,7 +514,7 @@ public class PaymentController implements Initializable {
 
     private void loadEmployees() {
         try {
-            ObservableList<EmployeeDTO> list = employeeDAO.getAllEmployees();
+            ObservableList<EmployeeDTO> list = employeeDAO.getAll();
             cmbEmployee.setItems(list);
 
             cmbEmployee.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {

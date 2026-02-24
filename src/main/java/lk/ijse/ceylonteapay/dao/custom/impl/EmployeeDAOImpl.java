@@ -8,30 +8,14 @@ import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
-    public boolean saveEmployee(EmployeeDTO employeeDTO) throws Exception {
-
-        return CRUDUtil.execute("INSERT INTO Employee (Name,NIC,Dob,Address,Gender,TelNo) VALUES (?,?,?,?,?,?)",employeeDTO.getName(),employeeDTO.getNic(),Date.valueOf(employeeDTO.getDob()),employeeDTO.getAddress(),employeeDTO.getGender(),employeeDTO.getTelNo());
-    }
-
-    @Override
-    public boolean deleteEmployee(int id) throws Exception {
-       return CRUDUtil.execute("DELETE FROM Employee WHERE EmpID = ?",id);
-    }
-
-    @Override
-    public boolean updateEmployee(EmployeeDTO employeeDTO) throws Exception {
-
-        return CRUDUtil.execute("UPDATE Employee SET Name = ?, NIC = ?, Dob = ?, Address = ?, Gender = ?, TelNo = ? WHERE EmpID = ?",employeeDTO.getName(),employeeDTO.getNic(),Date.valueOf(employeeDTO.getDob()),employeeDTO.getAddress(),employeeDTO.getGender(),employeeDTO.getTelNo(),employeeDTO.getId());
-    }
-
-    @Override
-    public ObservableList<EmployeeDTO> getAllEmployees() throws Exception {
-
+    public ObservableList<EmployeeDTO> getAll() throws SQLException, ClassNotFoundException {
         ResultSet rs = CRUDUtil.execute("SELECT * FROM Employee ORDER BY EmpID DESC");
 
         ObservableList<EmployeeDTO> list = FXCollections.observableArrayList();
@@ -49,5 +33,22 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             list.add(employeeDTO);
         }
         return list;
+    }
+
+    @Override
+    public boolean save(EmployeeDTO dto) throws SQLException, ClassNotFoundException {
+        return CRUDUtil.execute("INSERT INTO Employee (Name,NIC,Dob,Address,Gender,TelNo) VALUES (?,?,?,?,?,?)",dto.getName(),dto.getNic(),Date.valueOf(dto.getDob()),dto.getAddress(),dto.getGender(),dto.getTelNo());
+    }
+
+    @Override
+    public boolean update(EmployeeDTO dto) throws SQLException, ClassNotFoundException {
+        return CRUDUtil.execute("UPDATE Employee SET Name = ?, NIC = ?, Dob = ?, Address = ?, Gender = ?, TelNo = ? WHERE EmpID = ?",dto.getName(),dto.getNic(),Date.valueOf(dto.getDob()),dto.getAddress(),dto.getGender(),dto.getTelNo(),dto.getId());
+
+    }
+
+    @Override
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        return CRUDUtil.execute("DELETE FROM Employee WHERE EmpID = ?",id);
+
     }
 }

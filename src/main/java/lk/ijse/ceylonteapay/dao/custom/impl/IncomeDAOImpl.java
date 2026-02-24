@@ -7,6 +7,7 @@ import lk.ijse.ceylonteapay.dao.custom.IncomeDAO;
 import lk.ijse.ceylonteapay.dto.IncomeDTO;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class IncomeDAOImpl implements IncomeDAO {
     @Override
@@ -29,23 +30,11 @@ public class IncomeDAOImpl implements IncomeDAO {
     }
 
     @Override
-    public boolean savePayment(IncomeDTO incomeDTO) throws Exception {
-
-        return CRUDUtil.execute("INSERT INTO Income (month, year, teaSalary, otherWorkSalary, thisMonthIncome, finalIncome) VALUES (?, ?, ?, ?, ?, ?) ",
-                incomeDTO.getMonth(),
-                incomeDTO.getYear(),
-                incomeDTO.getTeaSalary(),
-                incomeDTO.getOtherWorkSalary(),
-                incomeDTO.getThisMonthIncome(),
-                incomeDTO.getFinalIncome());
-    }
-
-    @Override
-    public ObservableList<IncomeDTO> getAllIncomeFields() throws Exception {
-
-        ResultSet rs = CRUDUtil.execute("SELECT * FROM Income");
+    public ObservableList<IncomeDTO> getAll() throws SQLException, ClassNotFoundException {
 
         ObservableList<IncomeDTO> list = FXCollections.observableArrayList();
+
+        ResultSet rs = CRUDUtil.execute("SELECT * FROM Income");
 
         while (rs.next()){
             int incomeId = rs.getInt("incomeId");
@@ -63,8 +52,23 @@ public class IncomeDAOImpl implements IncomeDAO {
     }
 
     @Override
-    public boolean deleteIncome(int id) throws Exception {
+    public boolean save(IncomeDTO dto) throws SQLException, ClassNotFoundException {
+        return CRUDUtil.execute("INSERT INTO Income (month, year, teaSalary, otherWorkSalary, thisMonthIncome, finalIncome) VALUES (?, ?, ?, ?, ?, ?) ",
+                dto.getMonth(),
+                dto.getYear(),
+                dto.getTeaSalary(),
+                dto.getOtherWorkSalary(),
+                dto.getThisMonthIncome(),
+                dto.getFinalIncome());
+    }
 
+    @Override
+    public boolean update(IncomeDTO dto) throws SQLException, ClassNotFoundException, Exception {
+        return false;
+    }
+
+    @Override
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
         return CRUDUtil.execute("DELETE FROM Income WHERE incomeId = ?",id);
     }
 }

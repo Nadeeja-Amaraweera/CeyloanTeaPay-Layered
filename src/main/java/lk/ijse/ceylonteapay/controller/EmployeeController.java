@@ -158,7 +158,7 @@ public class EmployeeController implements Initializable {
                 System.out.println("Name: " + name + " Address: " + address + " NIC: " + nic + " Gender: " + gender + " Tel: " + telNo);
 
                 EmployeeDTO employeeDTO = new EmployeeDTO(name, date, nic, address, gender, telNo);
-                boolean result = employeeDAO.saveEmployee(employeeDTO);
+                boolean result = employeeDAO.save(employeeDTO);
 
                 System.out.println("Add ok");
 
@@ -207,7 +207,7 @@ public class EmployeeController implements Initializable {
                 if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                     int id = selected.getId();
 
-                    boolean result = employeeDAO.deleteEmployee(id);
+                    boolean result = employeeDAO.delete(String.valueOf(id));
 
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -275,7 +275,7 @@ public class EmployeeController implements Initializable {
                     int id = selected.getId();
 
                     EmployeeDTO employeeDTO = new EmployeeDTO(id, name, date, nic, address, gender, telNo);
-                    boolean result = employeeDAO.updateEmployee(employeeDTO);
+                    boolean result = employeeDAO.update(employeeDTO);
 
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -344,7 +344,7 @@ public class EmployeeController implements Initializable {
     public ObservableList<EmployeeDTO> loadEmployees() {
 
         try {
-            ObservableList<EmployeeDTO> employeeDTOList = employeeDAO.getAllEmployees();
+            ObservableList<EmployeeDTO> employeeDTOList = employeeDAO.getAll();
             // No need to copy into another list, can return directly
             return employeeDTOList;
         } catch (Exception e) {

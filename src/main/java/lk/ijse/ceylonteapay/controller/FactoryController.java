@@ -87,7 +87,7 @@ public class FactoryController implements Initializable {
         }else {
             try {
                 FactoryDTO factoryDTO = new FactoryDTO(name, address);
-                boolean result = factoryDAO.addFactory(factoryDTO);
+                boolean result = factoryDAO.save(factoryDTO);
 
                 if (result){
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -186,7 +186,7 @@ public class FactoryController implements Initializable {
             if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                 try {
                     int id = selected.getFactoryId();
-                    boolean result = factoryDAO.deleteFactory(id);
+                    boolean result = factoryDAO.delete(String.valueOf(id));
                     if (result){
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Success !");
@@ -229,7 +229,7 @@ public class FactoryController implements Initializable {
 
     public ObservableList<FactoryDTO> loadFactories(){
         try {
-            ObservableList<FactoryDTO> landDTOObservableList = factoryDAO.getAllFactories();
+            ObservableList<FactoryDTO> landDTOObservableList = factoryDAO.getAll();
             // No need to copy into another list, can return directly
             return landDTOObservableList;
         } catch (Exception e) {
