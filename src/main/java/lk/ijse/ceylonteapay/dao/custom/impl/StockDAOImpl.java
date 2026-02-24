@@ -1,8 +1,9 @@
-package lk.ijse.ceylonteapay.dao;
+package lk.ijse.ceylonteapay.dao.custom.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import lk.ijse.ceylonteapay.db.DBConnection;
+import lk.ijse.ceylonteapay.dao.CRUDUtil;
+import lk.ijse.ceylonteapay.dao.custom.StockDAO;
 import lk.ijse.ceylonteapay.dto.StockDTO;
 
 import java.sql.*;

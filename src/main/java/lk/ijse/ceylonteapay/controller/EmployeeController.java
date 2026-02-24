@@ -12,8 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.ceylonteapay.dao.EmployeeDAO;
-import lk.ijse.ceylonteapay.dao.EmployeeDAOImpl;
+import lk.ijse.ceylonteapay.dao.custom.EmployeeDAO;
+import lk.ijse.ceylonteapay.dao.custom.impl.EmployeeDAOImpl;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 //import lk.ijse.ceylonteapay.model.EmployeeModel;
 

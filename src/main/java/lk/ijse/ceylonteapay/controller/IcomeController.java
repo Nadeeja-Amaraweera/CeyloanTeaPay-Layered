@@ -10,10 +10,10 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.ceylonteapay.dao.IncomeDAO;
-import lk.ijse.ceylonteapay.dao.IncomeDAOImpl;
-import lk.ijse.ceylonteapay.dao.StockDAO;
-import lk.ijse.ceylonteapay.dao.StockDAOImpl;
+import lk.ijse.ceylonteapay.dao.custom.IncomeDAO;
+import lk.ijse.ceylonteapay.dao.custom.impl.IncomeDAOImpl;
+import lk.ijse.ceylonteapay.dao.custom.StockDAO;
+import lk.ijse.ceylonteapay.dao.custom.impl.StockDAOImpl;
 import lk.ijse.ceylonteapay.dto.IncomeDTO;
 import lk.ijse.ceylonteapay.dto.StockDTO;
 

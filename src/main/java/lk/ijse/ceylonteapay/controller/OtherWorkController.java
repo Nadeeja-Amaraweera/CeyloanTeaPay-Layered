@@ -11,15 +11,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.ceylonteapay.dao.OtherWorkDAO;
-import lk.ijse.ceylonteapay.dao.OtherWorkDAOImpl;
+import lk.ijse.ceylonteapay.dao.custom.OtherWorkDAO;
+import lk.ijse.ceylonteapay.dao.custom.impl.OtherWorkDAOImpl;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 import lk.ijse.ceylonteapay.dto.LandDTO;
 import lk.ijse.ceylonteapay.dto.OtherWorkDTO;
 
 import javax.swing.*;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;

@@ -2,7 +2,6 @@ package lk.ijse.ceylonteapay.controller;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -12,8 +11,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.ceylonteapay.dao.TeaRateDAO;
-import lk.ijse.ceylonteapay.dao.TeaRateDAOImpl;
+import lk.ijse.ceylonteapay.dao.custom.TeaRateDAO;
+import lk.ijse.ceylonteapay.dao.custom.impl.TeaRateDAOImpl;
 import lk.ijse.ceylonteapay.dto.TeaRateDTO;
 
 

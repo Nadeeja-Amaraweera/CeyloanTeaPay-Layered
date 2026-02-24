@@ -1,7 +1,8 @@
-package lk.ijse.ceylonteapay.dao;
+package lk.ijse.ceylonteapay.dao.custom.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import lk.ijse.ceylonteapay.dao.custom.PaymentDAO;
 import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.PaymentDTO;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -17,7 +18,7 @@ import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PaymentDAOImpl implements PaymentDAO{
+public class PaymentDAOImpl implements PaymentDAO {
     @Override
     public boolean savePayment(PaymentDTO paymentDTO) throws Exception {
         DBConnection dbc = DBConnection.getInstance();

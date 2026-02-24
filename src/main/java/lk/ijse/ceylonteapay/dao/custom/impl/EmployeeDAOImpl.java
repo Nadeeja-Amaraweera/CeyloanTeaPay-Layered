@@ -1,14 +1,16 @@
-package lk.ijse.ceylonteapay.dao;
+package lk.ijse.ceylonteapay.dao.custom.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import lk.ijse.ceylonteapay.dao.CRUDUtil;
+import lk.ijse.ceylonteapay.dao.custom.EmployeeDAO;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 
-public class EmployeeDAOImpl implements EmployeeDAO{
+public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public boolean saveEmployee(EmployeeDTO employeeDTO) throws Exception {

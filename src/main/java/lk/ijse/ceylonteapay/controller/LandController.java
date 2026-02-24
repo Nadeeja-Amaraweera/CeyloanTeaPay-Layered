@@ -10,8 +10,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.ceylonteapay.dao.LandDAO;
-import lk.ijse.ceylonteapay.dao.LandDAOImpl;
+import lk.ijse.ceylonteapay.dao.custom.LandDAO;
+import lk.ijse.ceylonteapay.dao.custom.impl.LandDAOImpl;
 import lk.ijse.ceylonteapay.dto.LandDTO;
 
 import javax.swing.*;

@@ -1,7 +1,8 @@
-package lk.ijse.ceylonteapay.dao;
+package lk.ijse.ceylonteapay.dao.custom.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import lk.ijse.ceylonteapay.dao.custom.OtherWorkDAO;
 import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 import lk.ijse.ceylonteapay.dto.LandDTO;
@@ -13,7 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 
-public class OtherWorkDAOImpl implements OtherWorkDAO{
+public class OtherWorkDAOImpl implements OtherWorkDAO {
     @Override
     public ObservableList<OtherWorkDTO> getAllOtherWorkFields() throws Exception {
         DBConnection dbc = DBConnection.getInstance();

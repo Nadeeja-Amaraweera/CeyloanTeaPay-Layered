@@ -1,15 +1,14 @@
-package lk.ijse.ceylonteapay.dao;
+package lk.ijse.ceylonteapay.dao.custom.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import lk.ijse.ceylonteapay.db.DBConnection;
+import lk.ijse.ceylonteapay.dao.CRUDUtil;
+import lk.ijse.ceylonteapay.dao.custom.IncomeDAO;
 import lk.ijse.ceylonteapay.dto.IncomeDTO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class IncomeDAOImpl implements IncomeDAO{
+public class IncomeDAOImpl implements IncomeDAO {
     @Override
     public IncomeDTO getAllTeaSalary(int month, int year) throws Exception {
         ResultSet rs = CRUDUtil.execute("SELECT SUM(teaSalary) AS total_tea, SUM(expenseSalary) AS total_expense FROM Payment WHERE MONTH(Payment_Date) = ? AND YEAR(Payment_Date) = ?",month,year);

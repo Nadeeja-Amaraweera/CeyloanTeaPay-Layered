@@ -1,7 +1,8 @@
-package lk.ijse.ceylonteapay.dao;
+package lk.ijse.ceylonteapay.dao.custom.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import lk.ijse.ceylonteapay.dao.custom.DailyTeaDAO;
 import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.DailyTeaDTO;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
@@ -13,7 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 
-public class DailyTeaDAOImpl implements DailyTeaDAO{
+public class DailyTeaDAOImpl implements DailyTeaDAO {
     @Override
     public boolean addTeaField(DailyTeaDTO teaDTO) throws Exception {
         DBConnection dbc = DBConnection.getInstance();

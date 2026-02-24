@@ -1,7 +1,6 @@
 
 package lk.ijse.ceylonteapay.controller;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -18,8 +17,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.ceylonteapay.dao.FactoryDAO;
-import lk.ijse.ceylonteapay.dao.FactoryDAOImpl;
+import lk.ijse.ceylonteapay.dao.custom.FactoryDAO;
+import lk.ijse.ceylonteapay.dao.custom.impl.FactoryDAOImpl;
 import lk.ijse.ceylonteapay.dto.FactoryDTO;
 
 import javax.swing.*;

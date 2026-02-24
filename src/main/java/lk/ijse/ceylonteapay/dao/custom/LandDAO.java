@@ -1,4 +1,4 @@
-package lk.ijse.ceylonteapay.dao;
+package lk.ijse.ceylonteapay.dao.custom;
 
 import javafx.collections.ObservableList;
 import lk.ijse.ceylonteapay.dto.LandDTO;

@@ -1,7 +1,8 @@
-package lk.ijse.ceylonteapay.dao;
+package lk.ijse.ceylonteapay.dao.custom.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import lk.ijse.ceylonteapay.dao.custom.TeaRateDAO;
 import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.TeaRateDTO;
 
@@ -9,7 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class TeaRateDAOImpl implements TeaRateDAO{
+public class TeaRateDAOImpl implements TeaRateDAO {
     @Override
     public boolean addTeaRate(TeaRateDTO teaRateDTO) throws Exception {
         DBConnection dbc = DBConnection.getInstance();

@@ -1,13 +1,15 @@
-package lk.ijse.ceylonteapay.dao;
+package lk.ijse.ceylonteapay.dao.custom.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import lk.ijse.ceylonteapay.dao.CRUDUtil;
+import lk.ijse.ceylonteapay.dao.custom.FactoryDAO;
 import lk.ijse.ceylonteapay.dto.FactoryDTO;
 
 
 import java.sql.ResultSet;
 
-public class FactoryDAOImpl implements FactoryDAO{
+public class FactoryDAOImpl implements FactoryDAO {
     @Override
     public boolean addFactory(FactoryDTO factoryDTO) throws Exception {
 

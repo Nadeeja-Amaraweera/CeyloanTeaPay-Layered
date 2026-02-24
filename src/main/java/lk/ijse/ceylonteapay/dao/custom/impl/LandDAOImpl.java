@@ -1,15 +1,14 @@
-package lk.ijse.ceylonteapay.dao;
+package lk.ijse.ceylonteapay.dao.custom.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import lk.ijse.ceylonteapay.db.DBConnection;
+import lk.ijse.ceylonteapay.dao.CRUDUtil;
+import lk.ijse.ceylonteapay.dao.custom.LandDAO;
 import lk.ijse.ceylonteapay.dto.LandDTO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class LandDAOImpl implements LandDAO{
+public class LandDAOImpl implements LandDAO {
     @Override
     public boolean saveLand(LandDTO landDTO) throws Exception {
 

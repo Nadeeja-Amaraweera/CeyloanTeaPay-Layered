@@ -6,8 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.ceylonteapay.dao.StockDAO;
-import lk.ijse.ceylonteapay.dao.StockDAOImpl;
+import lk.ijse.ceylonteapay.dao.custom.StockDAO;
+import lk.ijse.ceylonteapay.dao.custom.impl.StockDAOImpl;
 import lk.ijse.ceylonteapay.dto.StockDTO;
 
 import javax.swing.*;
