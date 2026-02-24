@@ -12,20 +12,15 @@ import java.sql.ResultSet;
 public class IncomeDAOImpl implements IncomeDAO{
     @Override
     public IncomeDTO getAllTeaSalary(int month, int year) throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
-
-        String sql = "SELECT SUM(teaSalary) AS total_tea, SUM(expenseSalary) AS total_expense FROM Payment WHERE MONTH(Payment_Date) = ? AND YEAR(Payment_Date) = ?";
-
-        PreparedStatement pstm = conn.prepareStatement(sql);
-
-        pstm.setInt(1,month);
-        pstm.setInt(2,year);
-        ResultSet rs = pstm.executeQuery();
+        ResultSet rs = CRUDUtil.execute("SELECT SUM(teaSalary) AS total_tea, SUM(expenseSalary) AS total_expense FROM Payment WHERE MONTH(Payment_Date) = ? AND YEAR(Payment_Date) = ?",month,year);
 
         ObservableList<IncomeDTO> list = FXCollections.observableArrayList();
 
         while (rs.next()){
+            list.add(new IncomeDTO(
+                    rs.getDouble("total_tea"),
+                    rs.getDouble("total_expense")
+            ));
             double allTeaSalary = rs.getDouble("total_tea");
             double allOtherWorkSalary = rs.getDouble("total_expense");
 
@@ -36,38 +31,23 @@ public class IncomeDAOImpl implements IncomeDAO{
 
     @Override
     public boolean savePayment(IncomeDTO incomeDTO) throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
 
-        String sql = "INSERT INTO Income (month, year, teaSalary, otherWorkSalary, thisMonthIncome, finalIncome) VALUES (?, ?, ?, ?, ?, ?) ";
-
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setString(1,incomeDTO.getMonth());
-        pstm.setInt(2,incomeDTO.getYear());
-        pstm.setDouble(3,incomeDTO.getTeaSalary());
-        pstm.setDouble(4,incomeDTO.getOtherWorkSalary());
-        pstm.setDouble(5,incomeDTO.getThisMonthIncome());
-        pstm.setDouble(6,incomeDTO.getFinalIncome());
-
-        int result = pstm.executeUpdate();
-
-        return result>0 ;
+        return CRUDUtil.execute("INSERT INTO Income (month, year, teaSalary, otherWorkSalary, thisMonthIncome, finalIncome) VALUES (?, ?, ?, ?, ?, ?) ",
+                incomeDTO.getMonth(),
+                incomeDTO.getYear(),
+                incomeDTO.getTeaSalary(),
+                incomeDTO.getOtherWorkSalary(),
+                incomeDTO.getThisMonthIncome(),
+                incomeDTO.getFinalIncome());
     }
 
     @Override
     public ObservableList<IncomeDTO> getAllIncomeFields() throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
 
-        String sql = "SELECT * FROM Income";
-
-        PreparedStatement pstm = conn.prepareStatement(sql);
-
-        ResultSet rs = pstm.executeQuery();
+        ResultSet rs = CRUDUtil.execute("SELECT * FROM Income");
 
         ObservableList<IncomeDTO> list = FXCollections.observableArrayList();
 
-//        int incomeId, String month, int year, double teaSalary, double otherWorkSalary, double thisMonthIncome, double finalIncome
         while (rs.next()){
             int incomeId = rs.getInt("incomeId");
             String month = rs.getString("Month");
@@ -85,16 +65,7 @@ public class IncomeDAOImpl implements IncomeDAO{
 
     @Override
     public boolean deleteIncome(int id) throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
 
-        String sql = "DELETE FROM Income WHERE incomeId = ?";
-
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setInt(1,id);
-
-        int result = pstm.executeUpdate();
-
-        return result>0;
+        return CRUDUtil.execute("DELETE FROM Income WHERE incomeId = ?",id);
     }
 }

@@ -1,4 +1,4 @@
-package lk.ijse.ceylonteapay.model;
+package lk.ijse.ceylonteapay.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,18 +11,15 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PaymentModel {
-
-    public boolean savePayment(PaymentDTO paymentDTO)throws Exception{
+public class PaymentDAOImpl implements PaymentDAO{
+    @Override
+    public boolean savePayment(PaymentDTO paymentDTO) throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
 
@@ -45,7 +42,8 @@ public class PaymentModel {
         return result>0;
     }
 
-    public ObservableList<PaymentDTO> loadPaymentTable()throws Exception{
+    @Override
+    public ObservableList<PaymentDTO> loadPaymentTable() throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
 
@@ -74,7 +72,7 @@ public class PaymentModel {
         return list;
     }
 
-
+    @Override
     public boolean updatePayment(PaymentDTO paymentDTO) throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
@@ -99,7 +97,8 @@ public class PaymentModel {
         return result>0;
     }
 
-    public void printPaymentReport(int selectedMonthNo, int selectedYear){
+    @Override
+    public void printPaymentReport(int selectedMonthNo, int selectedYear) {
         try {
             Connection conn = DBConnection.getInstance().getConnection();
 
@@ -122,5 +121,57 @@ public class PaymentModel {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Double loadOtherWorkByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException {
+        DBConnection dbc = DBConnection.getInstance();
+        Connection conn = dbc.getConnection();
+
+        String sql = " SELECT Salary AS DbotherWorkSalary FROM OtherWork WHERE MONTH(Date) = ? AND Emp_ID = ?";
+
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setInt(1, selectedMonthNumber);
+        pstm.setInt(2, selectedEmpId);
+
+        ResultSet rs = pstm.executeQuery();
+
+        if (rs.next()) {
+            return rs.getDouble("DbotherWorkSalary");
+        }
+        return 0.0;
+    }
+
+    @Override
+    public Double loadTeaSalaryByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException {
+        DBConnection dbc = DBConnection.getInstance();
+        Connection conn = dbc.getConnection();
+
+        String sql = "SELECT SUM(Total_Weight) AS totalWeight FROM Tea WHERE MONTH(Date_Collected) = ? AND Emp_ID = ?";
+
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setInt(1, selectedMonthNumber);
+        pstm.setInt(2, selectedEmpId);
+
+        ResultSet rs = pstm.executeQuery();
+
+        if (rs.next()) {
+            return rs.getDouble("totalWeight");
+        }
+        return 0.0;
+    }
+
+    @Override
+    public boolean deletePayment(int id) throws SQLException {
+        DBConnection dbc = DBConnection.getInstance();
+        Connection conn = dbc.getConnection();
+
+        String sql = "DELETE FROM Payment WHERE paymentId = ?";
+
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setInt(1,id);
+        int result  = pstm.executeUpdate();
+
+        return result>0;
     }
 }

@@ -10,12 +10,12 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.ceylonteapay.dao.IncomeDAO;
+import lk.ijse.ceylonteapay.dao.IncomeDAOImpl;
 import lk.ijse.ceylonteapay.dao.StockDAO;
 import lk.ijse.ceylonteapay.dao.StockDAOImpl;
-import lk.ijse.ceylonteapay.dto.DailyTeaDTO;
 import lk.ijse.ceylonteapay.dto.IncomeDTO;
 import lk.ijse.ceylonteapay.dto.StockDTO;
-import lk.ijse.ceylonteapay.model.IncomeModel;
 
 
 import java.net.URL;
@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 public class IcomeController implements Initializable {
 
     StockDAO stockDAO = new StockDAOImpl();
-    private static IncomeModel incomeModel = new IncomeModel();
+    IncomeDAO incomeDAO = new IncomeDAOImpl();
 
     ObservableList<IncomeDTO> incomeDTOObservableList = FXCollections.observableArrayList();
 
@@ -105,7 +105,7 @@ public class IcomeController implements Initializable {
     @FXML
     private void getAllSalary() {
         try {
-            int year = cmdYears.getValue();
+            Integer year = cmdYears.getValue();
             String month = cmdMonths.getValue();
             if (cmdYears.getValue()== null){
                 new Alert(Alert.AlertType.ERROR,"Please Select Year !").show();
@@ -114,7 +114,7 @@ public class IcomeController implements Initializable {
             }else {
                 int monthNumber = Month.valueOf(month.toUpperCase()).getValue();
 
-                IncomeDTO incomeDTO = incomeModel.getAllTeaSalary(monthNumber, year);
+                IncomeDTO incomeDTO = incomeDAO.getAllTeaSalary(monthNumber, year);
 
                 txtTeaSalaryField.setText(String.valueOf(incomeDTO.getTeaSalary()));
                 txtOtherWorkSalary.setText(String.valueOf(incomeDTO.getOtherWorkSalary()));
@@ -122,7 +122,11 @@ public class IcomeController implements Initializable {
             System.out.println(month+year);
 
         } catch (Exception e) {
-
+            e.printStackTrace(); // NEVER keep catch empty
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    "Failed to load salary data"
+            ).show();
         }
     }
 
@@ -192,7 +196,7 @@ public class IcomeController implements Initializable {
                 double finalIncome = Double.parseDouble(txtFinalIncome.getText());
 
                 IncomeDTO incomeDTO = new IncomeDTO(month, year, teaSalary, otherWorkSalary, monthlyIncome, finalIncome);
-                boolean result = incomeModel.savePayment(incomeDTO);
+                boolean result = incomeDAO.savePayment(incomeDTO);
 
                 if (result){
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -240,7 +244,7 @@ public class IcomeController implements Initializable {
                                 "Please select an income record first!").show();
                     } else {
                         int id = selectedIncome.getIncomeId();
-                        boolean result = incomeModel.deleteIncome(id);
+                        boolean result = incomeDAO.deleteIncome(id);
 
                         if (result){
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -324,7 +328,7 @@ public class IcomeController implements Initializable {
 
         try {
             ObservableList<IncomeDTO> incomeList =
-                    incomeModel.getAllIncomeFields(); // ✅ YOUR METHOD
+                    incomeDAO.getAllIncomeFields(); // ✅ YOUR METHOD
 
             for (IncomeDTO income : incomeList) {
                 series.getData().add(
@@ -345,7 +349,7 @@ public class IcomeController implements Initializable {
 
     private ObservableList<IncomeDTO> loadIncomeTable(){
         try {
-            ObservableList<IncomeDTO> incomeDTOS = incomeModel.getAllIncomeFields();
+            ObservableList<IncomeDTO> incomeDTOS = incomeDAO.getAllIncomeFields();
             return incomeDTOS;
         } catch (Exception e) {
             e.printStackTrace();

@@ -25,9 +25,9 @@
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/controller/TeaRateController.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/model/TeaRateModel.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/module-info.java
-/home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/model/IncomeModel.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/EmployeeDAO.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/DeliveryTeaDAO.java
+/home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/PaymentDAO.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/util/EmailUtil.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/controller/EmployeeController.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/controller/DailyTeaController.java
@@ -35,6 +35,7 @@
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/controller/DeliveryTeaController.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/OtherWorkDAOImpl.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/IncomeDAOImpl.java
+/home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/PaymentDAOImpl.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/controller/OtherWorkController.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/OtherWorkDAO.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dto/LandDTO.java

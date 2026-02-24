@@ -13,19 +13,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lk.ijse.ceylonteapay.dao.EmployeeDAO;
 import lk.ijse.ceylonteapay.dao.EmployeeDAOImpl;
-import lk.ijse.ceylonteapay.db.DBConnection;
+import lk.ijse.ceylonteapay.dao.PaymentDAO;
+import lk.ijse.ceylonteapay.dao.PaymentDAOImpl;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 import lk.ijse.ceylonteapay.dto.PaymentDTO;
 import lk.ijse.ceylonteapay.dto.TeaRateDTO;
-import lk.ijse.ceylonteapay.model.PaymentModel;
 import lk.ijse.ceylonteapay.model.TeaRateModel;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
@@ -81,7 +78,8 @@ public class PaymentController implements Initializable {
 
     EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
-    private static PaymentModel paymentModel = new PaymentModel();
+    PaymentDAO paymentDAO = new PaymentDAOImpl();
+
     private static TeaRateModel teaRateModel = new TeaRateModel();
 
     ObservableList<PaymentDTO> paymentDTOS = FXCollections.observableArrayList();
@@ -169,7 +167,7 @@ public class PaymentController implements Initializable {
 
 //            int rateId, int employeeId, String employeeName, double teaSalary, double expenseSalary, double finalSalary, Month month, LocalDate date
                 PaymentDTO paymentDTO = new PaymentDTO(selectRateid, selectEmpid, selecetEmpName, teaSalary, expenseSalary, finalSalary, selectedMonth, LocalDate.now());
-                boolean result = paymentModel.savePayment(paymentDTO);
+                boolean result = paymentDAO.savePayment(paymentDTO);
 
                 if (result) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -239,7 +237,7 @@ public class PaymentController implements Initializable {
 
 //           int paymentId int rateId, int employeeId, String employeeName, double teaSalary, double expenseSalary, double finalSalary, Month month, LocalDate date
                 PaymentDTO paymentDTO = new PaymentDTO(paymentID, selectRateid, selectEmpid, selecetEmpName, teaSalary, expenseSalary, finalSalary, selectedMonth, LocalDate.now());
-                boolean result = paymentModel.updatePayment(paymentDTO);
+                boolean result = paymentDAO.updatePayment(paymentDTO);
 
                 if (result) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -298,25 +296,17 @@ public class PaymentController implements Initializable {
             if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                 try {
                     int id = selectTableItem.getPaymentId();
-                    DBConnection dbc = DBConnection.getInstance();
-                    Connection conn = dbc.getConnection();
-
-                    String sql = "DELETE FROM Payment WHERE paymentId = ?";
-                    PreparedStatement pstm = conn.prepareStatement(sql);
 
                     System.out.println(selectTableItem);
 
-                    pstm.setInt(1, id);
+                    boolean result = paymentDAO.deletePayment(id);
 
-                    int result = pstm.executeUpdate();
-
-                    if (result > 0) {
+                    if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Success !");
                         alert.setHeaderText("Delete Successfully.");
                         alert.show();
                         refreshTable();
-//                clearFields();
                     } else {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Error !");
@@ -345,7 +335,7 @@ public class PaymentController implements Initializable {
                 int selectedReportYear = yearReportCombo.getSelectionModel().getSelectedItem();
                 System.out.println(selectedReportMonthNumber + " - " + selectedReportYear);
 
-                paymentModel.printPaymentReport(selectedReportMonthNumber, selectedReportYear);
+                paymentDAO.printPaymentReport(selectedReportMonthNumber, selectedReportYear);
             }catch (Exception e){
                 e.printStackTrace(); // keep this
 
@@ -392,7 +382,7 @@ public class PaymentController implements Initializable {
 
     private ObservableList<PaymentDTO> loadPaymentTable() {
         try {
-            ObservableList<PaymentDTO> list = paymentModel.loadPaymentTable();
+            ObservableList<PaymentDTO> list = paymentDAO.loadPaymentTable();
             return list;
         } catch (Exception e) {
             return FXCollections.observableArrayList();
@@ -400,83 +390,36 @@ public class PaymentController implements Initializable {
     }
 
     private void loadOtherWorkByMonth(int selectedMonthNumber, int selectedEmpId) {
-//        List<OtherWorkDTO> list = new ArrayList<>();
 
         try {
 
-            DBConnection dbc = DBConnection.getInstance();
-            Connection conn = dbc.getConnection();
+            Double otherWorkSalary = paymentDAO.loadOtherWorkByMonth(
+                    selectedMonthNumber,
+                    selectedEmpId
+            );
 
-            String sql = " SELECT Salary AS DbotherWorkSalary FROM OtherWork WHERE MONTH(Date) = ? AND Emp_ID = ?";
-
-            PreparedStatement pstm = conn.prepareStatement(sql);
-            pstm.setInt(1, selectedMonthNumber);
-            pstm.setInt(2, selectedEmpId);
-
-            ResultSet rs = pstm.executeQuery();
-
-            boolean hasData = false;
-
-            double otherWorkSalary = 0;
-
-            if (rs.next()) {
-                hasData = true;
-                otherWorkSalary = rs.getDouble("DbotherWorkSalary");
-
-                System.out.printf(String.valueOf(otherWorkSalary));
-            }
             txtOtherSalary.setText(String.valueOf(otherWorkSalary));
-
-            if (!hasData) {
-                new Alert(Alert.AlertType.ERROR, "Has not Fields").show();
-            }
 
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e);
         }
 
-//        return list;
     }
 
     private void loadTeaDataByMonth(int selectedMonthNumber, int selectedEmpId) {
-//        List<DailyTeaDTO> list = new ArrayList<>();
         try {
-            DBConnection dbc = DBConnection.getInstance();
-            Connection conn = dbc.getConnection();
 
-//           String sql = "SELECT * FROM Tea WHERE MONTH(Date_Collected) = ? AND YEAR(Date_Collected) = ? AND Emp_ID = ?"";
+            Double teaSalary = paymentDAO.loadTeaSalaryByMonth(
+                    selectedMonthNumber,
+                    selectedEmpId
+            );
 
-            String sql = "SELECT SUM(Total_Weight) AS totalWeight FROM Tea WHERE MONTH(Date_Collected) = ? AND Emp_ID = ?";
-
-
-            PreparedStatement pstm = conn.prepareStatement(sql);
-            pstm.setInt(1, selectedMonthNumber);
-            pstm.setInt(2, selectedEmpId);
-
-
-            ResultSet rs = pstm.executeQuery();
-
-            boolean hasData = false;
-
-            double totalSalary = 0;
-
-            if (rs.next()) {
-                hasData = true;
-                totalSalary = rs.getDouble("totalWeight");
-            }
-            txtTeaSalary.setText(String.valueOf(totalSalary));
-
-
-            if (!hasData) {
-                new Alert(Alert.AlertType.ERROR, "Has not Fields").show();
-            }
-
+            txtTeaSalary.setText(String.valueOf(teaSalary));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        return list;
     }
 
     private void setTableColumn() {
