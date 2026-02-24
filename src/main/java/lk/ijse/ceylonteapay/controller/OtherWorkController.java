@@ -11,10 +11,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.ceylonteapay.dao.OtherWorkDAO;
+import lk.ijse.ceylonteapay.dao.OtherWorkDAOImpl;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 import lk.ijse.ceylonteapay.dto.LandDTO;
 import lk.ijse.ceylonteapay.dto.OtherWorkDTO;
-import lk.ijse.ceylonteapay.model.OtherWorkModel;
 
 import javax.swing.*;
 import java.net.URL;
@@ -58,7 +59,7 @@ public class OtherWorkController implements Initializable {
     @FXML
     private TableColumn<OtherWorkDTO, Double> col_Salary;
 
-    private final OtherWorkModel otherWorkModel = new OtherWorkModel();
+    OtherWorkDAO otherWorkDAO = new OtherWorkDAOImpl();
 
     ObservableList<OtherWorkDTO> otherWorkObservableList = FXCollections.observableArrayList();
 
@@ -77,8 +78,6 @@ public class OtherWorkController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         loadEmployeeIds();
         loadLands();
-        selectionLandCombo();
-        selectionEmpCombo();
         cmbEmployeeIds.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 selectedEmpId = newVal.getId();
@@ -152,7 +151,7 @@ public class OtherWorkController implements Initializable {
             try {
 
                 OtherWorkDTO otherWorkDTO = new OtherWorkDTO(selectedEmpId, selectedLandId, date, details, salary);
-                boolean result = otherWorkModel.addWorkField(otherWorkDTO);
+                boolean result = otherWorkDAO.addWorkField(otherWorkDTO);
 
                 if (result) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -211,7 +210,7 @@ public class OtherWorkController implements Initializable {
 
                     if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                         OtherWorkDTO otherWorkDTO = new OtherWorkDTO(id, selectedEmpId, selectedLandId, date, details, salary);
-                        boolean result = otherWorkModel.updateWorkField(otherWorkDTO);
+                        boolean result = otherWorkDAO.updateWorkField(otherWorkDTO);
 
                         if (result) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -250,7 +249,7 @@ public class OtherWorkController implements Initializable {
 
                 if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                     int id = selected.getWorkID();
-                    boolean result = otherWorkModel.deleteWorkField(id);
+                    boolean result = otherWorkDAO.deleteWorkField(id);
 
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -311,56 +310,9 @@ public class OtherWorkController implements Initializable {
         tableView.setItems(loadOtherWorkFields());
     }
 
-    private void selectionEmpCombo() {
-        cmbEmployeeIds.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            try {
-                if (newVal != null) {
-                    int id = newVal.getId();
-                    System.out.println("Selected Name: " + newVal.getName());
-
-                    try {
-                        ResultSet result = otherWorkModel.getEmployeeNameCombo(id);
-
-                        if (result.next()) {
-                            System.out.println("Selection Successfully" + id);
-                        }
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            } catch (Exception e) {
-
-            }
-
-        });
-    }
-
-    private void selectionLandCombo() {
-        cmbLandIds.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            try {
-                if (newVal != null) {
-                    int id = newVal.getLndID();
-                    System.out.println("Selected Name: " + newVal.getLndName());
-
-                    try {
-                        ResultSet result = otherWorkModel.getLandNameCombo(id);
-
-                        if (result.next()) {
-                            System.out.println("Selection Successfully" + id);
-                        }
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            } catch (Exception e) {
-
-            }
-        });
-    }
-
     private void loadEmployeeIds() {
         try {
-            ObservableList<EmployeeDTO> idList = otherWorkModel.getEmployeeId();
+            ObservableList<EmployeeDTO> idList = otherWorkDAO.getEmployeeId();
             cmbEmployeeIds.setItems(idList);
 
             // Show only ID + Name in ComboBox
@@ -396,7 +348,7 @@ public class OtherWorkController implements Initializable {
 
     private void loadLands() {
         try {
-            ObservableList<LandDTO> landDTOObservableList = otherWorkModel.getLandId();
+            ObservableList<LandDTO> landDTOObservableList = otherWorkDAO.getLandId();
             cmbLandIds.setItems(landDTOObservableList);
 
             // Show only land Name + No in ComboBox
@@ -432,7 +384,7 @@ public class OtherWorkController implements Initializable {
 
     public ObservableList<OtherWorkDTO> loadOtherWorkFields() {
         try {
-            ObservableList<OtherWorkDTO> teaDTOS = otherWorkModel.getAllOtherWorkFields();
+            ObservableList<OtherWorkDTO> teaDTOS = otherWorkDAO.getAllOtherWorkFields();
             return teaDTOS;
         } catch (Exception e) {
             e.printStackTrace();

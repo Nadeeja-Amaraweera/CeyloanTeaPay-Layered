@@ -1,4 +1,4 @@
-package lk.ijse.ceylonteapay.model;
+package lk.ijse.ceylonteapay.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,8 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 
-public class OtherWorkModel {
-
+public class OtherWorkDAOImpl implements OtherWorkDAO{
+    @Override
     public ObservableList<OtherWorkDTO> getAllOtherWorkFields() throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
@@ -56,7 +56,8 @@ public class OtherWorkModel {
         return list;
     }
 
-    public boolean addWorkField(OtherWorkDTO otherWorkDTO)throws Exception{
+    @Override
+    public boolean addWorkField(OtherWorkDTO otherWorkDTO) throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
 
@@ -72,7 +73,8 @@ public class OtherWorkModel {
         return result>0;
     }
 
-    public boolean updateWorkField(OtherWorkDTO otherWorkDTO)throws Exception{
+    @Override
+    public boolean updateWorkField(OtherWorkDTO otherWorkDTO) throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
 
@@ -90,7 +92,8 @@ public class OtherWorkModel {
         return result>0;
     }
 
-    public boolean deleteWorkField(int WorkID)throws Exception{
+    @Override
+    public boolean deleteWorkField(int WorkID) throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
 
@@ -103,48 +106,7 @@ public class OtherWorkModel {
         return result>0;
     }
 
-    public ResultSet getEmployeeNameCombo(int id)throws Exception{
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
-
-        String sql = "SELECT * FROM Employee WHERE EmpID = ?";
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setInt(1,id);
-
-        ResultSet rs = pstm.executeQuery();
-        if (rs.next()){
-            String name = rs.getString("Name");
-            String address = rs.getString("Address");
-            String nic = rs.getString("NIC");
-            String dob = rs.getString("DOB");
-            String gender = rs.getString("Gender");
-            String telNo = rs.getString("TelNo");
-
-            System.out.println("DB Name: " + name + ", Address: " + address + ", NIC: " + nic + ", DOB: " + dob + ", Gender: " + gender + ", TelNo: " + telNo);
-        }
-        return rs;
-    }
-
-    public ResultSet getLandNameCombo(int id)throws Exception{
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
-
-        String sql = "SELECT * FROM Land WHERE LndID = ?";
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setInt(1,id);
-
-        ResultSet rs = pstm.executeQuery();
-        if (rs.next()){
-            String landId = rs.getString("LndID");
-            String landName = rs.getString("LandName");
-            String landNo = rs.getString("LandNo");
-
-            System.out.println("Land ID: "+landId+" Land Name: "+landName+" Land No: "+landNo);
-
-        }
-        return rs;
-    }
-
+    @Override
     public ObservableList<EmployeeDTO> getEmployeeId() throws Exception {
         ObservableList<EmployeeDTO> idList = FXCollections.observableArrayList();
 
@@ -166,7 +128,8 @@ public class OtherWorkModel {
         return idList;
     }
 
-    public ObservableList<LandDTO> getLandId()throws Exception{
+    @Override
+    public ObservableList<LandDTO> getLandId() throws Exception {
         ObservableList<LandDTO> idList = FXCollections.observableArrayList();
 
         DBConnection dbc = DBConnection.getInstance();

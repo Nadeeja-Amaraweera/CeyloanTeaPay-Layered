@@ -6,12 +6,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.ceylonteapay.dao.StockDAO;
-import lk.ijse.ceylonteapay.dao.StockDAOImpl;
+import lk.ijse.ceylonteapay.dao.*;
 import lk.ijse.ceylonteapay.dto.DeliveryCartTM;
 import lk.ijse.ceylonteapay.dto.FactoryDTO;
 import lk.ijse.ceylonteapay.dto.StockDTO;
-import lk.ijse.ceylonteapay.model.DeliveryTeaModel;
 
 import javax.swing.*;
 import java.net.URL;
@@ -64,7 +62,7 @@ public class DeliveryTeaController implements Initializable {
 
     ObservableList<DeliveryCartTM> cartList = FXCollections.observableArrayList();
 
-    private static DeliveryTeaModel deliveryTeaModel = new DeliveryTeaModel();
+    DeliveryTeaDAO deliveryTeaDAO = new DeliveryTeaDAOImpl();
 
     ObservableList<StockDTO> stockDTOObservableList = FXCollections.observableArrayList();
 
@@ -236,7 +234,7 @@ public class DeliveryTeaController implements Initializable {
             return;
         }
         try {
-            boolean isSuccess = deliveryTeaModel.placeOrder(cartList);
+            boolean isSuccess = deliveryTeaDAO.placeOrder(cartList);
 
             if (isSuccess) {
                 new Alert(Alert.AlertType.INFORMATION, "Delivery Order Placed Successfully!").show();
@@ -263,7 +261,7 @@ public class DeliveryTeaController implements Initializable {
             try {
                 int selectedYear = cmdYear.getValue();
 
-                deliveryTeaModel.printDeliveryTea(selectedMonthNo, selectedYear);
+                deliveryTeaDAO.printDeliveryTea(selectedMonthNo, selectedYear);
             } catch (Exception e) {
                 e.printStackTrace(); // keep this
 
@@ -295,7 +293,7 @@ public class DeliveryTeaController implements Initializable {
 
     private void loadFactoryCombo() {
         try {
-            ObservableList<FactoryDTO> list = deliveryTeaModel.getComboFactory();
+            ObservableList<FactoryDTO> list = deliveryTeaDAO.getComboFactory();
             cmdFactoryName.setItems(list);
 
             // Show only ID + Name in ComboBox
@@ -334,7 +332,7 @@ public class DeliveryTeaController implements Initializable {
     private void loadStockCombo() {
         try {
 
-            ObservableList<StockDTO> list = deliveryTeaModel.getComboStock();
+            ObservableList<StockDTO> list = deliveryTeaDAO.getComboStock();
             cmdStockNo.setItems(list);
 
             cmdStockNo.setCellFactory(cb -> new ListCell<>() {
