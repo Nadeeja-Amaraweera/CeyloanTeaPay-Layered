@@ -1,4 +1,4 @@
-package lk.ijse.ceylonteapay.model;
+package lk.ijse.ceylonteapay.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,9 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class TeaRateModel {
-
-    public boolean addTeaRate(TeaRateDTO teaRateDTO) throws Exception{
+public class TeaRateDAOImpl implements TeaRateDAO{
+    @Override
+    public boolean addTeaRate(TeaRateDTO teaRateDTO) throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
 
@@ -29,7 +29,8 @@ public class TeaRateModel {
         return rs>0;
     }
 
-    public ObservableList<TeaRateDTO> loadTeaRate()throws Exception{
+    @Override
+    public ObservableList<TeaRateDTO> loadTeaRate() throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
 
@@ -52,7 +53,8 @@ public class TeaRateModel {
         return list;
     }
 
-    public boolean deleteRate(int id) throws Exception{
+    @Override
+    public boolean deleteRate(int id) throws Exception {
         DBConnection dbc = DBConnection.getInstance();
         Connection conn = dbc.getConnection();
 

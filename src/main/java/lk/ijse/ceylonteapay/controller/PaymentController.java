@@ -11,14 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import lk.ijse.ceylonteapay.dao.EmployeeDAO;
-import lk.ijse.ceylonteapay.dao.EmployeeDAOImpl;
-import lk.ijse.ceylonteapay.dao.PaymentDAO;
-import lk.ijse.ceylonteapay.dao.PaymentDAOImpl;
+import lk.ijse.ceylonteapay.dao.*;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 import lk.ijse.ceylonteapay.dto.PaymentDTO;
 import lk.ijse.ceylonteapay.dto.TeaRateDTO;
-import lk.ijse.ceylonteapay.model.TeaRateModel;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -80,7 +76,7 @@ public class PaymentController implements Initializable {
 
     PaymentDAO paymentDAO = new PaymentDAOImpl();
 
-    private static TeaRateModel teaRateModel = new TeaRateModel();
+    TeaRateDAO teaRateDAO = new TeaRateDAOImpl();
 
     ObservableList<PaymentDTO> paymentDTOS = FXCollections.observableArrayList();
 
@@ -441,7 +437,7 @@ public class PaymentController implements Initializable {
     private void loadTeaRateCombo() {
 
         try {
-            ObservableList<TeaRateDTO> list = teaRateModel.loadTeaRate();
+            ObservableList<TeaRateDTO> list = teaRateDAO.loadTeaRate();
             cmbTeaRate.setItems(list);
 
             cmbTeaRate.setCellFactory(cb -> new ListCell<>() {

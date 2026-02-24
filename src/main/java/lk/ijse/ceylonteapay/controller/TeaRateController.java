@@ -12,9 +12,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.StringConverter;
+import lk.ijse.ceylonteapay.dao.TeaRateDAO;
+import lk.ijse.ceylonteapay.dao.TeaRateDAOImpl;
 import lk.ijse.ceylonteapay.dto.TeaRateDTO;
-import lk.ijse.ceylonteapay.model.TeaRateModel;
 
 
 public class TeaRateController implements Initializable {
@@ -40,7 +40,7 @@ public class TeaRateController implements Initializable {
     @FXML
     private TableColumn<TeaRateDTO,Double> colRate;
 
-    private static TeaRateModel teaRateModel = new TeaRateModel();
+    TeaRateDAO teaRateDAO = new TeaRateDAOImpl();
     ObservableList<TeaRateDTO> teaRateDTOS = FXCollections.observableArrayList();
 
     @Override
@@ -69,7 +69,7 @@ public class TeaRateController implements Initializable {
 
 //        int rateId, String month, int year, double rate
             TeaRateDTO teaRateDTO = new TeaRateDTO(month, year, teaRate);
-            boolean result = teaRateModel.addTeaRate(teaRateDTO);
+            boolean result = teaRateDAO.addTeaRate(teaRateDTO);
             refreshTable();
 
             if (result){
@@ -99,7 +99,7 @@ public class TeaRateController implements Initializable {
 
                 if (result.isPresent() && result.get() == ButtonType.OK) {
                     int id = teaRateDTO.getRateId();
-                    boolean success = teaRateModel.deleteRate(id);
+                    boolean success = teaRateDAO.deleteRate(id);
                     refreshTable();
                     if (success){
                         new Alert(Alert.AlertType.ERROR,"Tea Rate Deleted Successfully").show();
@@ -141,7 +141,7 @@ public class TeaRateController implements Initializable {
 
     private ObservableList<TeaRateDTO> loadTeaRate(){
         try {
-            ObservableList<TeaRateDTO> list = teaRateModel.loadTeaRate();
+            ObservableList<TeaRateDTO> list = teaRateDAO.loadTeaRate();
             return list;
         }catch (Exception e){
             return FXCollections.observableArrayList();
