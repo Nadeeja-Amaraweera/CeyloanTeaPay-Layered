@@ -2,6 +2,9 @@ package lk.ijse.ceylonteapay.dao.custom.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import lk.ijse.ceylonteapay.dao.CRUDUtil;
+import lk.ijse.ceylonteapay.dao.QueryDAO;
+import lk.ijse.ceylonteapay.dao.QueryDAOImpl;
 import lk.ijse.ceylonteapay.dao.custom.OtherWorkDAO;
 import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
@@ -17,21 +20,11 @@ import java.time.LocalDate;
 public class OtherWorkDAOImpl implements OtherWorkDAO {
     @Override
     public ObservableList<OtherWorkDTO> getAllOtherWorkFields() throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
-
-        String sql = "SELECT OtherWork.Work_ID, OtherWork.Emp_ID, Employee.Name AS EmployeeName, " +
-                "OtherWork.Lnd_ID, Land.LandName AS LandName, OtherWork.Date, OtherWork.Details ,OtherWork.Salary " +
-                "FROM OtherWork " +
-                "JOIN Employee ON OtherWork.Emp_ID = Employee.EmpID " +
-                "JOIN Land ON OtherWork.Lnd_ID = Land.LndID " +
-                "ORDER BY OtherWork.Work_ID DESC";
-
-        PreparedStatement pstm = conn.prepareStatement(sql);
+        QueryDAO queryDAO = new QueryDAOImpl();
+        ResultSet rs = queryDAO.getAllOtherWorkFields();
 
         ObservableList<OtherWorkDTO> list = FXCollections.observableArrayList();
 
-        ResultSet rs = pstm.executeQuery();
         while (rs.next()) {
 
             int workID = rs.getInt("Work_ID");
@@ -59,66 +52,41 @@ public class OtherWorkDAOImpl implements OtherWorkDAO {
 
     @Override
     public boolean addWorkField(OtherWorkDTO otherWorkDTO) throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
 
-        String sql = "INSERT INTO OtherWork (Emp_ID,Lnd_ID,Date,Details,Salary) VALUES (?,?,?,?,?)";
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setInt(1,otherWorkDTO.getEmp_ID());
-        pstm.setInt(2,otherWorkDTO.getLnd_Id());
-        pstm.setDate(3, Date.valueOf(otherWorkDTO.getDate()));
-        pstm.setString(4,otherWorkDTO.getDetails());
-        pstm.setDouble(5,otherWorkDTO.getSalary());
-        int result = pstm.executeUpdate();
-
-        return result>0;
+        return CRUDUtil.execute("INSERT INTO OtherWork (Emp_ID,Lnd_ID,Date,Details,Salary) VALUES (?,?,?,?,?)",
+                otherWorkDTO.getEmp_ID(),
+                otherWorkDTO.getLnd_Id(),
+                Date.valueOf(otherWorkDTO.getDate()),
+                otherWorkDTO.getDetails(),
+                otherWorkDTO.getSalary()
+                );
     }
 
     @Override
     public boolean updateWorkField(OtherWorkDTO otherWorkDTO) throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
 
-        String sql = "UPDATE OtherWork SET Emp_ID = ?, Lnd_ID = ?, Date = ?, Details = ?,Salary = ? WHERE Work_ID = ?";
-        PreparedStatement pstm = conn.prepareCall(sql);
-        pstm.setInt(1,otherWorkDTO.getEmp_ID());
-        pstm.setInt(2,otherWorkDTO.getLnd_Id());
-        pstm.setDate(3,Date.valueOf(otherWorkDTO.getDate()));
-        pstm.setString(4, otherWorkDTO.getDetails());
-        pstm.setDouble(5,otherWorkDTO.getSalary());
-        pstm.setInt(6,otherWorkDTO.getWorkID());
-
-        int result = pstm.executeUpdate();
-
-        return result>0;
+        return CRUDUtil.execute("UPDATE OtherWork SET Emp_ID = ?, Lnd_ID = ?, Date = ?, Details = ?,Salary = ? WHERE Work_ID = ?",
+                otherWorkDTO.getEmp_ID(),
+                otherWorkDTO.getLnd_Id(),
+                Date.valueOf(otherWorkDTO.getDate()),
+                otherWorkDTO.getDetails(),
+                otherWorkDTO.getSalary(),
+                otherWorkDTO.getWorkID()
+                );
     }
 
     @Override
     public boolean deleteWorkField(int WorkID) throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
 
-        String sql ="DELETE FROM OtherWork WHERE Work_ID = ?";
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setInt(1,WorkID);
-
-        int result = pstm.executeUpdate();
-
-        return result>0;
+        return CRUDUtil.execute("DELETE FROM OtherWork WHERE Work_ID = ?",WorkID);
     }
 
     @Override
     public ObservableList<EmployeeDTO> getEmployeeId() throws Exception {
+
+        ResultSet rs = CRUDUtil.execute("SELECT EmpID, Name FROM Employee");
+
         ObservableList<EmployeeDTO> idList = FXCollections.observableArrayList();
-
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
-
-        String sql = "SELECT EmpID, Name FROM Employee";
-
-        PreparedStatement pstm = conn.prepareStatement(sql);
-
-        ResultSet rs = pstm.executeQuery();
 
         while (rs.next()) {
             idList.add(new EmployeeDTO(
@@ -131,16 +99,10 @@ public class OtherWorkDAOImpl implements OtherWorkDAO {
 
     @Override
     public ObservableList<LandDTO> getLandId() throws Exception {
+
         ObservableList<LandDTO> idList = FXCollections.observableArrayList();
 
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
-
-        String sql = "SELECT * FROM Land";
-
-        PreparedStatement pstm = conn.prepareStatement(sql);
-
-        ResultSet rs = pstm.executeQuery();
+        ResultSet rs = CRUDUtil.execute("SELECT * FROM Land");
 
         while (rs.next()){
             idList.add(new LandDTO(

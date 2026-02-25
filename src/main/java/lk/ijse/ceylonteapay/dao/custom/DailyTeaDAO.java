@@ -14,7 +14,7 @@ public interface DailyTeaDAO {
 
     public boolean deleteTeaField(int teaID)throws Exception;
 
-    public ResultSet checkTeaId(int teaId)throws Exception;
+    public Integer checkTeaId(int teaId)throws Exception;
 
     public ObservableList<DailyTeaDTO> getAllTeaFields() throws Exception;
 
@@ -22,8 +22,5 @@ public interface DailyTeaDAO {
 
     public ObservableList<LandDTO> getLandId()throws Exception;
 
-    public ResultSet getEmployeeNameCombo(int id)throws Exception;
-
-    public ResultSet getLandNameCombo(int id)throws Exception;
 
 }

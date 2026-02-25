@@ -8,6 +8,8 @@ lk/ijse/ceylonteapay/dao/custom/DeliveryStockDAO.class
 lk/ijse/ceylonteapay/util/EmailUtil$1.class
 lk/ijse/ceylonteapay/util/EmailUtil.class
 lk/ijse/ceylonteapay/controller/OtherWorkController$2.class
+lk/ijse/ceylonteapay/dao/QueryDAO.class
+lk/ijse/ceylonteapay/dao/QueryDAOImpl.class
 lk/ijse/ceylonteapay/db/DBConnection.class
 lk/ijse/ceylonteapay/dao/SuperDAO.class
 lk/ijse/ceylonteapay/dao/custom/impl/EmployeeDAOImpl.class

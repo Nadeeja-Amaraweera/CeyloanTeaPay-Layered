@@ -92,8 +92,6 @@ public class DailyTeaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         loadEmployeeIds();
         loadLands();
-        selectionLandCombo();
-        selectionEmpCombo();
         cmbEmployeeIds.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 selectedEmpId = newVal.getId();
@@ -278,7 +276,7 @@ public class DailyTeaController implements Initializable {
                 Optional<ButtonType> confirm = confirmAlert.showAndWait();
 
                 if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-                    if (checkTeaID(teaId).next()) {
+                    if (checkTeaID(teaId)>0) {
 
                         DailyTeaDTO teaDTO = new DailyTeaDTO(teaId, selectedEmpId, selectedLandId, date, fullWeight, bagWeight, waterWeight, totalWeight, quality);
                         boolean result = dailyTeaDAO.updateTeaField(teaDTO);
@@ -330,7 +328,7 @@ public class DailyTeaController implements Initializable {
 
                 if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                     int teaID = selectedItem.getTeaID();
-                    if (checkTeaID(teaID).next()) {
+                    if (checkTeaID(teaID)>0) {
                         boolean result = dailyTeaDAO.deleteTeaField(teaID);
 
                         if (result) {
@@ -363,11 +361,9 @@ public class DailyTeaController implements Initializable {
 
     }
 
-    private ResultSet checkTeaID(int teaId) throws Exception {
+    private Integer checkTeaID(int teaId) throws Exception {
 
-        ResultSet result = dailyTeaDAO.checkTeaId(teaId);
-
-        return result;
+        return dailyTeaDAO.checkTeaId(teaId);
     }
 
     private void refreshTable() {
@@ -478,53 +474,6 @@ public class DailyTeaController implements Initializable {
             e.printStackTrace();
             return FXCollections.observableArrayList();
         }
-    }
-
-    private void selectionEmpCombo() {
-        cmbEmployeeIds.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            try {
-                if (newVal != null) {
-                    int id = newVal.getId();
-                    System.out.println("Selected Name: " + newVal.getName());
-
-                    try {
-                        ResultSet result = dailyTeaDAO.getEmployeeNameCombo(id);
-
-                        if (result.next()) {
-                            System.out.println("Selection Successfully" + id);
-                        }
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            } catch (Exception e) {
-
-            }
-
-        });
-    }
-
-    private void selectionLandCombo() {
-        cmbLandIds.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            try {
-                if (newVal != null) {
-                    int id = newVal.getLndID();
-                    System.out.println("Selected Name: " + newVal.getLndName());
-
-                    try {
-                        ResultSet result = dailyTeaDAO.getLandNameCombo(id);
-
-                        if (result.next()) {
-                            System.out.println("Selection Successfully" + id);
-                        }
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            } catch (Exception e) {
-
-            }
-        });
     }
 
     private void loadEmployeeIds() {
