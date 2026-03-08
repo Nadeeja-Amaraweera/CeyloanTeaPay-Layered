@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import lk.ijse.ceylonteapay.dao.CRUDUtil;
 import lk.ijse.ceylonteapay.dao.custom.FactoryDAO;
 import lk.ijse.ceylonteapay.dto.FactoryDTO;
+import lk.ijse.ceylonteapay.entity.Factory;
 
 
 import java.sql.ResultSet;
@@ -13,10 +14,10 @@ import java.sql.SQLException;
 public class FactoryDAOImpl implements FactoryDAO {
 
     @Override
-    public ObservableList<FactoryDTO> getAll() throws SQLException, ClassNotFoundException {
+    public ObservableList<Factory> getAll() throws SQLException, ClassNotFoundException {
         ResultSet rs = CRUDUtil.execute("SELECT * FROM Factory ORDER BY FactoryId DESC");
 
-        ObservableList<FactoryDTO> list = FXCollections.observableArrayList();
+        ObservableList<Factory> list = FXCollections.observableArrayList();
 
         while (rs.next()){
             int factoryId = rs.getInt("FactoryId");
@@ -24,20 +25,20 @@ public class FactoryDAOImpl implements FactoryDAO {
             String factoryAddress = rs.getString("FactoryAddress");
 
 
-            FactoryDTO factoryDTO = new FactoryDTO(factoryId,factoryName,factoryAddress);
+            Factory factoryDTO = new Factory(factoryId,factoryName,factoryAddress);
             list.add(factoryDTO);
         }
         return list;
     }
 
     @Override
-    public boolean save(FactoryDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Factory dto) throws SQLException, ClassNotFoundException {
         return CRUDUtil.execute("INSERT INTO Factory (FactoryName , FactoryAddress) VALUES (?, ?)",dto.getFactoryName(),dto.getFactoryAddress());
 
     }
 
     @Override
-    public boolean update(FactoryDTO factoryDTO) throws Exception {
+    public boolean update(Factory factoryDTO) throws Exception {
 
         return CRUDUtil.execute("UPDATE Factory SET FactoryName = ?, FactoryAddress = ? WHERE FactoryId = ?",factoryDTO.getFactoryName(),factoryDTO.getFactoryAddress(),factoryDTO.getFactoryId());
     }
