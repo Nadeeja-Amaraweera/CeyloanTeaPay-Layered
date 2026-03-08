@@ -17,6 +17,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.ceylonteapay.bo.BOFactory;
+import lk.ijse.ceylonteapay.bo.custom.EmployeeBO;
+import lk.ijse.ceylonteapay.bo.custom.FactoryBO;
+import lk.ijse.ceylonteapay.dao.DAOFactory;
 import lk.ijse.ceylonteapay.dao.custom.FactoryDAO;
 import lk.ijse.ceylonteapay.dao.custom.impl.FactoryDAOImpl;
 import lk.ijse.ceylonteapay.dto.FactoryDTO;
@@ -40,7 +44,7 @@ public class FactoryController implements Initializable {
     @FXML
     private TableColumn<FactoryDTO, String> col_Address;
 
-    FactoryDAO factoryDAO = new FactoryDAOImpl();
+    FactoryBO factoryBO = (FactoryBO) BOFactory.getInstance().getBO(BOFactory.BOType.FACTORY);
 
     ObservableList<FactoryDTO> factoryDTOObservableList = FXCollections.observableArrayList();
 
@@ -86,8 +90,9 @@ public class FactoryController implements Initializable {
             new Alert(Alert.AlertType.ERROR, "Invalid Factory Address. Must be at least 5 characters and can include letters, numbers, spaces, comma, dot, slash, dash.").show();
         }else {
             try {
-                FactoryDTO factoryDTO = new FactoryDTO(name, address);
-                boolean result = factoryDAO.save(factoryDTO);
+                boolean result = factoryBO.saveFactory(new FactoryDTO(name, address));
+//                FactoryDTO factoryDTO = new FactoryDTO(name, address);
+//                boolean result = factoryDAO.save(factoryDTO);
 
                 if (result){
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -139,8 +144,9 @@ public class FactoryController implements Initializable {
                     int id = selected.getFactoryId();
                     System.out.println(id);
 
-                    FactoryDTO factoryDTO = new FactoryDTO(id,factoryNameText,factoryAddressText);
-                    boolean result = factoryDAO.update(factoryDTO);
+                    boolean result = factoryBO.updateFactory(new FactoryDTO(id,factoryNameText,factoryAddressText));
+//                    FactoryDTO factoryDTO = new FactoryDTO(id,factoryNameText,factoryAddressText);
+//                    boolean result = factoryDAO.update(factoryDTO);
 
                     if (result){
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -186,7 +192,7 @@ public class FactoryController implements Initializable {
             if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                 try {
                     int id = selected.getFactoryId();
-                    boolean result = factoryDAO.delete(String.valueOf(id));
+                    boolean result = factoryBO.deleteFactory(String.valueOf(id));
                     if (result){
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Success !");
@@ -229,7 +235,7 @@ public class FactoryController implements Initializable {
 
     public ObservableList<FactoryDTO> loadFactories(){
         try {
-            ObservableList<FactoryDTO> landDTOObservableList = factoryDAO.getAll();
+            ObservableList<FactoryDTO> landDTOObservableList = factoryBO.getAllFactory();
             // No need to copy into another list, can return directly
             return landDTOObservableList;
         } catch (Exception e) {
