@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import lk.ijse.ceylonteapay.dao.CRUDUtil;
 import lk.ijse.ceylonteapay.dao.custom.EmployeeDAO;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
+import lk.ijse.ceylonteapay.entity.Employee;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -15,10 +16,10 @@ import java.util.ArrayList;
 public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
-    public ObservableList<EmployeeDTO> getAll() throws SQLException, ClassNotFoundException {
+    public ObservableList<Employee> getAll() throws SQLException, ClassNotFoundException {
         ResultSet rs = CRUDUtil.execute("SELECT * FROM Employee ORDER BY EmpID DESC");
 
-        ObservableList<EmployeeDTO> list = FXCollections.observableArrayList();
+        ObservableList<Employee> list = FXCollections.observableArrayList();
 
         while (rs.next()){
             int empId = rs.getInt("EmpID");
@@ -29,19 +30,19 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             String empGender = rs.getString("Gender");
             String empTelno = rs.getString("TelNo");
 
-            EmployeeDTO employeeDTO = new EmployeeDTO(empId,empName,empdob,empNic,empAddress,empGender,empTelno);
+            Employee employeeDTO = new Employee(empId,empName,empdob,empNic,empAddress,empGender,empTelno);
             list.add(employeeDTO);
         }
         return list;
     }
 
     @Override
-    public boolean save(EmployeeDTO dto) throws SQLException, ClassNotFoundException {
-        return CRUDUtil.execute("INSERT INTO Employee (Name,NIC,Dob,Address,Gender,TelNo) VALUES (?,?,?,?,?,?)",dto.getName(),dto.getNic(),Date.valueOf(dto.getDob()),dto.getAddress(),dto.getGender(),dto.getTelNo());
+    public boolean save(Employee entity) throws SQLException, ClassNotFoundException {
+        return CRUDUtil.execute("INSERT INTO Employee (Name,NIC,Dob,Address,Gender,TelNo) VALUES (?,?,?,?,?,?)",entity.getName(),entity.getNic(),Date.valueOf(entity.getDob()),entity.getAddress(),entity.getGender(),entity.getTelNo());
     }
 
     @Override
-    public boolean update(EmployeeDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean update(Employee dto) throws SQLException, ClassNotFoundException {
         return CRUDUtil.execute("UPDATE Employee SET Name = ?, NIC = ?, Dob = ?, Address = ?, Gender = ?, TelNo = ? WHERE EmpID = ?",dto.getName(),dto.getNic(),Date.valueOf(dto.getDob()),dto.getAddress(),dto.getGender(),dto.getTelNo(),dto.getId());
 
     }

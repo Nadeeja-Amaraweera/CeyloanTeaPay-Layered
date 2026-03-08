@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import lk.ijse.ceylonteapay.bo.custom.EmployeeBO;
+import lk.ijse.ceylonteapay.bo.custom.impl.EmployeeBOImpl;
 import lk.ijse.ceylonteapay.dao.custom.*;
 import lk.ijse.ceylonteapay.dao.custom.impl.EmployeeDAOImpl;
 import lk.ijse.ceylonteapay.dao.custom.impl.PaymentDAOImpl;
@@ -25,6 +27,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -75,7 +78,7 @@ public class PaymentController implements Initializable {
     @FXML
     private Label lblTeaRate;
 
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+    EmployeeBO employeeBO = new EmployeeBOImpl();
 
     PaymentDAO paymentDAO = new PaymentDAOImpl();
 
@@ -514,7 +517,7 @@ public class PaymentController implements Initializable {
 
     private void loadEmployees() {
         try {
-            ObservableList<EmployeeDTO> list = employeeDAO.getAll();
+            ObservableList<EmployeeDTO> list = employeeBO.getAllEmployees();
             cmbEmployee.setItems(list);
 
             cmbEmployee.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {

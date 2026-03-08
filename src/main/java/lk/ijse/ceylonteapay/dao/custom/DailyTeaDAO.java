@@ -22,5 +22,4 @@ public interface DailyTeaDAO {
 
     public ObservableList<LandDTO> getLandId()throws Exception;
 
-
 }

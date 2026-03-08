@@ -99,7 +99,7 @@ public class DeliveryTeaDAOImpl implements DeliveryTeaDAO {
 
                 //Insert into DeliveryStock Associate Table
                 CRUDUtil.execute(
-                        "INSERT INTO DeliveryStock (deliveryId, stockId, deliveryQty) VALUES (?,?,?)",
+                        "INSERT INTO DeliveryStock (deliveryStockId, stockId, deliveryQty) VALUES (?,?,?)",
                         deliveryId,
                         item.getStockId(),
                         item.getQty()

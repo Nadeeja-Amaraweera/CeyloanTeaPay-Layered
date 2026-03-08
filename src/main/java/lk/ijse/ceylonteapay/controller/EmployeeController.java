@@ -12,6 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.ceylonteapay.bo.BOFactory;
+import lk.ijse.ceylonteapay.bo.custom.EmployeeBO;
 import lk.ijse.ceylonteapay.dao.custom.EmployeeDAO;
 import lk.ijse.ceylonteapay.dao.custom.impl.EmployeeDAOImpl;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
@@ -21,6 +23,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -63,9 +66,7 @@ public class EmployeeController implements Initializable {
     @FXML
     private RadioButton radioButtonFemale;
 
-//    private final EmployeeModel employeeModel = new EmployeeModel();
-
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+    EmployeeBO employeeBO = (EmployeeBO) BOFactory.getInstance().getBO(BOFactory.BOType.EMPLOYEE);
 
     ObservableList<EmployeeDTO> employeeDTOList = FXCollections.observableArrayList();
 
@@ -157,8 +158,9 @@ public class EmployeeController implements Initializable {
             try {
                 System.out.println("Name: " + name + " Address: " + address + " NIC: " + nic + " Gender: " + gender + " Tel: " + telNo);
 
-                EmployeeDTO employeeDTO = new EmployeeDTO(name, date, nic, address, gender, telNo);
-                boolean result = employeeDAO.save(employeeDTO);
+                boolean result = employeeBO.saveEmployee(new EmployeeDTO(name, date, nic, address, gender, telNo));
+//                EmployeeDTO employeeDTO = new EmployeeDTO(name, date, nic, address, gender, telNo);
+//                boolean result = employeeDAO.save(employeeDTO);
 
                 System.out.println("Add ok");
 
@@ -207,7 +209,7 @@ public class EmployeeController implements Initializable {
                 if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                     int id = selected.getId();
 
-                    boolean result = employeeDAO.delete(String.valueOf(id));
+                    boolean result = employeeBO.deleteEmployee(String.valueOf(id));
 
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -274,8 +276,9 @@ public class EmployeeController implements Initializable {
 
                     int id = selected.getId();
 
-                    EmployeeDTO employeeDTO = new EmployeeDTO(id, name, date, nic, address, gender, telNo);
-                    boolean result = employeeDAO.update(employeeDTO);
+                    boolean result = employeeBO.updateEmployee(new EmployeeDTO(id, name, date, nic, address, gender, telNo));
+//                    EmployeeDTO employeeDTO = new EmployeeDTO(id, name, date, nic, address, gender, telNo);
+//                    boolean result = employeeDAO.update(employeeDTO);
 
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -344,14 +347,14 @@ public class EmployeeController implements Initializable {
     public ObservableList<EmployeeDTO> loadEmployees() {
 
         try {
-            ObservableList<EmployeeDTO> employeeDTOList = employeeDAO.getAll();
+            ObservableList<EmployeeDTO> employeeDTOList = employeeBO.getAllEmployees();
             // No need to copy into another list, can return directly
             return employeeDTOList;
         } catch (Exception e) {
             e.printStackTrace(); // or use JavaFX Alert
-            return FXCollections.observableArrayList(); // empty list on error
+ // empty list on error
+            return FXCollections.observableArrayList();
         }
-
     }
 
     //    Clear fields
