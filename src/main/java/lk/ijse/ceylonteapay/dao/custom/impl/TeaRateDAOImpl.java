@@ -2,6 +2,7 @@ package lk.ijse.ceylonteapay.dao.custom.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import lk.ijse.ceylonteapay.dao.CRUDUtil;
 import lk.ijse.ceylonteapay.dao.custom.TeaRateDAO;
 import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.TeaRateDTO;
@@ -13,34 +14,16 @@ import java.sql.ResultSet;
 public class TeaRateDAOImpl implements TeaRateDAO {
     @Override
     public boolean addTeaRate(TeaRateDTO teaRateDTO) throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
 
-        String sql = "INSERT INTO TeaRate (Month,Year,ratePerKg) VALUES (?,?,?)";
-
-//        int rateId, String month, int year, double rate
-        PreparedStatement pstm = conn.prepareStatement(sql);
-//        pstm.setInt(1,teaRateDTO.getRateId());
-        pstm.setString(1,teaRateDTO.getMonth());
-        pstm.setInt(2,teaRateDTO.getYear());
-        pstm.setDouble(3,teaRateDTO.getRate());
-
-        int rs = pstm.executeUpdate();
-
-        return rs>0;
+        return CRUDUtil.execute("INSERT INTO TeaRate (Month,Year,ratePerKg) VALUES (?,?,?)",teaRateDTO.getMonth(),teaRateDTO.getYear(),teaRateDTO.getRate());
     }
 
     @Override
     public ObservableList<TeaRateDTO> loadTeaRate() throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
-
-        String sql = "SELECT * FROM TeaRate ORDER BY Year DESC";
-
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        ResultSet rs = pstm.executeQuery();
 
         ObservableList<TeaRateDTO> list = FXCollections.observableArrayList();
+
+        ResultSet rs = CRUDUtil.execute("SELECT * FROM TeaRate ORDER BY Year DESC");
 
         while (rs.next()){
             int rateId = rs.getInt("rateId");
@@ -52,19 +35,12 @@ public class TeaRateDAOImpl implements TeaRateDAO {
             list.add(teaRateDTO);
         }
         return list;
+
     }
 
     @Override
     public boolean deleteRate(int id) throws Exception {
-        DBConnection dbc = DBConnection.getInstance();
-        Connection conn = dbc.getConnection();
 
-        String sql = "DELETE FROM TeaRate WHERE rateId = ?";
-
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setInt(1,id);
-        int result  = pstm.executeUpdate();
-
-        return result>0;
+        return CRUDUtil.execute("DELETE FROM TeaRate WHERE rateId = ?",id);
     }
 }
