@@ -36,7 +36,7 @@ public class IcomeController implements Initializable {
 
     ObservableList<IncomeDTO> incomeDTOObservableList = FXCollections.observableArrayList();
 
-    StockBO stockBO = (StockBO) BOFactory.getInstance().getBO(BOFactory.BOType.FACTORY);
+    StockBO stockBO = (StockBO) BOFactory.getInstance().getBO(BOFactory.BOType.STOCK);
 
     @FXML
     private ComboBox<Integer> cmdYears;

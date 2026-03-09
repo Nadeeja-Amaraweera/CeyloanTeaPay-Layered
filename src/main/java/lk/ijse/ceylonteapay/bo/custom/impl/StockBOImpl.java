@@ -60,25 +60,22 @@ public class StockBOImpl implements StockBO {
 
     @Override
     public List<StockDTO> getStockSummary() throws Exception {
-        List<Stock> list = stockDAO.getStockSummary();
-        List<StockDTO> stockDTOS = null;
 
-//        ResultSet rs = CRUDUtil.execute("SELECT quality, quantity,availableQuantity FROM Stock");
-//
-//        while (rs.next()) {
-//            list.add(new Stock(
-//                    null, // date not needed
-//                    rs.getString("quality"),
-//                    rs.getInt("quantity"),
-//                    rs.getInt("availableQuantity")
-//            ));
-//        }
-//        return list;
+        List<Stock> list = stockDAO.getStockSummary();
+
+        List<StockDTO> stockDTOS = new ArrayList<>();
 
         for (Stock stock : list) {
-            StockDTO stockDTO = new StockDTO(stock.getQuality(), stock.getQuantity(), stock.getAvailableQuantity());
+
+            StockDTO stockDTO = new StockDTO(
+                    stock.getQuality(),
+                    stock.getQuantity(),
+                    stock.getAvailableQuantity()
+            );
+
             stockDTOS.add(stockDTO);
         }
+
         return stockDTOS;
     }
 
