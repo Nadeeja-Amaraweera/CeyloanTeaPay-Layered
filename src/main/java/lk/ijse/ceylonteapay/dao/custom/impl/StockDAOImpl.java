@@ -66,4 +66,20 @@ public class StockDAOImpl implements StockDAO {
         }
         return list;
     }
+
+    public int getAvailableQty(int stockId) throws Exception {;
+        ResultSet rs = CRUDUtil.execute("SELECT availableQuantity FROM Stock WHERE id=? FOR UPDATE", stockId);
+        if (rs.next()) {
+            return rs.getInt("availableQuantity");
+        }
+        return 0; // or throw an exception if stock not found
+    }
+
+    public boolean updateAvailableQty(int qty, int stockId) throws Exception {
+        return CRUDUtil.execute(
+                "UPDATE Stock SET availableQuantity = availableQuantity - ? WHERE id=?",
+                qty,
+                stockId
+        );
+    }
 }

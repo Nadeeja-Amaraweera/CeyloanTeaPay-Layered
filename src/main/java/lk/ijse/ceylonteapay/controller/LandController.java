@@ -10,6 +10,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.ceylonteapay.bo.BOFactory;
+import lk.ijse.ceylonteapay.bo.custom.LandBO;
 import lk.ijse.ceylonteapay.dao.custom.LandDAO;
 import lk.ijse.ceylonteapay.dao.custom.impl.LandDAOImpl;
 import lk.ijse.ceylonteapay.dto.LandDTO;
@@ -36,7 +38,7 @@ public class LandController implements Initializable {
     @FXML
     private TableView<LandDTO> tableView;
 
-    LandDAO landDAO = new LandDAOImpl();
+    LandBO landBO = (LandBO) BOFactory.getInstance().getBO(BOFactory.BOType.LAND);
 
     ObservableList<LandDTO> landDTOObservableList = FXCollections.observableArrayList();
 
@@ -82,8 +84,9 @@ public class LandController implements Initializable {
 
         } else {
             try {
-                LandDTO landDTO = new LandDTO(landName, landNo);
-                boolean result = landDAO.save(landDTO);
+                boolean result= landBO.saveLand(new LandDTO(landName, landNo));
+//                LandDTO landDTO = new LandDTO(landName, landNo);
+//                = landDAO.save(landDTO);
 
                 if (result) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -128,8 +131,10 @@ public class LandController implements Initializable {
                     int id = selected.getLndID();
                     System.out.println(id);
 
-                    LandDTO landDTO = new LandDTO(id, landName, landNo);
-                    boolean result = landDAO.update(landDTO);
+//                    LandDTO landDTO = new LandDTO(id, landName, landNo);
+//                    boolean result = landDAO.update(landDTO);
+
+                    boolean result = landBO.updateLand(new LandDTO(id, landName, landNo));
 
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -175,7 +180,7 @@ public class LandController implements Initializable {
             if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                 try {
                     int id = selected.getLndID();
-                    boolean result = landDAO.delete(String.valueOf(id));
+                    boolean result = landBO.deleteLand(String.valueOf(id));
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Success !");
@@ -229,7 +234,7 @@ public class LandController implements Initializable {
 
     public ObservableList<LandDTO> loadLands() {
         try {
-            ObservableList<LandDTO> landDTOObservableList = landDAO.getAll();
+            ObservableList<LandDTO> landDTOObservableList = landBO.getAllLands();
             // No need to copy into another list, can return directly
             return landDTOObservableList;
         } catch (Exception e) {

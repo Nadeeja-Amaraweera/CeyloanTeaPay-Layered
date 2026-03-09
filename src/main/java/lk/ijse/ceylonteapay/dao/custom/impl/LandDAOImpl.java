@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import lk.ijse.ceylonteapay.dao.CRUDUtil;
 import lk.ijse.ceylonteapay.dao.custom.LandDAO;
 import lk.ijse.ceylonteapay.dto.LandDTO;
+import lk.ijse.ceylonteapay.entity.Land;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,8 +13,8 @@ import java.sql.SQLException;
 public class LandDAOImpl implements LandDAO {
 
     @Override
-    public ObservableList<LandDTO> getAll() throws SQLException, ClassNotFoundException {
-        ObservableList<LandDTO> list = FXCollections.observableArrayList();
+    public ObservableList<Land> getAll() throws SQLException, ClassNotFoundException {
+        ObservableList<Land> list = FXCollections.observableArrayList();
 
 
         ResultSet rs = CRUDUtil.execute("SELECT * FROM Land ORDER BY LndID DESC");
@@ -25,20 +26,20 @@ public class LandDAOImpl implements LandDAO {
             String landNo = rs.getString("LandNo");
 
 
-            LandDTO landDTO = new LandDTO(lndID,landName,landNo);
+            Land landDTO = new Land(lndID,landName,landNo);
             list.add(landDTO);
         }
         return list;
     }
 
     @Override
-    public boolean save(LandDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Land dto) throws SQLException, ClassNotFoundException {
         return CRUDUtil.execute("INSERT INTO Land (LandName,LandNo) VALUES (?,?)",dto.getLndName(),dto.getLndNo());
 
     }
 
     @Override
-    public boolean update(LandDTO dto) throws SQLException, ClassNotFoundException, Exception {
+    public boolean update(Land dto) throws SQLException, ClassNotFoundException, Exception {
         return CRUDUtil.execute("UPDATE Land SET LandName = ?, LandNo = ? WHERE LndID = ?",dto.getLndName(),dto.getLndNo(),dto.getLndID());
 
     }

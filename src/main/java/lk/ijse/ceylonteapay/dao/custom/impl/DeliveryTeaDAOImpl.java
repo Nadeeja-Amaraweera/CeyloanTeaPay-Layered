@@ -3,11 +3,14 @@ package lk.ijse.ceylonteapay.dao.custom.impl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lk.ijse.ceylonteapay.dao.CRUDUtil;
+import lk.ijse.ceylonteapay.dao.custom.DeliveryDAO;
 import lk.ijse.ceylonteapay.dao.custom.DeliveryTeaDAO;
+import lk.ijse.ceylonteapay.dao.custom.StockDAO;
 import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.DeliveryCartTM;
 import lk.ijse.ceylonteapay.dto.FactoryDTO;
 import lk.ijse.ceylonteapay.dto.StockDTO;
+import lk.ijse.ceylonteapay.entity.Delivery;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -56,6 +59,13 @@ public class DeliveryTeaDAOImpl implements DeliveryTeaDAO {
 
     @Override
     public boolean placeOrder(ObservableList<DeliveryCartTM> cartList) throws Exception {
+
+        DeliveryDAO deliveryDAO = new DeliveryDAOImpl();
+
+        StockDAOImpl stockDAO = new StockDAOImpl();
+
+        DeliveryStockDAOImpl deliveryStockDAO = new DeliveryStockDAOImpl();
+
         Connection con = DBConnection.getInstance().getConnection();
         con.setAutoCommit(false);
 
@@ -63,54 +73,53 @@ public class DeliveryTeaDAOImpl implements DeliveryTeaDAO {
             //Insert DELIVERY only ONCE
             DeliveryCartTM firstItem = cartList.get(0);
 
-            PreparedStatement deliveryStmt = con.prepareStatement(
-                    "INSERT INTO Delivery (deliveryFactoryId, deliveryFactoryName, deliveryDate) VALUES (?,?,?)",
-                    Statement.RETURN_GENERATED_KEYS
+            Delivery entity = new Delivery(
+                    0,
+                  firstItem.getFactoryId(),
+                    firstItem.getFactoryName(),
+                    firstItem.getDate()
             );
 
-            deliveryStmt.setInt(1, firstItem.getFactoryId());
-            deliveryStmt.setString(2, firstItem.getFactoryName());
-            deliveryStmt.setDate(3, Date.valueOf(firstItem.getDate()));
-            deliveryStmt.executeUpdate();
-
             //Get generated deliveryId
-            ResultSet keys = deliveryStmt.getGeneratedKeys();
-            if (!keys.next()) {
+
+            boolean isSave = deliveryDAO.saveDelivery(entity);
+
+            if (!isSave){
+                con.rollback();
+                return false;
+            }
+
+            int generatedId = deliveryDAO.generateDeliveryId();
+
+            if (generatedId<0){
                 throw new SQLException("Failed to generate delivery ID");
             }
-            int deliveryId = keys.getInt(1);
 
             //Process cart items
             for (DeliveryCartTM item : cartList) {
 
                 // 🔒 Lock stock row
-                ResultSet rs = CRUDUtil.execute(
-                        "SELECT availableQuantity FROM Stock WHERE id=? FOR UPDATE",
-                        item.getStockId()
-                );
+                int availableQty = stockDAO.getAvailableQty(item.getStockId());
 
-                rs.next();
-
-                if (rs.getInt("availableQuantity") < item.getQty()) {
+                if (availableQty < item.getQty()){
                     throw new RuntimeException(
                             "Not enough stock for Stock ID: " + item.getStockId()
                     );
                 }
 
-                //Insert into DeliveryStock Associate Table
-                CRUDUtil.execute(
-                        "INSERT INTO DeliveryStock (deliveryStockId, stockId, deliveryQty) VALUES (?,?,?)",
-                        deliveryId,
-                        item.getStockId(),
-                        item.getQty()
-                );
+                boolean isDeliveryStockSaved = deliveryStockDAO.saveDeliveryStock(generatedId, item.getStockId(), item.getQty());
 
-                //Update Stock
-                CRUDUtil.execute(
-                        "UPDATE Stock SET availableQuantity = availableQuantity - ? WHERE id=?",
-                        item.getQty(),
-                        item.getStockId()
-                );
+                if (!isDeliveryStockSaved){
+                    con.rollback();
+                    return false;
+                }
+
+                boolean isStockUpdated = stockDAO.updateAvailableQty(item.getQty(), item.getStockId());
+
+                if (!isStockUpdated){
+                    con.rollback();
+                    return false;
+                }
             }
 
             con.commit();
@@ -150,4 +159,5 @@ public class DeliveryTeaDAOImpl implements DeliveryTeaDAO {
             throw new RuntimeException(e);
         }
     }
+
 }

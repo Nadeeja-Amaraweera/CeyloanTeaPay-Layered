@@ -14,6 +14,11 @@ public class Land {
     public Land() {
     }
 
+    public Land(String lndName, String lndNo) {
+        this.lndName = lndName;
+        this.lndNo = lndNo;
+    }
+
     public int getLndID() {
         return lndID;
     }
