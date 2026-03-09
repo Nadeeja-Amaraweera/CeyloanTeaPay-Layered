@@ -8,11 +8,11 @@ import lk.ijse.ceylonteapay.entity.Land;
 import java.sql.SQLException;
 
 public interface LandBO extends SuperBO {
-    public ObservableList<LandDTO> getAllLands() throws SQLException, ClassNotFoundException;
+    public ObservableList<LandDTO> getAllLands() throws Exception;
 
-    public boolean saveLand(LandDTO dto) throws SQLException, ClassNotFoundException;
+    public boolean saveLand(LandDTO dto) throws Exception;
 
-    public boolean updateLand(LandDTO dto) throws SQLException, ClassNotFoundException, Exception;
+    public boolean updateLand(LandDTO dto) throws Exception;
 
-    public boolean deleteLand(String id) throws SQLException, ClassNotFoundException;
+    public boolean deleteLand(String id) throws Exception;
 }

@@ -1,32 +1,15 @@
-package lk.ijse.ceylonteapay.dto;
+package lk.ijse.ceylonteapay.entity;
 
 import java.time.LocalDate;
 
-public class StockDTO {
+public class Stock {
     private int id;
     private LocalDate date;
     private String quality;
     private int quantity;
     private int availableQuantity;
 
-    public StockDTO() {
-    }
-
-
-    public StockDTO(int id, LocalDate date, String quality) {
-        this.id = id;
-        this.date = date;
-        this.quality = quality;
-    }
-
-    public StockDTO(LocalDate date, String quality, int quantity, int availableQuantity) {
-        this.date = date;
-        this.quality = quality;
-        this.quantity = quantity;
-        this.availableQuantity = availableQuantity;
-    }
-
-    public StockDTO(int id, LocalDate date, String quality, int quantity, int availableQuantity) {
+    public Stock(int id, LocalDate date, String quality, int quantity, int availableQuantity) {
         this.id = id;
         this.date = date;
         this.quality = quality;
@@ -34,10 +17,20 @@ public class StockDTO {
         this.availableQuantity = availableQuantity;
     }
 
-    public StockDTO(String quality, int quantity, int availableQuantity) {
+    public Stock() {
+    }
+
+    public Stock(LocalDate date, String quality, int quantity, int availableQuantity) {
+        this.date = date;
         this.quality = quality;
         this.quantity = quantity;
         this.availableQuantity = availableQuantity;
+    }
+
+    public Stock(int id, LocalDate date, String quality) {
+        this.id = id;
+        this.date = date;
+        this.quality = quality;
     }
 
     public int getId() {
@@ -78,16 +71,5 @@ public class StockDTO {
 
     public void setAvailableQuantity(int availableQuantity) {
         this.availableQuantity = availableQuantity;
-    }
-
-    @Override
-    public String toString() {
-        return "StockDTO{" +
-                "id=" + id +
-                ", date=" + date +
-                ", quality='" + quality + '\'' +
-                ", quantity=" + quantity +
-                ", availableQuantity=" + availableQuantity +
-                '}';
     }
 }

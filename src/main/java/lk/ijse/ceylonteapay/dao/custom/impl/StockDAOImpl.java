@@ -4,7 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lk.ijse.ceylonteapay.dao.CRUDUtil;
 import lk.ijse.ceylonteapay.dao.custom.StockDAO;
+import lk.ijse.ceylonteapay.dto.FactoryDTO;
 import lk.ijse.ceylonteapay.dto.StockDTO;
+import lk.ijse.ceylonteapay.entity.Stock;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -12,17 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StockDAOImpl implements StockDAO {
+
     @Override
-    public boolean saveStock(StockDTO stockDTO) throws Exception {
+    public boolean save(Stock stockDTO) throws Exception {
 
         return CRUDUtil.execute("INSERT INTO Stock (date,quality,quantity,availableQuantity) VALUES (?,?,?,?)", stockDTO.getDate(), stockDTO.getQuality(), stockDTO.getQuantity(), stockDTO.getAvailableQuantity());
     }
 
     @Override
-    public ObservableList<StockDTO> getStock() throws Exception {
+    public ObservableList<Stock> getAll() throws Exception {
         ResultSet rs = CRUDUtil.execute("SELECT * FROM Stock ORDER BY id DESC");
 
-        ObservableList<StockDTO> list = FXCollections.observableArrayList();
+        ObservableList<Stock> list = FXCollections.observableArrayList();
 
         while (rs.next()) {
             int stockId = rs.getInt("id");
@@ -31,33 +34,32 @@ public class StockDAOImpl implements StockDAO {
             int qty = rs.getInt("quantity");
             int avaQty = rs.getInt("availableQuantity");
 
-            StockDTO stockDTO = new StockDTO(stockId, date, quality, qty, avaQty);
-            list.add(stockDTO);
+            Stock stock = new Stock(stockId, date, quality, qty, avaQty);
+            list.add(stock);
         }
         return list;
     }
 
     @Override
-    public boolean updateStock(StockDTO stockDTO) throws Exception {
+    public boolean update(Stock stockDTO) throws Exception {
 
         return CRUDUtil.execute("UPDATE Stock SET date = ?, quality = ? ,quantity = ?, availableQuantity = ? WHERE id = ?", Date.valueOf(stockDTO.getDate()), stockDTO.getQuality(), stockDTO.getQuantity(), stockDTO.getAvailableQuantity(), stockDTO.getId());
     }
 
     @Override
-    public boolean deleteStock(int id) throws Exception {
-
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
         return CRUDUtil.execute("DELETE FROM Stock WHERE id = ?", id);
     }
 
     @Override
-    public List<StockDTO> getStockSummary() throws SQLException {
+    public List<Stock> getStockSummary() throws SQLException {
 
-        List<StockDTO> list = new ArrayList<>();
+        List<Stock> list = new ArrayList<>();
 
         ResultSet rs = CRUDUtil.execute("SELECT quality, quantity,availableQuantity FROM Stock");
 
         while (rs.next()) {
-            list.add(new StockDTO(
+            list.add(new Stock(
                     null, // date not needed
                     rs.getString("quality"),
                     rs.getInt("quantity"),
@@ -67,7 +69,8 @@ public class StockDAOImpl implements StockDAO {
         return list;
     }
 
-    public int getAvailableQty(int stockId) throws Exception {;
+    @Override
+    public int getAvailableQty(int stockId) throws Exception {
         ResultSet rs = CRUDUtil.execute("SELECT availableQuantity FROM Stock WHERE id=? FOR UPDATE", stockId);
         if (rs.next()) {
             return rs.getInt("availableQuantity");
@@ -75,6 +78,7 @@ public class StockDAOImpl implements StockDAO {
         return 0; // or throw an exception if stock not found
     }
 
+    @Override
     public boolean updateAvailableQty(int qty, int stockId) throws Exception {
         return CRUDUtil.execute(
                 "UPDATE Stock SET availableQuantity = availableQuantity - ? WHERE id=?",
@@ -82,4 +86,24 @@ public class StockDAOImpl implements StockDAO {
                 stockId
         );
     }
+
+    @Override
+    public ObservableList<Stock> getComboStock() throws Exception {
+
+        ResultSet rs = CRUDUtil.execute("SELECT id,date,quality FROM Stock");
+
+        ObservableList<Stock> list = FXCollections.observableArrayList();
+
+        while (rs.next()){
+            list.add(new Stock(
+                    rs.getInt("id"),
+                    rs.getDate("date").toLocalDate(),
+                    rs.getString("quality")
+            ));
+        }
+        return list;
+
+    }
+
+
 }

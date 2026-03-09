@@ -48,4 +48,22 @@ public class FactoryDAOImpl implements FactoryDAO {
         return CRUDUtil.execute("DELETE FROM Factory WHERE FactoryId = ?",id);
     }
 
+    @Override
+    public ObservableList<Factory> getComboFactory() throws Exception {
+
+        ResultSet rs = CRUDUtil.execute("SELECT FactoryId,FactoryName,FactoryAddress FROM Factory");
+
+        ObservableList<Factory> list = FXCollections.observableArrayList();
+
+        while (rs.next()){
+            int id = rs.getInt("FactoryId");
+            String name = rs.getString("FactoryName");
+            String address = rs.getString("FactoryAddress");
+
+            Factory Factory = new Factory(id,name,address);
+            list.add(Factory);
+        }
+        return list;
+    };
+
 }

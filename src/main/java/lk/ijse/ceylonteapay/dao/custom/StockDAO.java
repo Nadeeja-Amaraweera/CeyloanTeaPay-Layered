@@ -1,19 +1,25 @@
 package lk.ijse.ceylonteapay.dao.custom;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import lk.ijse.ceylonteapay.dao.CRUDUtil;
+import lk.ijse.ceylonteapay.dao.CrudDAO;
+import lk.ijse.ceylonteapay.dto.FactoryDTO;
 import lk.ijse.ceylonteapay.dto.StockDTO;
+import lk.ijse.ceylonteapay.entity.Stock;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface StockDAO {
-    public boolean saveStock(StockDTO stockDTO) throws Exception;
+public interface StockDAO extends CrudDAO<Stock> {
 
-    public ObservableList<StockDTO> getStock() throws Exception;
+    public List<Stock> getStockSummary() throws Exception;
 
-    public boolean updateStock(StockDTO stockDTO) throws Exception;
+    public ObservableList<Stock> getComboStock() throws Exception;
 
-    public boolean deleteStock(int id) throws Exception;
+    public int getAvailableQty(int stockId) throws Exception ;
 
-    public List<StockDTO> getStockSummary() throws SQLException;
+    public boolean updateAvailableQty(int qty, int stockId) throws Exception ;
+
 }

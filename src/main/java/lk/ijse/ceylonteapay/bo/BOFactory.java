@@ -1,8 +1,10 @@
 package lk.ijse.ceylonteapay.bo;
 
+import lk.ijse.ceylonteapay.bo.custom.StockBO;
 import lk.ijse.ceylonteapay.bo.custom.impl.EmployeeBOImpl;
 import lk.ijse.ceylonteapay.bo.custom.impl.FactoryBOImpl;
 import lk.ijse.ceylonteapay.bo.custom.impl.LandBOImpl;
+import lk.ijse.ceylonteapay.bo.custom.impl.StockBOImpl;
 
 public class BOFactory {
     public static BOFactory boFactory;
@@ -25,6 +27,8 @@ public class BOFactory {
                 return new FactoryBOImpl();
             case LAND:
                 return new LandBOImpl();
+            case STOCK:
+                return new StockBOImpl();
             default:
                 return null;
         }

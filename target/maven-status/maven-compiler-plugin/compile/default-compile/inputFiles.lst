@@ -13,6 +13,7 @@
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/bo/BOFactory.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/custom/impl/FactoryDAOImpl.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/module-info.java
+/home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/entity/Stock.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/entity/Factory.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/custom/impl/PaymentDAOImpl.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/controller/EmployeeController.java
@@ -50,6 +51,7 @@
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/custom/impl/DeliveryDAOImpl.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/custom/EmployeeDAO.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/custom/impl/DailyTeaDAOImpl.java
+/home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/bo/custom/impl/StockBOImpl.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dto/TeaRateDTO.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/SuperDAO.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dto/DailyTeaDTO.java
@@ -58,10 +60,12 @@
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/controller/TeaRateController.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/custom/StockDAO.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/util/EmailUtil.java
+/home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/bo/custom/StockBO.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/controller/DeliveryTeaController.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/custom/impl/IncomeDAOImpl.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/custom/impl/DeliveryStockDAOImpl.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/custom/OtherWorkDAO.java
+/home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/entity/DeliveryStock.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/QueryDAO.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dto/LandDTO.java
 /home/nadeeja/ThisPC/IJSE/SEM 02/Software Architecture/CeylonTeaPay/src/main/java/lk/ijse/ceylonteapay/dao/custom/impl/EmployeeDAOImpl.java

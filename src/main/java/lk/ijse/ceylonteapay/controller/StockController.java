@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.ceylonteapay.bo.BOFactory;
+import lk.ijse.ceylonteapay.bo.custom.StockBO;
 import lk.ijse.ceylonteapay.dao.custom.StockDAO;
 import lk.ijse.ceylonteapay.dao.custom.impl.StockDAOImpl;
 import lk.ijse.ceylonteapay.dto.StockDTO;
@@ -44,7 +46,8 @@ public class StockController implements Initializable {
     @FXML
     private TextField txtAvailableQuantity;
 
-    StockDAO stockDAO = new StockDAOImpl();
+
+    StockBO stockBO = (StockBO) BOFactory.getInstance().getBO(BOFactory.BOType.STOCK);
 
     ObservableList<StockDTO> stockDTOObservableList = FXCollections.observableArrayList();
 
@@ -108,8 +111,7 @@ public class StockController implements Initializable {
                 new Alert(Alert.AlertType.ERROR, "Available Quantity cannot be negative.").show();
             } else {
                 try {
-                    StockDTO stockDTO = new StockDTO(date, quality, qty, avaQty);
-                    boolean result = stockDAO.saveStock(stockDTO);
+                    boolean result = stockBO.saveStock(new StockDTO(date, quality, qty, avaQty));
 
                     if (result) {
                         new Alert(Alert.AlertType.INFORMATION, "Stock Added Successfully.").show();
@@ -188,8 +190,8 @@ public class StockController implements Initializable {
                     } else {
                         try {
                             int id = selected.getId();
-                            StockDTO stockDTO = new StockDTO(id, date, quality, qty, avaQty);
-                            boolean result = stockDAO.updateStock(stockDTO);
+
+                           boolean result =  stockBO.updateStock( new StockDTO(id, date, quality, qty, avaQty));
 
                             if (result) {
                                 new Alert(Alert.AlertType.INFORMATION, "Stock Updated Successfully.").show();
@@ -233,7 +235,8 @@ public class StockController implements Initializable {
             } else {
                 try {
                     int id = selected.getId();
-                    boolean result = stockDAO.deleteStock(id);
+                    boolean result = stockBO.deleteStock(String.valueOf(id));
+
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Success !");
@@ -266,7 +269,7 @@ public class StockController implements Initializable {
 
     private ObservableList<StockDTO> loadStock() {
         try {
-            ObservableList<StockDTO> list = stockDAO.getStock();
+            ObservableList<StockDTO> list = stockBO.getStock();
             return list;
         } catch (Exception e) {
             e.printStackTrace();

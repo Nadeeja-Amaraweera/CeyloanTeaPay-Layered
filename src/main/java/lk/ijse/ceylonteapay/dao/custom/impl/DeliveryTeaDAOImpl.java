@@ -23,39 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DeliveryTeaDAOImpl implements DeliveryTeaDAO {
-    @Override
-    public ObservableList<FactoryDTO> getComboFactory() throws Exception {
-
-        ResultSet rs = CRUDUtil.execute("SELECT FactoryId,FactoryName FROM Factory");
-
-        ObservableList<FactoryDTO> list = FXCollections.observableArrayList();
-
-        while (rs.next()){
-            list.add(new FactoryDTO(
-                    rs.getInt("FactoryId"),
-                    rs.getString("FactoryName")
-            ));
-        }
-        return list;
-    }
-
-    @Override
-    public ObservableList<StockDTO> getComboStock() throws Exception {
-
-        ResultSet rs = CRUDUtil.execute("SELECT id,date,quality FROM Stock");
-
-        ObservableList<StockDTO> list = FXCollections.observableArrayList();
-
-        while (rs.next()){
-            list.add(new StockDTO(
-                    rs.getInt("id"),
-                    rs.getDate("date").toLocalDate(),
-                    rs.getString("quality")
-            ));
-        }
-        return list;
-
-    }
 
     @Override
     public boolean placeOrder(ObservableList<DeliveryCartTM> cartList) throws Exception {

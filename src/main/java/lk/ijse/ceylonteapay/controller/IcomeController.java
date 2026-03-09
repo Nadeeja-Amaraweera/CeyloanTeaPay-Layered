@@ -10,12 +10,15 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.ceylonteapay.bo.BOFactory;
+import lk.ijse.ceylonteapay.bo.custom.StockBO;
 import lk.ijse.ceylonteapay.dao.custom.IncomeDAO;
 import lk.ijse.ceylonteapay.dao.custom.impl.IncomeDAOImpl;
 import lk.ijse.ceylonteapay.dao.custom.StockDAO;
 import lk.ijse.ceylonteapay.dao.custom.impl.StockDAOImpl;
 import lk.ijse.ceylonteapay.dto.IncomeDTO;
 import lk.ijse.ceylonteapay.dto.StockDTO;
+import lk.ijse.ceylonteapay.entity.Stock;
 
 
 import java.net.URL;
@@ -33,7 +36,7 @@ public class IcomeController implements Initializable {
 
     ObservableList<IncomeDTO> incomeDTOObservableList = FXCollections.observableArrayList();
 
-
+    StockBO stockBO = (StockBO) BOFactory.getInstance().getBO(BOFactory.BOType.FACTORY);
 
     @FXML
     private ComboBox<Integer> cmdYears;
@@ -305,7 +308,7 @@ public class IcomeController implements Initializable {
         series.setName("Stock");
 
         try {
-            for (StockDTO stock : stockDAO.getStockSummary()) {
+            for (StockDTO stock : stockBO.getStockSummary()) {
                 series.getData().add(
                         new XYChart.Data<>(
                                 stock.getQuality(),
@@ -315,6 +318,8 @@ public class IcomeController implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         stockBarChart.getData().clear();

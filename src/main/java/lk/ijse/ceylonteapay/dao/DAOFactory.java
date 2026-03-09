@@ -26,8 +26,8 @@ public class DAOFactory {
                 return new LandDAOImpl();
             case INCOME:
                 return new IncomeDAOImpl();
-            case OTHER_WORK:
-//                return new OtherWorkDAOImpl();
+            case STOCK:
+                return new StockDAOImpl();
 //            case DAILY_TEA:
 //                return new DailyTeaDAOImpl();
 //            case PAYMENT:

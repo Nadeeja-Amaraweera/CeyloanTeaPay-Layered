@@ -16,7 +16,7 @@ public class LandBOImpl implements LandBO {
 
     LandDAO landDAO = (LandDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.LAND);
     @Override
-    public ObservableList<LandDTO> getAllLands() throws SQLException, ClassNotFoundException {
+    public ObservableList<LandDTO> getAllLands() throws Exception {
         ObservableList<Land> lands = landDAO.getAll();
         ObservableList<LandDTO> landDTOS = FXCollections.observableArrayList();
 
@@ -29,7 +29,7 @@ public class LandBOImpl implements LandBO {
     }
 
     @Override
-    public boolean saveLand(LandDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean saveLand(LandDTO dto) throws Exception {
         return landDAO.save(new Land(dto.getLndName(),dto.getLndNo()));
     }
 

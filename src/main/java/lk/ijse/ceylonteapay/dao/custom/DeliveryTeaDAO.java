@@ -7,9 +7,6 @@ import lk.ijse.ceylonteapay.dto.StockDTO;
 import lk.ijse.ceylonteapay.entity.Delivery;
 
 public interface DeliveryTeaDAO {
-    public ObservableList<FactoryDTO> getComboFactory()throws Exception;
-
-    public ObservableList<StockDTO> getComboStock()throws Exception;
 
     public boolean placeOrder(ObservableList<DeliveryCartTM> cartList) throws Exception;
 

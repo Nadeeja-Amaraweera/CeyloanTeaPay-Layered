@@ -6,13 +6,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.ceylonteapay.bo.BOFactory;
+import lk.ijse.ceylonteapay.bo.custom.FactoryBO;
+import lk.ijse.ceylonteapay.bo.custom.StockBO;
 import lk.ijse.ceylonteapay.dao.custom.DeliveryTeaDAO;
+import lk.ijse.ceylonteapay.dao.custom.FactoryDAO;
 import lk.ijse.ceylonteapay.dao.custom.impl.DeliveryTeaDAOImpl;
 import lk.ijse.ceylonteapay.dao.custom.StockDAO;
+import lk.ijse.ceylonteapay.dao.custom.impl.FactoryDAOImpl;
 import lk.ijse.ceylonteapay.dao.custom.impl.StockDAOImpl;
 import lk.ijse.ceylonteapay.dto.DeliveryCartTM;
 import lk.ijse.ceylonteapay.dto.FactoryDTO;
 import lk.ijse.ceylonteapay.dto.StockDTO;
+import lk.ijse.ceylonteapay.entity.Factory;
 
 import javax.swing.*;
 import java.net.URL;
@@ -67,10 +73,13 @@ public class DeliveryTeaController implements Initializable {
 
     DeliveryTeaDAO deliveryTeaDAO = new DeliveryTeaDAOImpl();
 
+
+    FactoryBO factoryBO = (FactoryBO) BOFactory.getInstance().getBO(BOFactory.BOType.FACTORY);
+    StockBO stockBO = (StockBO) BOFactory.getInstance().getBO(BOFactory.BOType.STOCK);
+
+
+
     ObservableList<StockDTO> stockDTOObservableList = FXCollections.observableArrayList();
-
-
-    StockDAO stockDAO = new StockDAOImpl();
 
 
     private int selectedFactoryId = -1;
@@ -286,7 +295,7 @@ public class DeliveryTeaController implements Initializable {
 
     private ObservableList<StockDTO> loadStockTable() {
         try {
-            ObservableList<StockDTO> list = stockDAO.getStock();
+            ObservableList<StockDTO> list = stockBO.getStock();
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -296,7 +305,7 @@ public class DeliveryTeaController implements Initializable {
 
     private void loadFactoryCombo() {
         try {
-            ObservableList<FactoryDTO> list = deliveryTeaDAO.getComboFactory();
+            ObservableList<FactoryDTO> list = factoryBO.getComboFactory();
             cmdFactoryName.setItems(list);
 
             // Show only ID + Name in ComboBox
@@ -335,7 +344,7 @@ public class DeliveryTeaController implements Initializable {
     private void loadStockCombo() {
         try {
 
-            ObservableList<StockDTO> list = deliveryTeaDAO.getComboStock();
+            ObservableList<StockDTO> list = stockBO.getComboStock();
             cmdStockNo.setItems(list);
 
             cmdStockNo.setCellFactory(cb -> new ListCell<>() {

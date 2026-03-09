@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class EmployeeBOImpl implements EmployeeBO {
     EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.EMPLOYEE);
     @Override
-    public boolean saveEmployee(EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException {
+    public boolean saveEmployee(EmployeeDTO employeeDTO) throws Exception {
         return employeeDAO.save(new Employee(employeeDTO.getName(),employeeDTO.getNic(), employeeDTO.getDob(),employeeDTO.getAddress(),employeeDTO.getGender(),employeeDTO.getTelNo()));
     }
 
@@ -28,7 +28,7 @@ public class EmployeeBOImpl implements EmployeeBO {
     }
 
     @Override
-    public ObservableList<EmployeeDTO> getAllEmployees() throws SQLException, ClassNotFoundException {
+    public ObservableList<EmployeeDTO> getAllEmployees() throws Exception {
         ObservableList<Employee> employees = employeeDAO.getAll();
         ObservableList<EmployeeDTO> employeeDTOS = FXCollections.observableArrayList();
 
