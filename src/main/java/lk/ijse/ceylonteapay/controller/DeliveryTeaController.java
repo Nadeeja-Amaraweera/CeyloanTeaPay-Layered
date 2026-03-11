@@ -7,14 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.ceylonteapay.bo.BOFactory;
+import lk.ijse.ceylonteapay.bo.custom.DeliveryBO;
 import lk.ijse.ceylonteapay.bo.custom.FactoryBO;
 import lk.ijse.ceylonteapay.bo.custom.StockBO;
-import lk.ijse.ceylonteapay.dao.custom.DeliveryTeaDAO;
-import lk.ijse.ceylonteapay.dao.custom.FactoryDAO;
-import lk.ijse.ceylonteapay.dao.custom.impl.DeliveryTeaDAOImpl;
-import lk.ijse.ceylonteapay.dao.custom.StockDAO;
-import lk.ijse.ceylonteapay.dao.custom.impl.FactoryDAOImpl;
-import lk.ijse.ceylonteapay.dao.custom.impl.StockDAOImpl;
 import lk.ijse.ceylonteapay.dto.DeliveryCartTM;
 import lk.ijse.ceylonteapay.dto.FactoryDTO;
 import lk.ijse.ceylonteapay.dto.StockDTO;
@@ -71,11 +66,12 @@ public class DeliveryTeaController implements Initializable {
 
     ObservableList<DeliveryCartTM> cartList = FXCollections.observableArrayList();
 
-    DeliveryTeaDAO deliveryTeaDAO = new DeliveryTeaDAOImpl();
+//    DeliveryTeaDAO deliveryTeaDAO = new DeliveryTeaDAOImpl();
 
 
     FactoryBO factoryBO = (FactoryBO) BOFactory.getInstance().getBO(BOFactory.BOType.FACTORY);
     StockBO stockBO = (StockBO) BOFactory.getInstance().getBO(BOFactory.BOType.STOCK);
+    DeliveryBO deliveryBO = (DeliveryBO) BOFactory.getInstance().getBO(BOFactory.BOType.DELIVERY);
 
 
 
@@ -246,7 +242,9 @@ public class DeliveryTeaController implements Initializable {
             return;
         }
         try {
-            boolean isSuccess = deliveryTeaDAO.placeOrder(cartList);
+//            boolean isSuccess = deliveryTeaDAO.placeOrder(cartList);
+
+            boolean isSuccess = deliveryBO.placeOrder(cartList);
 
             if (isSuccess) {
                 new Alert(Alert.AlertType.INFORMATION, "Delivery Order Placed Successfully!").show();
@@ -273,7 +271,9 @@ public class DeliveryTeaController implements Initializable {
             try {
                 int selectedYear = cmdYear.getValue();
 
-                deliveryTeaDAO.printDeliveryTea(selectedMonthNo, selectedYear);
+//                deliveryTeaDAO.printDeliveryTea(selectedMonthNo, selectedYear);
+
+                deliveryBO.printDeliveryTea(selectedMonthNo, selectedYear);
             } catch (Exception e) {
                 e.printStackTrace(); // keep this
 

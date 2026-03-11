@@ -1,4 +1,7 @@
 package lk.ijse.ceylonteapay.dao.custom;
 
-public interface DeliveryStockDAO {
+import lk.ijse.ceylonteapay.dao.CrudDAO;
+import lk.ijse.ceylonteapay.entity.DeliveryStock;
+
+public interface DeliveryStockDAO extends CrudDAO<DeliveryStock> {
 }

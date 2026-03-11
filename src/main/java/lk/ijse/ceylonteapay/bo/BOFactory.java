@@ -13,7 +13,7 @@ public class BOFactory {
     }
 
     public enum BOType{
-        EMPLOYEE,FACTORY,LAND,INCOME,OTHER_WORK,DAILY_TEA,PAYMENT,STOCK,TEA_RATE
+        EMPLOYEE,FACTORY,LAND,INCOME,OTHER_WORK,DAILY_TEA,PAYMENT,STOCK,TEA_RATE,DELIVERY
     }
 
     public SuperBO getBO(BOFactory.BOType daoType){
@@ -34,6 +34,8 @@ public class BOFactory {
                 return new TeaRateBOImpl();
             case PAYMENT:
                 return new PaymentBOImpl();
+            case DELIVERY:
+                return new DeliveryBOImpl();
             default:
                 return null;
         }

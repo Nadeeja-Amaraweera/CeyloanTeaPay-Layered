@@ -1,15 +1,15 @@
-package lk.ijse.ceylonteapay.dao.custom.impl;
+package lk.ijse.ceylonteapay.bo.custom.impl;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import lk.ijse.ceylonteapay.dao.CRUDUtil;
+import lk.ijse.ceylonteapay.bo.custom.DeliveryBO;
+import lk.ijse.ceylonteapay.dao.DAOFactory;
 import lk.ijse.ceylonteapay.dao.custom.DeliveryDAO;
-import lk.ijse.ceylonteapay.dao.custom.DeliveryTeaDAO;
 import lk.ijse.ceylonteapay.dao.custom.StockDAO;
+import lk.ijse.ceylonteapay.dao.custom.impl.DeliveryDAOImpl;
+import lk.ijse.ceylonteapay.dao.custom.impl.DeliveryStockDAOImpl;
+import lk.ijse.ceylonteapay.dao.custom.impl.StockDAOImpl;
 import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.DeliveryCartTM;
-import lk.ijse.ceylonteapay.dto.FactoryDTO;
-import lk.ijse.ceylonteapay.dto.StockDTO;
 import lk.ijse.ceylonteapay.entity.Delivery;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -18,22 +18,25 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.InputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeliveryTeaDAOImpl implements DeliveryTeaDAO {
+import static lk.ijse.ceylonteapay.db.DBConnection.getInstance;
+
+public class DeliveryBOImpl implements DeliveryBO {
+
+    DeliveryDAO deliveryDAO = (DeliveryDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.DELIVERY);
+    StockDAO stockDAO = (StockDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.STOCK);
+    DeliveryStockDAOImpl deliveryStockDAO = (DeliveryStockDAOImpl) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.DELIVERY_STOCK);
+
 
     @Override
     public boolean placeOrder(ObservableList<DeliveryCartTM> cartList) throws Exception {
 
-        DeliveryDAO deliveryDAO = new DeliveryDAOImpl();
 
-        StockDAOImpl stockDAO = new StockDAOImpl();
-
-        DeliveryStockDAOImpl deliveryStockDAO = new DeliveryStockDAOImpl();
-
-        Connection con = DBConnection.getInstance().getConnection();
+        Connection con = getInstance().getConnection();
         con.setAutoCommit(false);
 
         try {
@@ -42,14 +45,14 @@ public class DeliveryTeaDAOImpl implements DeliveryTeaDAO {
 
             Delivery entity = new Delivery(
                     0,
-                  firstItem.getFactoryId(),
+                    firstItem.getFactoryId(),
                     firstItem.getFactoryName(),
                     firstItem.getDate()
             );
 
             //Get generated deliveryId
 
-            boolean isSave = deliveryDAO.saveDelivery(entity);
+            boolean isSave = deliveryDAO.save(entity);
 
             if (!isSave){
                 con.rollback();
@@ -126,5 +129,4 @@ public class DeliveryTeaDAOImpl implements DeliveryTeaDAO {
             throw new RuntimeException(e);
         }
     }
-
 }

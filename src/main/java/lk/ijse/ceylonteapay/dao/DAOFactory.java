@@ -34,10 +34,10 @@ public class DAOFactory {
                 return new OtherWorkDAOImpl();
             case PAYMENT:
                 return new PaymentDAOImpl();
-//            case DELIVERY:
-//                return new DeliveryDAOImpl();
-//            case DELIVERY_STOCK:
-//                return new DeliveryStockDAOImpl();
+            case DELIVERY:
+                return new DeliveryDAOImpl();
+            case DELIVERY_STOCK:
+                return new DeliveryStockDAOImpl();
             case TEA_RATE:
                 return new TeaRateDAOImpl();
             default:
