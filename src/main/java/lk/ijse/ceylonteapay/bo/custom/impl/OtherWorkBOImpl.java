@@ -13,6 +13,7 @@ import lk.ijse.ceylonteapay.entity.OtherWork;
 
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class OtherWorkBOImpl implements OtherWorkBO {
@@ -67,6 +68,18 @@ public class OtherWorkBOImpl implements OtherWorkBO {
     public boolean deleteOtherWork(String WorkID) throws Exception {
 
         return otherWorkDAO.delete(WorkID);
+    }
+
+    @Override
+    public Double loadOtherWorkByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException {
+
+        Double otherWork =  otherWorkDAO.loadOtherWorkByMonth(selectedMonthNumber, selectedEmpId);
+
+        if (otherWork != null) {
+            return otherWork;
+        }
+
+        return 0.0;
     }
 
 }

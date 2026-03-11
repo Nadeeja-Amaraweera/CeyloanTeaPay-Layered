@@ -32,6 +32,8 @@ public class BOFactory {
                 return new DailyTeaBOImpl();
             case TEA_RATE:
                 return new TeaRateBOImpl();
+            case PAYMENT:
+                return new PaymentBOImpl();
             default:
                 return null;
         }

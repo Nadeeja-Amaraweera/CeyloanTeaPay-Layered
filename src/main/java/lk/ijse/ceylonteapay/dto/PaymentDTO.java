@@ -40,6 +40,18 @@ public class PaymentDTO {
         this.date = date;
     }
 
+    public PaymentDTO(int paymentId, int rateId, int empId, String empName, double teaSalary, double expenseSalary, double finalSalary, String salaryMonth, LocalDate paymentDate) {
+        this.paymentId = paymentId;
+        this.rateId = rateId;
+        EmployeeId = empId;
+        EmployeeName = empName;
+        this.teaSalary = teaSalary;
+        this.expenseSalary = expenseSalary;
+        this.finalSalary = finalSalary;
+        this.month = Month.valueOf(salaryMonth.toUpperCase());
+        this.date = paymentDate;
+    }
+
     public int getPaymentId() {
         return paymentId;
     }

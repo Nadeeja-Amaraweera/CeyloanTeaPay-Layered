@@ -136,15 +136,13 @@ public class DailyTeaBOImpl implements DailyTeaBO {
 
     public Double loadTeaSalaryByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException {
 
-        String sql = "SELECT SUM(Total_Weight) AS totalWeight FROM Tea WHERE MONTH(Date_Collected) = ? AND Emp_ID = ?";
+        Double totalWeight = dailyTeaDAO.loadTeaSalaryByMonth(selectedMonthNumber, selectedEmpId);
 
-        ResultSet rs = CRUDUtil.execute(sql, selectedMonthNumber, selectedEmpId);
-
-        if (rs.next()) {
-            return rs.getDouble("totalWeight");
+        if (totalWeight != null) {
+            return totalWeight;
         }
-
         return 0.0;
+
     }
 
 

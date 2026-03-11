@@ -32,8 +32,8 @@ public class DAOFactory {
                 return new DailyTeaDAOImpl();
             case OTHER_WORK:
                 return new OtherWorkDAOImpl();
-//            case PAYMENT:
-//                return new PaymentDAOImpl();
+            case PAYMENT:
+                return new PaymentDAOImpl();
 //            case DELIVERY:
 //                return new DeliveryDAOImpl();
 //            case DELIVERY_STOCK:

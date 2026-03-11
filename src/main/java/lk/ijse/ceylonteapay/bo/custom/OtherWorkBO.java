@@ -7,6 +7,7 @@ import lk.ijse.ceylonteapay.dto.OtherWorkDTO;
 import lk.ijse.ceylonteapay.entity.OtherWork;
 
 import java.sql.Date;
+import java.sql.SQLException;
 
 public interface OtherWorkBO extends SuperBO {
     public ObservableList<OtherWorkDTO> getAllOtherWorks() throws Exception ;
@@ -18,4 +19,6 @@ public interface OtherWorkBO extends SuperBO {
 
 
     public boolean deleteOtherWork(String WorkID) throws Exception ;
+
+    Double loadOtherWorkByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException;
 }

@@ -12,8 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lk.ijse.ceylonteapay.bo.BOFactory;
-import lk.ijse.ceylonteapay.bo.custom.EmployeeBO;
-import lk.ijse.ceylonteapay.bo.custom.TeaRateBO;
+import lk.ijse.ceylonteapay.bo.custom.*;
 import lk.ijse.ceylonteapay.bo.custom.impl.EmployeeBOImpl;
 import lk.ijse.ceylonteapay.dao.custom.*;
 import lk.ijse.ceylonteapay.dao.custom.impl.*;
@@ -78,19 +77,13 @@ public class PaymentController implements Initializable {
     @FXML
     private Label lblTeaRate;
 
-    EmployeeBO employeeBO = new EmployeeBOImpl();
-
-    PaymentDAO paymentDAO = new PaymentDAOImpl();
-
-    TeaRateDAO teaRateDAO = new TeaRateDAOImpl();
-
-    OtherWorkDAO otherWorkDAO = new OtherWorkDAOImpl();
-
-    DailyTeaDAO dailyTeaDAO = new DailyTeaDAOImpl();
-
     ObservableList<PaymentDTO> paymentDTOS = FXCollections.observableArrayList();
 
     TeaRateBO teaRateBO = (TeaRateBO) BOFactory.getInstance().getBO(BOFactory.BOType.TEA_RATE);
+    PaymentBO paymentBO = (PaymentBO) BOFactory.getInstance().getBO(BOFactory.BOType.PAYMENT);
+    OtherWorkBO otherWorkBO = (OtherWorkBO) BOFactory.getInstance().getBO(BOFactory.BOType.OTHER_WORK);
+    EmployeeBO employeeBO = (EmployeeBO) BOFactory.getInstance().getBO(BOFactory.BOType.EMPLOYEE);
+    DailyTeaBO dailyTeaBO = (DailyTeaBO) BOFactory.getInstance().getBO(BOFactory.BOType.DAILY_TEA);
 
     private int selectEmpid;
     private int selectRateid;
@@ -174,8 +167,8 @@ public class PaymentController implements Initializable {
                 double finalSalary = teaSalary + expenseSalary;
 
 //            int rateId, int employeeId, String employeeName, double teaSalary, double expenseSalary, double finalSalary, Month month, LocalDate date
-                PaymentDTO paymentDTO = new PaymentDTO(selectRateid, selectEmpid, selecetEmpName, teaSalary, expenseSalary, finalSalary, selectedMonth, LocalDate.now());
-                boolean result = paymentDAO.savePayment(paymentDTO);
+
+                boolean result = paymentBO.savePayment(new PaymentDTO(selectRateid, selectEmpid, selecetEmpName, teaSalary, expenseSalary, finalSalary, selectedMonth, LocalDate.now()));
 
                 if (result) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -244,8 +237,8 @@ public class PaymentController implements Initializable {
                 int paymentID = selectedID.getPaymentId();
 
 //           int paymentId int rateId, int employeeId, String employeeName, double teaSalary, double expenseSalary, double finalSalary, Month month, LocalDate date
-                PaymentDTO paymentDTO = new PaymentDTO(paymentID, selectRateid, selectEmpid, selecetEmpName, teaSalary, expenseSalary, finalSalary, selectedMonth, LocalDate.now());
-                boolean result = paymentDAO.updatePayment(paymentDTO);
+
+                boolean result = paymentBO.updatePayment(new PaymentDTO(paymentID, selectRateid, selectEmpid, selecetEmpName, teaSalary, expenseSalary, finalSalary, selectedMonth, LocalDate.now()));
 
                 if (result) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -307,7 +300,7 @@ public class PaymentController implements Initializable {
 
                     System.out.println(selectTableItem);
 
-                    boolean result = paymentDAO.deletePayment(id);
+                    boolean result = paymentBO.deletePayment(String.valueOf(id));
 
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -343,7 +336,7 @@ public class PaymentController implements Initializable {
                 int selectedReportYear = yearReportCombo.getSelectionModel().getSelectedItem();
                 System.out.println(selectedReportMonthNumber + " - " + selectedReportYear);
 
-                paymentDAO.printPaymentReport(selectedReportMonthNumber, selectedReportYear);
+                paymentBO.printPaymentReport(selectedReportMonthNumber, selectedReportYear);
             }catch (Exception e){
                 e.printStackTrace(); // keep this
 
@@ -390,7 +383,7 @@ public class PaymentController implements Initializable {
 
     private ObservableList<PaymentDTO> loadPaymentTable() {
         try {
-            ObservableList<PaymentDTO> list = paymentDAO.loadPaymentTable();
+            ObservableList<PaymentDTO> list = paymentBO.getAllPayment();
             return list;
         } catch (Exception e) {
             return FXCollections.observableArrayList();
@@ -401,7 +394,7 @@ public class PaymentController implements Initializable {
 
         try {
 
-            Double otherWorkSalary = otherWorkDAO.loadOtherWorkByMonth(
+            Double otherWorkSalary = otherWorkBO.loadOtherWorkByMonth(
                     selectedMonthNumber,
                     selectedEmpId
             );
@@ -420,7 +413,7 @@ public class PaymentController implements Initializable {
 
         try {
 
-            Double teaSalary = dailyTeaDAO.loadTeaSalaryByMonth(
+            Double teaSalary = dailyTeaBO.loadTeaSalaryByMonth(
                     selectedMonthNumber,
                     selectedEmpId
             );
