@@ -23,7 +23,7 @@ public class EmployeeBOImpl implements EmployeeBO {
     }
 
     @Override
-    public boolean deleteEmployee(String id) throws SQLException, ClassNotFoundException {
+    public boolean deleteEmployee(String id) throws Exception {
         return employeeDAO.delete(id);
     }
 

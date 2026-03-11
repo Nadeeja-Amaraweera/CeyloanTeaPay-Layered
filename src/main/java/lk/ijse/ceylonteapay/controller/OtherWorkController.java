@@ -11,6 +11,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.ceylonteapay.bo.BOFactory;
+import lk.ijse.ceylonteapay.bo.custom.EmployeeBO;
+import lk.ijse.ceylonteapay.bo.custom.LandBO;
+import lk.ijse.ceylonteapay.bo.custom.OtherWorkBO;
 import lk.ijse.ceylonteapay.dao.custom.OtherWorkDAO;
 import lk.ijse.ceylonteapay.dao.custom.impl.OtherWorkDAOImpl;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
@@ -58,7 +62,10 @@ public class OtherWorkController implements Initializable {
     @FXML
     private TableColumn<OtherWorkDTO, Double> col_Salary;
 
-    OtherWorkDAO otherWorkDAO = new OtherWorkDAOImpl();
+
+    OtherWorkBO otherWorkBO = (OtherWorkBO) BOFactory.getInstance().getBO(BOFactory.BOType.OTHER_WORK);
+    EmployeeBO employeeBO = (EmployeeBO) BOFactory.getInstance().getBO(BOFactory.BOType.EMPLOYEE);
+    LandBO landBO = (LandBO) BOFactory.getInstance().getBO(BOFactory.BOType.LAND);
 
     ObservableList<OtherWorkDTO> otherWorkObservableList = FXCollections.observableArrayList();
 
@@ -69,8 +76,6 @@ public class OtherWorkController implements Initializable {
 
     private final String STRING_ONLY_REGEX = "^[A-Za-z ]+$";
     private final String NUMBER_REGEX = "^[0-9]+(\\.[0-9]+)?$";
-
-
 
 
     @Override
@@ -149,8 +154,10 @@ public class OtherWorkController implements Initializable {
         } else {
             try {
 
-                OtherWorkDTO otherWorkDTO = new OtherWorkDTO(selectedEmpId, selectedLandId, date, details, salary);
-                boolean result = otherWorkDAO.addWorkField(otherWorkDTO);
+//                OtherWorkDTO otherWorkDTO = new OtherWorkDTO(selectedEmpId, selectedLandId, date, details, salary);
+//                boolean result = otherWorkDAO.addWorkField(otherWorkDTO);
+
+                boolean result = otherWorkBO.saveOtherWork(new OtherWorkDTO(selectedEmpId, selectedLandId, date, details, salary));
 
                 if (result) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -209,7 +216,9 @@ public class OtherWorkController implements Initializable {
 
                     if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                         OtherWorkDTO otherWorkDTO = new OtherWorkDTO(id, selectedEmpId, selectedLandId, date, details, salary);
-                        boolean result = otherWorkDAO.updateWorkField(otherWorkDTO);
+//                        boolean result = otherWorkDAO.updateWorkField(otherWorkDTO);
+
+                        boolean result = otherWorkBO.updateOtherWork(otherWorkDTO);
 
                         if (result) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -248,7 +257,9 @@ public class OtherWorkController implements Initializable {
 
                 if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
                     int id = selected.getWorkID();
-                    boolean result = otherWorkDAO.deleteWorkField(id);
+//                    boolean result = otherWorkDAO.deleteWorkField(id);
+
+                    boolean result = otherWorkBO.deleteOtherWork(String.valueOf(id));
 
                     if (result) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -311,7 +322,8 @@ public class OtherWorkController implements Initializable {
 
     private void loadEmployeeIds() {
         try {
-            ObservableList<EmployeeDTO> idList = otherWorkDAO.getEmployeeId();
+
+            ObservableList<EmployeeDTO> idList = employeeBO.getAllEmployees();
             cmbEmployeeIds.setItems(idList);
 
             // Show only ID + Name in ComboBox
@@ -347,7 +359,8 @@ public class OtherWorkController implements Initializable {
 
     private void loadLands() {
         try {
-            ObservableList<LandDTO> landDTOObservableList = otherWorkDAO.getLandId();
+
+            ObservableList<LandDTO> landDTOObservableList = landBO.getAllLands();
             cmbLandIds.setItems(landDTOObservableList);
 
             // Show only land Name + No in ComboBox
@@ -383,7 +396,7 @@ public class OtherWorkController implements Initializable {
 
     public ObservableList<OtherWorkDTO> loadOtherWorkFields() {
         try {
-            ObservableList<OtherWorkDTO> teaDTOS = otherWorkDAO.getAllOtherWorkFields();
+            ObservableList<OtherWorkDTO> teaDTOS = otherWorkBO.getAllOtherWorks();
             return teaDTOS;
         } catch (Exception e) {
             e.printStackTrace();

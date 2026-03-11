@@ -1,20 +1,15 @@
 package lk.ijse.ceylonteapay.dao.custom;
 
 import javafx.collections.ObservableList;
+import lk.ijse.ceylonteapay.dao.CrudDAO;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 import lk.ijse.ceylonteapay.dto.LandDTO;
 import lk.ijse.ceylonteapay.dto.OtherWorkDTO;
+import lk.ijse.ceylonteapay.entity.OtherWork;
 
-public interface OtherWorkDAO {
-    public ObservableList<OtherWorkDTO> getAllOtherWorkFields() throws Exception;
+import java.sql.SQLException;
 
-    public boolean addWorkField(OtherWorkDTO otherWorkDTO)throws Exception;
+public interface OtherWorkDAO extends CrudDAO<OtherWork> {
 
-    public boolean updateWorkField(OtherWorkDTO otherWorkDTO)throws Exception;
-
-    public boolean deleteWorkField(int WorkID)throws Exception;
-
-    public ObservableList<EmployeeDTO> getEmployeeId() throws Exception;
-
-    public ObservableList<LandDTO> getLandId()throws Exception;
+    public Double loadOtherWorkByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException;
 }

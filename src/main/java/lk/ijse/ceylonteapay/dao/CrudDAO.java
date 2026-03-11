@@ -9,5 +9,5 @@ public interface CrudDAO<T> extends SuperDAO{
     public ObservableList<T> getAll() throws SQLException, ClassNotFoundException, Exception;
     public boolean save(T dto) throws SQLException, ClassNotFoundException, Exception;
     public boolean update(T dto) throws SQLException, ClassNotFoundException, Exception;
-    public boolean delete(String id) throws SQLException, ClassNotFoundException;
+    public boolean delete(String id) throws SQLException, ClassNotFoundException, Exception;
 }

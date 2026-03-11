@@ -10,20 +10,18 @@ import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 import lk.ijse.ceylonteapay.dto.LandDTO;
 import lk.ijse.ceylonteapay.dto.OtherWorkDTO;
+import lk.ijse.ceylonteapay.entity.OtherWork;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class OtherWorkDAOImpl implements OtherWorkDAO {
     @Override
-    public ObservableList<OtherWorkDTO> getAllOtherWorkFields() throws Exception {
+    public ObservableList<OtherWork> getAll() throws Exception {
         QueryDAO queryDAO = new QueryDAOImpl();
         ResultSet rs = queryDAO.getAllOtherWorkFields();
 
-        ObservableList<OtherWorkDTO> list = FXCollections.observableArrayList();
+        ObservableList<OtherWork> list = FXCollections.observableArrayList();
 
         while (rs.next()) {
 
@@ -38,7 +36,7 @@ public class OtherWorkDAOImpl implements OtherWorkDAO {
             String details = rs.getString("Details");
             double salary = rs.getDouble("Salary");
 
-            OtherWorkDTO dto = new OtherWorkDTO(
+            OtherWork dto = new OtherWork(
                     workID, empID, empName,
                     lndID, landName,
                     date, details , salary
@@ -51,11 +49,11 @@ public class OtherWorkDAOImpl implements OtherWorkDAO {
     }
 
     @Override
-    public boolean addWorkField(OtherWorkDTO otherWorkDTO) throws Exception {
+    public boolean save(OtherWork otherWorkDTO) throws Exception {
 
         return CRUDUtil.execute("INSERT INTO OtherWork (Emp_ID,Lnd_ID,Date,Details,Salary) VALUES (?,?,?,?,?)",
                 otherWorkDTO.getEmp_ID(),
-                otherWorkDTO.getLnd_Id(),
+                otherWorkDTO.getLnd_ID(),
                 Date.valueOf(otherWorkDTO.getDate()),
                 otherWorkDTO.getDetails(),
                 otherWorkDTO.getSalary()
@@ -63,54 +61,35 @@ public class OtherWorkDAOImpl implements OtherWorkDAO {
     }
 
     @Override
-    public boolean updateWorkField(OtherWorkDTO otherWorkDTO) throws Exception {
+    public boolean update(OtherWork otherWorkDTO) throws Exception {
 
         return CRUDUtil.execute("UPDATE OtherWork SET Emp_ID = ?, Lnd_ID = ?, Date = ?, Details = ?,Salary = ? WHERE Work_ID = ?",
                 otherWorkDTO.getEmp_ID(),
-                otherWorkDTO.getLnd_Id(),
+                otherWorkDTO.getLnd_ID(),
                 Date.valueOf(otherWorkDTO.getDate()),
                 otherWorkDTO.getDetails(),
                 otherWorkDTO.getSalary(),
-                otherWorkDTO.getWorkID()
+                otherWorkDTO.getWork_ID()
                 );
     }
 
     @Override
-    public boolean deleteWorkField(int WorkID) throws Exception {
+    public boolean delete(String WorkID) throws Exception {
 
         return CRUDUtil.execute("DELETE FROM OtherWork WHERE Work_ID = ?",WorkID);
     }
 
     @Override
-    public ObservableList<EmployeeDTO> getEmployeeId() throws Exception {
+    public Double loadOtherWorkByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException {
 
-        ResultSet rs = CRUDUtil.execute("SELECT EmpID, Name FROM Employee");
+        String sql = "SELECT Salary AS DbotherWorkSalary FROM OtherWork WHERE MONTH(Date) = ? AND Emp_ID = ?";
 
-        ObservableList<EmployeeDTO> idList = FXCollections.observableArrayList();
+        ResultSet rs = CRUDUtil.execute(sql, selectedMonthNumber, selectedEmpId);
 
-        while (rs.next()) {
-            idList.add(new EmployeeDTO(
-                    rs.getInt("EmpID"),
-                    rs.getString("Name")
-            ));
+        if (rs.next()) {
+            return rs.getDouble("DbotherWorkSalary");
         }
-        return idList;
-    }
 
-    @Override
-    public ObservableList<LandDTO> getLandId() throws Exception {
-
-        ObservableList<LandDTO> idList = FXCollections.observableArrayList();
-
-        ResultSet rs = CRUDUtil.execute("SELECT * FROM Land");
-
-        while (rs.next()){
-            idList.add(new LandDTO(
-                    rs.getInt("LndID"),
-                    rs.getString("LandName"),
-                    rs.getString("LandNo")
-            ));
-        }
-        return idList;
+        return 0.0;
     }
 }

@@ -39,7 +39,7 @@ public class LandBOImpl implements LandBO {
     }
 
     @Override
-    public boolean deleteLand(String id) throws SQLException, ClassNotFoundException {
+    public boolean deleteLand(String id) throws Exception {
         return landDAO.delete(id);
     }
 }

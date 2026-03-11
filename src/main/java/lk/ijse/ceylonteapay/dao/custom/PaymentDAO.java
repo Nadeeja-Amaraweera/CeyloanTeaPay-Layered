@@ -14,9 +14,9 @@ public interface PaymentDAO {
 
     public void printPaymentReport(int selectedMonthNo, int selectedYear);
 
-    public Double loadOtherWorkByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException;
-
-    public Double loadTeaSalaryByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException;
+//    public Double loadOtherWorkByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException;
+//
+//    public Double loadTeaSalaryByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException;
 
     public boolean deletePayment(int id) throws SQLException;
 

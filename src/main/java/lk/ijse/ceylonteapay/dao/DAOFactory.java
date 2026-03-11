@@ -28,16 +28,16 @@ public class DAOFactory {
                 return new IncomeDAOImpl();
             case STOCK:
                 return new StockDAOImpl();
-//            case DAILY_TEA:
-//                return new DailyTeaDAOImpl();
+            case DAILY_TEA:
+                return new DailyTeaDAOImpl();
+            case OTHER_WORK:
+                return new OtherWorkDAOImpl();
 //            case PAYMENT:
 //                return new PaymentDAOImpl();
 //            case DELIVERY:
 //                return new DeliveryDAOImpl();
 //            case DELIVERY_STOCK:
 //                return new DeliveryStockDAOImpl();
-//            case STOCK:
-//                return new StockDAOImpl();
 //            case TEA_RATE:
 //                return new TeaRateDAOImpl();
             default:

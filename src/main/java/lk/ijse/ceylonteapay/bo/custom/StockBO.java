@@ -22,7 +22,7 @@ public interface StockBO extends SuperBO {
 
     public boolean updateStock(StockDTO stockDTO) throws Exception;
 
-    public boolean deleteStock(String id) throws SQLException, ClassNotFoundException ;
+    public boolean deleteStock(String id) throws Exception;
 
     public ObservableList<StockDTO> getComboStock() throws Exception;
 

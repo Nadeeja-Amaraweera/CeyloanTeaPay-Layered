@@ -28,7 +28,7 @@ public class FactoryBOImpl implements FactoryBO {
     }
 
     @Override
-    public boolean deleteFactory(String id) throws SQLException, ClassNotFoundException {
+    public boolean deleteFactory(String id) throws Exception {
         return factoryDAO.delete(id);
     }
 

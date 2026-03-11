@@ -14,9 +14,7 @@ import javafx.stage.Stage;
 import lk.ijse.ceylonteapay.bo.custom.EmployeeBO;
 import lk.ijse.ceylonteapay.bo.custom.impl.EmployeeBOImpl;
 import lk.ijse.ceylonteapay.dao.custom.*;
-import lk.ijse.ceylonteapay.dao.custom.impl.EmployeeDAOImpl;
-import lk.ijse.ceylonteapay.dao.custom.impl.PaymentDAOImpl;
-import lk.ijse.ceylonteapay.dao.custom.impl.TeaRateDAOImpl;
+import lk.ijse.ceylonteapay.dao.custom.impl.*;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 import lk.ijse.ceylonteapay.dto.PaymentDTO;
 import lk.ijse.ceylonteapay.dto.TeaRateDTO;
@@ -83,6 +81,10 @@ public class PaymentController implements Initializable {
     PaymentDAO paymentDAO = new PaymentDAOImpl();
 
     TeaRateDAO teaRateDAO = new TeaRateDAOImpl();
+
+    OtherWorkDAO otherWorkDAO = new OtherWorkDAOImpl();
+
+    DailyTeaDAO dailyTeaDAO = new DailyTeaDAOImpl();
 
     ObservableList<PaymentDTO> paymentDTOS = FXCollections.observableArrayList();
 
@@ -395,7 +397,7 @@ public class PaymentController implements Initializable {
 
         try {
 
-            Double otherWorkSalary = paymentDAO.loadOtherWorkByMonth(
+            Double otherWorkSalary = otherWorkDAO.loadOtherWorkByMonth(
                     selectedMonthNumber,
                     selectedEmpId
             );
@@ -410,9 +412,11 @@ public class PaymentController implements Initializable {
     }
 
     private void loadTeaDataByMonth(int selectedMonthNumber, int selectedEmpId) {
+
+
         try {
 
-            Double teaSalary = paymentDAO.loadTeaSalaryByMonth(
+            Double teaSalary = dailyTeaDAO.loadTeaSalaryByMonth(
                     selectedMonthNumber,
                     selectedEmpId
             );

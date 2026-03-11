@@ -120,33 +120,33 @@ public class PaymentDAOImpl implements PaymentDAO {
         }
     }
 
-    @Override
-    public Double loadOtherWorkByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException {
-
-        String sql = "SELECT Salary AS DbotherWorkSalary FROM OtherWork WHERE MONTH(Date) = ? AND Emp_ID = ?";
-
-        ResultSet rs = CRUDUtil.execute(sql, selectedMonthNumber, selectedEmpId);
-
-        if (rs.next()) {
-            return rs.getDouble("DbotherWorkSalary");
-        }
-
-        return 0.0;
-    }
-
-    @Override
-    public Double loadTeaSalaryByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException {
-
-        String sql = "SELECT SUM(Total_Weight) AS totalWeight FROM Tea WHERE MONTH(Date_Collected) = ? AND Emp_ID = ?";
-
-        ResultSet rs = CRUDUtil.execute(sql, selectedMonthNumber, selectedEmpId);
-
-        if (rs.next()) {
-            return rs.getDouble("totalWeight");
-        }
-
-        return 0.0;
-    }
+//    @Override
+//    public Double loadOtherWorkByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException {
+//
+//        String sql = "SELECT Salary AS DbotherWorkSalary FROM OtherWork WHERE MONTH(Date) = ? AND Emp_ID = ?";
+//
+//        ResultSet rs = CRUDUtil.execute(sql, selectedMonthNumber, selectedEmpId);
+//
+//        if (rs.next()) {
+//            return rs.getDouble("DbotherWorkSalary");
+//        }
+//
+//        return 0.0;
+//    }
+//
+//    @Override
+//    public Double loadTeaSalaryByMonth(int selectedMonthNumber, int selectedEmpId) throws SQLException {
+//
+//        String sql = "SELECT SUM(Total_Weight) AS totalWeight FROM Tea WHERE MONTH(Date_Collected) = ? AND Emp_ID = ?";
+//
+//        ResultSet rs = CRUDUtil.execute(sql, selectedMonthNumber, selectedEmpId);
+//
+//        if (rs.next()) {
+//            return rs.getDouble("totalWeight");
+//        }
+//
+//        return 0.0;
+//    }
 
     @Override
     public boolean deletePayment(int id) throws SQLException {
