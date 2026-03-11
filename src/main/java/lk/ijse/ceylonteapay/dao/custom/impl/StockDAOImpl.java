@@ -87,23 +87,5 @@ public class StockDAOImpl implements StockDAO {
         );
     }
 
-    @Override
-    public ObservableList<Stock> getComboStock() throws Exception {
-
-        ResultSet rs = CRUDUtil.execute("SELECT id,date,quality FROM Stock");
-
-        ObservableList<Stock> list = FXCollections.observableArrayList();
-
-        while (rs.next()){
-            list.add(new Stock(
-                    rs.getInt("id"),
-                    rs.getDate("date").toLocalDate(),
-                    rs.getString("quality")
-            ));
-        }
-        return list;
-
-    }
-
 
 }

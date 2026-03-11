@@ -36,6 +36,8 @@ public class BOFactory {
                 return new PaymentBOImpl();
             case DELIVERY:
                 return new DeliveryBOImpl();
+            case INCOME:
+                return new IncomeBOImpl();
             default:
                 return null;
         }

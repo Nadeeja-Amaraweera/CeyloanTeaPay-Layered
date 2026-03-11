@@ -1,6 +1,6 @@
-package lk.ijse.ceylonteapay.dto;
+package lk.ijse.ceylonteapay.entity;
 
-public class IncomeDTO {
+public class Income {
     private int incomeId;
     private String month;
     private int year;
@@ -9,20 +9,7 @@ public class IncomeDTO {
     private double thisMonthIncome;
     private double finalIncome;
 
-    public IncomeDTO() {
-    }
-
-    public IncomeDTO(String month, int year, double teaSalary, double otherWorkSalary, double thisMonthIncome, double finalIncome) {
-
-        this.month = month;
-        this.year = year;
-        this.teaSalary = teaSalary;
-        this.otherWorkSalary = otherWorkSalary;
-        this.thisMonthIncome = thisMonthIncome;
-        this.finalIncome = finalIncome;
-    }
-
-    public IncomeDTO(int incomeId, String month, int year, double teaSalary, double otherWorkSalary, double thisMonthIncome, double finalIncome) {
+    public Income(int incomeId, String month, int year, double teaSalary, double otherWorkSalary, double thisMonthIncome, double finalIncome) {
         this.incomeId = incomeId;
         this.month = month;
         this.year = year;
@@ -32,15 +19,21 @@ public class IncomeDTO {
         this.finalIncome = finalIncome;
     }
 
-
-    public IncomeDTO(double teaSalary, double otherWorkSalary) {
-        this.teaSalary = teaSalary;
-        this.otherWorkSalary = otherWorkSalary;
-    }
-
-    public IncomeDTO(String month, int year) {
+    public Income(String month, int year, double teaSalary, double otherWorkSalary, double thisMonthIncome, double finalIncome) {
         this.month = month;
         this.year = year;
+        this.teaSalary = teaSalary;
+        this.otherWorkSalary = otherWorkSalary;
+        this.thisMonthIncome = thisMonthIncome;
+        this.finalIncome = finalIncome;
+    }
+
+    public Income() {
+    }
+
+    public Income(double allTeaSalary, double allOtherWorkSalary) {
+        this.teaSalary = allTeaSalary;
+        this.otherWorkSalary = allOtherWorkSalary;
     }
 
     public int getIncomeId() {
@@ -97,18 +90,5 @@ public class IncomeDTO {
 
     public void setFinalIncome(double finalIncome) {
         this.finalIncome = finalIncome;
-    }
-
-    @Override
-    public String toString() {
-        return "IncomeDTO{" +
-                "incomeId=" + incomeId +
-                ", month='" + month + '\'' +
-                ", year=" + year +
-                ", teaSalary=" + teaSalary +
-                ", otherWorkSalary=" + otherWorkSalary +
-                ", thisMonthIncome=" + thisMonthIncome +
-                ", finalIncome=" + finalIncome +
-                '}';
     }
 }

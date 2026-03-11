@@ -7,7 +7,9 @@ import lk.ijse.ceylonteapay.dao.CRUDUtil;
 import lk.ijse.ceylonteapay.dao.DAOFactory;
 import lk.ijse.ceylonteapay.dao.custom.PaymentDAO;
 import lk.ijse.ceylonteapay.db.DBConnection;
+import lk.ijse.ceylonteapay.dto.IncomeDTO;
 import lk.ijse.ceylonteapay.dto.PaymentDTO;
+import lk.ijse.ceylonteapay.entity.Income;
 import lk.ijse.ceylonteapay.entity.Payment;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -155,4 +157,16 @@ public class PaymentBOImpl implements PaymentBO {
 
         return paymentDAO.delete(id);
     }
+
+    @Override
+    public IncomeDTO getMonthlySalarySummary(int month, int year) throws Exception {
+        Income income = paymentDAO.getMonthlySalarySummary(month, year);
+
+        return new IncomeDTO(
+                income.getTeaSalary(),
+                income.getOtherWorkSalary()
+        );
+    }
+
+
 }
