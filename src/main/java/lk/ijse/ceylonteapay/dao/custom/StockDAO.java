@@ -16,8 +16,6 @@ public interface StockDAO extends CrudDAO<Stock> {
 
     public List<Stock> getStockSummary() throws Exception;
 
-    public ObservableList<Stock> getComboStock() throws Exception;
-
     public int getAvailableQty(int stockId) throws Exception ;
 
     public boolean updateAvailableQty(int qty, int stockId) throws Exception ;

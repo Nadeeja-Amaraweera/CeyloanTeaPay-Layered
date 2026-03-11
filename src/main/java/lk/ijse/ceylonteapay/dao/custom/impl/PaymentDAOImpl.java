@@ -6,6 +6,7 @@ import lk.ijse.ceylonteapay.dao.CRUDUtil;
 import lk.ijse.ceylonteapay.dao.custom.PaymentDAO;
 import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.PaymentDTO;
+import lk.ijse.ceylonteapay.entity.Income;
 import lk.ijse.ceylonteapay.entity.Payment;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -96,29 +97,22 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
 
     @Override
-    public void printPaymentReport(int selectedMonthNo, int selectedYear) {
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
+    public Income getMonthlySalarySummary(int month, int year) throws Exception {
+        ResultSet rs = CRUDUtil.execute(
+                "SELECT SUM(teaSalary) AS total_tea, SUM(expenseSalary) AS total_expense " +
+                        "FROM Payment WHERE MONTH(Payment_Date) = ? AND YEAR(Payment_Date) = ?",
+                month, year
+        );
 
-            InputStream reportObject = getClass().getResourceAsStream("/lk/ijse/ceylonteapay/reports/payment.jrxml");
+        if (rs.next()) {
 
-            if (reportObject == null) {
-                throw new RuntimeException("❌ customer.jrxml NOT FOUND");
-            }
+            double teaSalary = rs.getDouble("total_tea");
+            double expenseSalary = rs.getDouble("total_expense");
 
-            JasperReport jr  = JasperCompileManager.compileReport(reportObject); // this is method throws JRException
-
-            Map<String,Object> params = new HashMap<>();
-            params.put("PAYMENT_MONTH",selectedMonthNo);
-            params.put("PAYMENT_YEAR",selectedYear);
-
-            JasperPrint jp = JasperFillManager.fillReport(jr , params , conn); // fill report (jasperreport, params ,connection)
-
-            JasperViewer.viewReport(jp,false);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            return new Income(teaSalary, expenseSalary);
         }
+
+        return new Income(0, 0);
     }
 
     @Override
@@ -128,4 +122,6 @@ public class PaymentDAOImpl implements PaymentDAO {
 
         return CRUDUtil.execute(sql, id);
     }
+
+
 }

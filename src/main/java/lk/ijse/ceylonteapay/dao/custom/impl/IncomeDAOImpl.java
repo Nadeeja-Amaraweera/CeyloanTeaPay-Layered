@@ -5,34 +5,35 @@ import javafx.collections.ObservableList;
 import lk.ijse.ceylonteapay.dao.CRUDUtil;
 import lk.ijse.ceylonteapay.dao.custom.IncomeDAO;
 import lk.ijse.ceylonteapay.dto.IncomeDTO;
+import lk.ijse.ceylonteapay.entity.Income;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class IncomeDAOImpl implements IncomeDAO {
+//    @Override
+//    public Income getAllTeaSalary(int month, int year) throws Exception {
+//        ResultSet rs = CRUDUtil.execute("SELECT SUM(teaSalary) AS total_tea, SUM(expenseSalary) AS total_expense FROM Payment WHERE MONTH(Payment_Date) = ? AND YEAR(Payment_Date) = ?",month,year);
+//
+//        ObservableList<Income> list = FXCollections.observableArrayList();
+//
+//        while (rs.next()){
+//            list.add(new Income(
+//                    rs.getDouble("total_tea"),
+//                    rs.getDouble("total_expense")
+//            ));
+//            double allTeaSalary = rs.getDouble("total_tea");
+//            double allOtherWorkSalary = rs.getDouble("total_expense");
+//
+//            return new Income(allTeaSalary,allOtherWorkSalary);
+//        }
+//        return new Income(0,0);
+//    }
+
     @Override
-    public IncomeDTO getAllTeaSalary(int month, int year) throws Exception {
-        ResultSet rs = CRUDUtil.execute("SELECT SUM(teaSalary) AS total_tea, SUM(expenseSalary) AS total_expense FROM Payment WHERE MONTH(Payment_Date) = ? AND YEAR(Payment_Date) = ?",month,year);
+    public ObservableList<Income> getAll() throws SQLException, ClassNotFoundException {
 
-        ObservableList<IncomeDTO> list = FXCollections.observableArrayList();
-
-        while (rs.next()){
-            list.add(new IncomeDTO(
-                    rs.getDouble("total_tea"),
-                    rs.getDouble("total_expense")
-            ));
-            double allTeaSalary = rs.getDouble("total_tea");
-            double allOtherWorkSalary = rs.getDouble("total_expense");
-
-            return new IncomeDTO(allTeaSalary,allOtherWorkSalary);
-        }
-        return new IncomeDTO(0,0);
-    }
-
-    @Override
-    public ObservableList<IncomeDTO> getAll() throws SQLException, ClassNotFoundException {
-
-        ObservableList<IncomeDTO> list = FXCollections.observableArrayList();
+        ObservableList<Income> list = FXCollections.observableArrayList();
 
         ResultSet rs = CRUDUtil.execute("SELECT * FROM Income");
 
@@ -45,14 +46,14 @@ public class IncomeDAOImpl implements IncomeDAO {
             double thisMonthIncome = rs.getDouble("thisMonthIncome");
             double finalIncome = rs.getDouble("finalIncome");
 
-            IncomeDTO incomeDTO = new IncomeDTO(incomeId,month,year,teaSalary,otherWorkSalary,thisMonthIncome,finalIncome);
-            list.add(incomeDTO);
+            Income income = new Income(incomeId,month,year,teaSalary,otherWorkSalary,thisMonthIncome,finalIncome);
+            list.add(income);
         }
         return list;
     }
 
     @Override
-    public boolean save(IncomeDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Income dto) throws SQLException, ClassNotFoundException {
         return CRUDUtil.execute("INSERT INTO Income (month, year, teaSalary, otherWorkSalary, thisMonthIncome, finalIncome) VALUES (?, ?, ?, ?, ?, ?) ",
                 dto.getMonth(),
                 dto.getYear(),
@@ -63,7 +64,7 @@ public class IncomeDAOImpl implements IncomeDAO {
     }
 
     @Override
-    public boolean update(IncomeDTO dto) throws SQLException, ClassNotFoundException, Exception {
+    public boolean update(Income dto) throws SQLException, ClassNotFoundException, Exception {
         return false;
     }
 

@@ -11,6 +11,7 @@ import lk.ijse.ceylonteapay.dto.StockDTO;
 import lk.ijse.ceylonteapay.entity.Factory;
 import lk.ijse.ceylonteapay.entity.Stock;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,7 +39,8 @@ public class StockBOImpl implements StockBO {
 
     @Override
     public boolean updateStock(StockDTO stockDTO) throws Exception {
-        return stockDAO.update(new Stock(stockDTO.getDate(),stockDTO.getQuality(),stockDTO.getQuantity(),stockDTO.getAvailableQuantity()));
+
+        return stockDAO.update(new Stock(stockDTO.getId(),stockDTO.getDate(),stockDTO.getQuality(),stockDTO.getQuantity(),stockDTO.getAvailableQuantity()));
     }
 
     @Override

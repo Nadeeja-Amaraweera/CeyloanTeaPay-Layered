@@ -11,6 +11,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.ceylonteapay.bo.BOFactory;
+import lk.ijse.ceylonteapay.bo.custom.IncomeBO;
+import lk.ijse.ceylonteapay.bo.custom.PaymentBO;
 import lk.ijse.ceylonteapay.bo.custom.StockBO;
 import lk.ijse.ceylonteapay.dao.custom.IncomeDAO;
 import lk.ijse.ceylonteapay.dao.custom.impl.IncomeDAOImpl;
@@ -18,6 +20,7 @@ import lk.ijse.ceylonteapay.dao.custom.StockDAO;
 import lk.ijse.ceylonteapay.dao.custom.impl.StockDAOImpl;
 import lk.ijse.ceylonteapay.dto.IncomeDTO;
 import lk.ijse.ceylonteapay.dto.StockDTO;
+import lk.ijse.ceylonteapay.entity.Income;
 import lk.ijse.ceylonteapay.entity.Stock;
 
 
@@ -31,8 +34,9 @@ import java.util.ResourceBundle;
 
 public class IcomeController implements Initializable {
 
-    StockDAO stockDAO = new StockDAOImpl();
-    IncomeDAO incomeDAO = new IncomeDAOImpl();
+    IncomeBO incomeBO = (IncomeBO) BOFactory.getInstance().getBO(BOFactory.BOType.INCOME);
+    PaymentBO paymentBO = (PaymentBO) BOFactory.getInstance().getBO(BOFactory.BOType.PAYMENT);
+
 
     ObservableList<IncomeDTO> incomeDTOObservableList = FXCollections.observableArrayList();
 
@@ -117,10 +121,10 @@ public class IcomeController implements Initializable {
             }else {
                 int monthNumber = Month.valueOf(month.toUpperCase()).getValue();
 
-                IncomeDTO incomeDTO = incomeDAO.getAllTeaSalary(monthNumber, year);
+                IncomeDTO income = paymentBO.getMonthlySalarySummary(monthNumber, year);
 
-                txtTeaSalaryField.setText(String.valueOf(incomeDTO.getTeaSalary()));
-                txtOtherWorkSalary.setText(String.valueOf(incomeDTO.getOtherWorkSalary()));
+                txtTeaSalaryField.setText(String.valueOf(income.getTeaSalary()));
+                txtOtherWorkSalary.setText(String.valueOf(income.getOtherWorkSalary()));
             }
             System.out.println(month+year);
 
@@ -199,7 +203,7 @@ public class IcomeController implements Initializable {
                 double finalIncome = Double.parseDouble(txtFinalIncome.getText());
 
                 IncomeDTO incomeDTO = new IncomeDTO(month, year, teaSalary, otherWorkSalary, monthlyIncome, finalIncome);
-                boolean result = incomeDAO.save(incomeDTO);
+                boolean result = incomeBO.save(incomeDTO);
 
                 if (result){
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -247,7 +251,7 @@ public class IcomeController implements Initializable {
                                 "Please select an income record first!").show();
                     } else {
                         int id = selectedIncome.getIncomeId();
-                        boolean result = incomeDAO.delete(String.valueOf(id));
+                        boolean result = incomeBO.delete(String.valueOf(id));
 
                         if (result){
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -333,7 +337,7 @@ public class IcomeController implements Initializable {
 
         try {
             ObservableList<IncomeDTO> incomeList =
-                    incomeDAO.getAll(); // ✅ YOUR METHOD
+                    incomeBO.getAll(); // ✅ YOUR METHOD
 
             for (IncomeDTO income : incomeList) {
                 series.getData().add(
@@ -354,7 +358,7 @@ public class IcomeController implements Initializable {
 
     private ObservableList<IncomeDTO> loadIncomeTable(){
         try {
-            ObservableList<IncomeDTO> incomeDTOS = incomeDAO.getAll();
+            ObservableList<IncomeDTO> incomeDTOS = incomeBO.getAll();
             return incomeDTOS;
         } catch (Exception e) {
             e.printStackTrace();
