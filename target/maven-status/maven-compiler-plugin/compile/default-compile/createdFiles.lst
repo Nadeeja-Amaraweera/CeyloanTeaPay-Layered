@@ -1,3 +1,4 @@
+lk/ijse/ceylonteapay/bo/custom/impl/TeaRateBOImpl.class
 lk/ijse/ceylonteapay/dao/custom/OtherWorkDAO.class
 lk/ijse/ceylonteapay/dao/custom/impl/OtherWorkDAOImpl.class
 lk/ijse/ceylonteapay/dao/custom/DeliveryDAO.class
@@ -11,6 +12,7 @@ lk/ijse/ceylonteapay/util/EmailUtil$1.class
 lk/ijse/ceylonteapay/util/EmailUtil.class
 lk/ijse/ceylonteapay/controller/OtherWorkController$2.class
 lk/ijse/ceylonteapay/dao/QueryDAO.class
+lk/ijse/ceylonteapay/bo/custom/TeaRateBO.class
 lk/ijse/ceylonteapay/bo/BOFactory.class
 lk/ijse/ceylonteapay/dao/QueryDAOImpl.class
 lk/ijse/ceylonteapay/db/DBConnection.class
@@ -77,6 +79,7 @@ lk/ijse/ceylonteapay/controller/OtherWorkController$1.class
 lk/ijse/ceylonteapay/controller/DeliveryTeaController.class
 lk/ijse/ceylonteapay/dao/custom/FactoryDAO.class
 lk/ijse/ceylonteapay/dao/DAOFactory$DAOType.class
+lk/ijse/ceylonteapay/entity/TeaRate.class
 lk/ijse/ceylonteapay/dao/custom/impl/DailyTeaDAOImpl.class
 lk/ijse/ceylonteapay/controller/IcomeController.class
 lk/ijse/ceylonteapay/entity/Stock.class

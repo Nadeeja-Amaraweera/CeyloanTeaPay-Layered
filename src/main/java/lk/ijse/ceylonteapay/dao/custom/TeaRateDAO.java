@@ -1,12 +1,10 @@
 package lk.ijse.ceylonteapay.dao.custom;
 
 import javafx.collections.ObservableList;
+import lk.ijse.ceylonteapay.dao.CrudDAO;
 import lk.ijse.ceylonteapay.dto.TeaRateDTO;
+import lk.ijse.ceylonteapay.entity.TeaRate;
 
-public interface TeaRateDAO {
-    public boolean addTeaRate(TeaRateDTO teaRateDTO) throws Exception;
+public interface TeaRateDAO extends CrudDAO<TeaRate> {
 
-    public ObservableList<TeaRateDTO> loadTeaRate()throws Exception;
-
-    public boolean deleteRate(int id) throws Exception;
 }

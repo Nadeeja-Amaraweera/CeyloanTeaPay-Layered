@@ -8,7 +8,6 @@ import lk.ijse.ceylonteapay.dao.custom.EmployeeDAO;
 import lk.ijse.ceylonteapay.dto.EmployeeDTO;
 import lk.ijse.ceylonteapay.entity.Employee;
 
-import java.sql.SQLException;
 
 public class EmployeeBOImpl implements EmployeeBO {
     EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.EMPLOYEE);

@@ -11,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.ceylonteapay.bo.BOFactory;
+import lk.ijse.ceylonteapay.bo.custom.TeaRateBO;
 import lk.ijse.ceylonteapay.dao.custom.TeaRateDAO;
 import lk.ijse.ceylonteapay.dao.custom.impl.TeaRateDAOImpl;
 import lk.ijse.ceylonteapay.dto.TeaRateDTO;
@@ -39,7 +41,8 @@ public class TeaRateController implements Initializable {
     @FXML
     private TableColumn<TeaRateDTO,Double> colRate;
 
-    TeaRateDAO teaRateDAO = new TeaRateDAOImpl();
+    TeaRateBO teaRateBO = (TeaRateBO) BOFactory.getInstance().getBO(BOFactory.BOType.TEA_RATE);
+
     ObservableList<TeaRateDTO> teaRateDTOS = FXCollections.observableArrayList();
 
     @Override
@@ -66,9 +69,9 @@ public class TeaRateController implements Initializable {
             Integer year = yearCombo.getValue();
             double teaRate = Double.parseDouble(txtTeaRate.getText());
 
-//        int rateId, String month, int year, double rate
-            TeaRateDTO teaRateDTO = new TeaRateDTO(month, year, teaRate);
-            boolean result = teaRateDAO.addTeaRate(teaRateDTO);
+
+            boolean result = teaRateBO.saveTeaRate(new TeaRateDTO(month, year, teaRate));
+
             refreshTable();
 
             if (result){
@@ -98,7 +101,9 @@ public class TeaRateController implements Initializable {
 
                 if (result.isPresent() && result.get() == ButtonType.OK) {
                     int id = teaRateDTO.getRateId();
-                    boolean success = teaRateDAO.deleteRate(id);
+
+                    boolean success = teaRateBO.deleteTeaRate(String.valueOf(id));
+
                     refreshTable();
                     if (success){
                         new Alert(Alert.AlertType.ERROR,"Tea Rate Deleted Successfully").show();
@@ -140,7 +145,7 @@ public class TeaRateController implements Initializable {
 
     private ObservableList<TeaRateDTO> loadTeaRate(){
         try {
-            ObservableList<TeaRateDTO> list = teaRateDAO.loadTeaRate();
+            ObservableList<TeaRateDTO> list = teaRateBO.getAllTeaRate();
             return list;
         }catch (Exception e){
             return FXCollections.observableArrayList();

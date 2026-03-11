@@ -11,7 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import lk.ijse.ceylonteapay.bo.BOFactory;
 import lk.ijse.ceylonteapay.bo.custom.EmployeeBO;
+import lk.ijse.ceylonteapay.bo.custom.TeaRateBO;
 import lk.ijse.ceylonteapay.bo.custom.impl.EmployeeBOImpl;
 import lk.ijse.ceylonteapay.dao.custom.*;
 import lk.ijse.ceylonteapay.dao.custom.impl.*;
@@ -87,6 +89,8 @@ public class PaymentController implements Initializable {
     DailyTeaDAO dailyTeaDAO = new DailyTeaDAOImpl();
 
     ObservableList<PaymentDTO> paymentDTOS = FXCollections.observableArrayList();
+
+    TeaRateBO teaRateBO = (TeaRateBO) BOFactory.getInstance().getBO(BOFactory.BOType.TEA_RATE);
 
     private int selectEmpid;
     private int selectRateid;
@@ -447,7 +451,7 @@ public class PaymentController implements Initializable {
     private void loadTeaRateCombo() {
 
         try {
-            ObservableList<TeaRateDTO> list = teaRateDAO.loadTeaRate();
+            ObservableList<TeaRateDTO> list = teaRateBO.getAllTeaRate();
             cmbTeaRate.setItems(list);
 
             cmbTeaRate.setCellFactory(cb -> new ListCell<>() {

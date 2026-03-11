@@ -38,8 +38,8 @@ public class DAOFactory {
 //                return new DeliveryDAOImpl();
 //            case DELIVERY_STOCK:
 //                return new DeliveryStockDAOImpl();
-//            case TEA_RATE:
-//                return new TeaRateDAOImpl();
+            case TEA_RATE:
+                return new TeaRateDAOImpl();
             default:
                 return null;
         }

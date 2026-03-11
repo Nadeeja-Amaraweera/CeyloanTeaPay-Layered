@@ -6,22 +6,29 @@ import lk.ijse.ceylonteapay.dao.CRUDUtil;
 import lk.ijse.ceylonteapay.dao.custom.TeaRateDAO;
 import lk.ijse.ceylonteapay.db.DBConnection;
 import lk.ijse.ceylonteapay.dto.TeaRateDTO;
+import lk.ijse.ceylonteapay.entity.TeaRate;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class TeaRateDAOImpl implements TeaRateDAO {
     @Override
-    public boolean addTeaRate(TeaRateDTO teaRateDTO) throws Exception {
+    public boolean save(TeaRate entity) throws Exception {
 
-        return CRUDUtil.execute("INSERT INTO TeaRate (Month,Year,ratePerKg) VALUES (?,?,?)",teaRateDTO.getMonth(),teaRateDTO.getYear(),teaRateDTO.getRate());
+        return CRUDUtil.execute("INSERT INTO TeaRate (Month,Year,ratePerKg) VALUES (?,?,?)",entity.getMonth(),entity.getYear(),entity.getRatePerKg());
     }
 
     @Override
-    public ObservableList<TeaRateDTO> loadTeaRate() throws Exception {
+    public boolean update(TeaRate dto) throws SQLException, ClassNotFoundException, Exception {
+        return false;
+    }
 
-        ObservableList<TeaRateDTO> list = FXCollections.observableArrayList();
+    @Override
+    public ObservableList<TeaRate> getAll() throws Exception {
+
+        ObservableList<TeaRate> list = FXCollections.observableArrayList();
 
         ResultSet rs = CRUDUtil.execute("SELECT * FROM TeaRate ORDER BY Year DESC");
 
@@ -31,15 +38,15 @@ public class TeaRateDAOImpl implements TeaRateDAO {
             int year = rs.getInt("Year");
             double ratePerKg = rs.getDouble("ratePerKg");
 
-            TeaRateDTO teaRateDTO = new TeaRateDTO(rateId,month,year,ratePerKg);
-            list.add(teaRateDTO);
+            TeaRate teaRate = new TeaRate(rateId,month,year,ratePerKg);
+            list.add(teaRate);
         }
         return list;
 
     }
 
     @Override
-    public boolean deleteRate(int id) throws Exception {
+    public boolean delete(String id) throws Exception {
 
         return CRUDUtil.execute("DELETE FROM TeaRate WHERE rateId = ?",id);
     }
