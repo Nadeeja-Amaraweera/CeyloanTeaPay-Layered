@@ -22,18 +22,6 @@ public class DailyTeaBOImpl implements DailyTeaBO {
     @Override
     public boolean saveDailyTea(DailyTeaDTO dailyTeaDTO) throws Exception {
 
-//        return CRUDUtil.execute("INSERT INTO Tea (Emp_ID,EmpName, Lnd_ID,LandName, Date_Collected, Full_Weight, Bag_Weight, Water_Weight,Total_Weight, Quality) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)"
-//                ,entity.getEmp_ID()
-//                ,entity.getEmpName()
-//                ,entity.getLnd_ID()
-//                ,entity.getLandName()
-//                , Date.valueOf(entity.getDate_Collected())
-//                ,entity.getFull_Weight()
-//                ,entity.getBag_Weight()
-//                ,entity.getWater_Weight()
-//                ,entity.getTotal_Weight()
-//                ,entity.getQuality());
-
 
         return dailyTeaDAO.save(new DailyTea(
                 dailyTeaDTO.getEmpID()
@@ -51,17 +39,6 @@ public class DailyTeaBOImpl implements DailyTeaBO {
     @Override
     public boolean updateDailyTea(DailyTeaDTO dailyTeaDTO) throws Exception {
 
-//        return CRUDUtil.execute("UPDATE Tea SET Emp_ID = ?, Lnd_ID = ?, Date_Collected = ?, Full_Weight = ?, Bag_Weight = ?, Water_Weight = ?,Total_Weight = ?,Quality = ? WHERE Tea_ID = ?"
-//                ,entity.getEmp_ID()
-//                ,entity.getLnd_ID()
-//                ,Date.valueOf(entity.getDate_Collected())
-//                ,entity.getFull_Weight()
-//                ,entity.getBag_Weight()
-//                ,entity.getWater_Weight()
-//                ,entity.getTotal_Weight()
-//                ,entity.getQuality()
-//                ,entity.getTea_ID());
-
         return dailyTeaDAO.update(new DailyTea(
                 dailyTeaDTO.getEmpID()
                 ,dailyTeaDTO.getLndID()
@@ -77,8 +54,6 @@ public class DailyTeaBOImpl implements DailyTeaBO {
     @Override
     public boolean deleteDailyTea(String teaID) throws Exception {
 
-//        return CRUDUtil.execute("DELETE FROM Tea WHERE Tea_ID = ?",teaID);
-
         return dailyTeaDAO.delete(teaID);
     }
 
@@ -87,29 +62,6 @@ public class DailyTeaBOImpl implements DailyTeaBO {
 
         ObservableList<DailyTea> dailyTeas = dailyTeaDAO.getAll();
         ObservableList<DailyTeaDTO> list = FXCollections.observableArrayList();
-
-//        while (rs.next()) {
-//
-//            int teaID = rs.getInt("Tea_ID");
-//            int empID = rs.getInt("Emp_ID");
-//            String empName = rs.getString("EmployeeName");   // FIXED
-//            int lndID = rs.getInt("Lnd_ID");
-//            String landName = rs.getString("LandName");      // FIXED
-//            LocalDate date = rs.getDate("Date_Collected").toLocalDate();
-//            double fullWeight = rs.getDouble("Full_Weight");
-//            double bagWeight = rs.getDouble("Bag_Weight");
-//            double waterWeight = rs.getDouble("Water_Weight");
-//            double totalWeight = rs.getDouble("Total_Weight");
-//            String quality = rs.getString("Quality");
-//
-//            DailyTeaDTO tea = new DailyTeaDTO(
-//                    teaID, empID, empName,  // include empName
-//                    lndID, landName,        // include landName
-//                    date, fullWeight, bagWeight, waterWeight, totalWeight, quality
-//            );
-//
-//            list.add(tea);
-//        }
 
         for (DailyTea dailyTea:dailyTeas){
             DailyTeaDTO dailyTeaDTO = new DailyTeaDTO(
